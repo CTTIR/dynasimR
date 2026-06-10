@@ -19,3 +19,4 @@
 ^\.archive$
 ^\.lintr$
 ^codecov\.yml$
+^_pkgdown\.yml$
