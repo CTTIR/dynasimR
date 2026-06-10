@@ -1,7 +1,7 @@
 # Progress-score trajectory plot (Profile B)
 
 Plots longitudinal progress-score trajectories from the output of
-[`progress_trajectory()`](https://r-heller.github.io/dynasimR/reference/progress_trajectory.md)
+[`progress_trajectory()`](https://cttir.github.io/dynasimR/reference/progress_trajectory.md)
 (with `longitudinal = TRUE`).
 
 ## Usage

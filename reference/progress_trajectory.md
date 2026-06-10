@@ -3,7 +3,7 @@
 Summarises longitudinal progress-score trajectories by scenario and
 (optionally) cohort. Returns both a per-replication summary (start, end,
 gain) and a longitudinal tidy table suitable for
-[`plot_progress_curves()`](https://r-heller.github.io/dynasimR/reference/plot_progress_curves.md).
+[`plot_progress_curves()`](https://cttir.github.io/dynasimR/reference/plot_progress_curves.md).
 
 ## Usage
 

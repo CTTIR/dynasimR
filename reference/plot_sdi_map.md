@@ -15,7 +15,7 @@ plot_sdi_map(sdi)
 - sdi:
 
   A tibble returned by
-  [`spatial_supply_demand()`](https://r-heller.github.io/dynasimR/reference/spatial_supply_demand.md)
+  [`spatial_supply_demand()`](https://cttir.github.io/dynasimR/reference/spatial_supply_demand.md)
   plus optional `x`, `y` region centroid columns.
 
 ## Value

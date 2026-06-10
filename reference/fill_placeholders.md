@@ -3,10 +3,10 @@
 Substitutes `[XX_*]` placeholders in a LaTeX source file with
 automatically computed simulation statistics. The mapping from
 placeholder to computation is assembled inside this function from
-[`policy_effect()`](https://r-heller.github.io/dynasimR/reference/policy_effect.md),
-[`al_efficiency()`](https://r-heller.github.io/dynasimR/reference/al_efficiency.md)
+[`policy_effect()`](https://cttir.github.io/dynasimR/reference/policy_effect.md),
+[`al_efficiency()`](https://cttir.github.io/dynasimR/reference/al_efficiency.md)
 and
-[`compute_compliance_index()`](https://r-heller.github.io/dynasimR/reference/compute_compliance_index.md).
+[`compute_compliance_index()`](https://cttir.github.io/dynasimR/reference/compute_compliance_index.md).
 
 ## Usage
 

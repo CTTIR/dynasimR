@@ -61,11 +61,11 @@ reps          # named character vector of substitutions performed
 
 | Placeholder | Source |
 |----|----|
-| `[XX_POLICY_DELTA_EVENT]` | [`policy_effect()`](https://r-heller.github.io/dynasimR/reference/policy_effect.md) |
-| `[XX_POLICY_DELTA_CI_LO]` | [`policy_effect()`](https://r-heller.github.io/dynasimR/reference/policy_effect.md) |
-| `[XX_POLICY_DELTA_CI_HI]` | [`policy_effect()`](https://r-heller.github.io/dynasimR/reference/policy_effect.md) |
-| `[XX_COMPLIANCE_A]` | [`compute_compliance_index()`](https://r-heller.github.io/dynasimR/reference/compute_compliance_index.md) |
-| `[XX_COMPLIANCE_B]` | [`compute_compliance_index()`](https://r-heller.github.io/dynasimR/reference/compute_compliance_index.md) |
-| `[XX_OPTIMAL_AL]` | [`al_efficiency()`](https://r-heller.github.io/dynasimR/reference/al_efficiency.md) |
+| `[XX_POLICY_DELTA_EVENT]` | [`policy_effect()`](https://cttir.github.io/dynasimR/reference/policy_effect.md) |
+| `[XX_POLICY_DELTA_CI_LO]` | [`policy_effect()`](https://cttir.github.io/dynasimR/reference/policy_effect.md) |
+| `[XX_POLICY_DELTA_CI_HI]` | [`policy_effect()`](https://cttir.github.io/dynasimR/reference/policy_effect.md) |
+| `[XX_COMPLIANCE_A]` | [`compute_compliance_index()`](https://cttir.github.io/dynasimR/reference/compute_compliance_index.md) |
+| `[XX_COMPLIANCE_B]` | [`compute_compliance_index()`](https://cttir.github.io/dynasimR/reference/compute_compliance_index.md) |
+| `[XX_OPTIMAL_AL]` | [`al_efficiency()`](https://cttir.github.io/dynasimR/reference/al_efficiency.md) |
 | `[XX_EVENT_BASELINE]` | median event rate at baseline scenario |
 | `[XX_EVENT_BEST]` | min median event rate across all scenarios |

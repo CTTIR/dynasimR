@@ -14,7 +14,7 @@ detect_bottlenecks(data, threshold = 0.75)
 - data:
 
   A `dynasimR_data` object or throughput tibble from
-  [`stage_throughput()`](https://r-heller.github.io/dynasimR/reference/stage_throughput.md).
+  [`stage_throughput()`](https://cttir.github.io/dynasimR/reference/stage_throughput.md).
 
 - threshold:
 

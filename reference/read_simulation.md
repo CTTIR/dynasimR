@@ -28,7 +28,7 @@ read_simulation(data_dir, scenarios = NULL, validate = TRUE, verbose = TRUE)
 - validate:
 
   Logical. Run
-  [`validate_dynasimR_data()`](https://r-heller.github.io/dynasimR/reference/validate_dynasimR_data.md)
+  [`validate_dynasimR_data()`](https://cttir.github.io/dynasimR/reference/validate_dynasimR_data.md)
   on the loaded tables. Default `TRUE`.
 
 - verbose:

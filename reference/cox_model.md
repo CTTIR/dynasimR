@@ -22,7 +22,7 @@ cox_model(
 - endpoint:
 
   See
-  [`km_estimate()`](https://r-heller.github.io/dynasimR/reference/km_estimate.md).
+  [`km_estimate()`](https://cttir.github.io/dynasimR/reference/km_estimate.md).
 
 - covariates:
 

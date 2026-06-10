@@ -15,7 +15,7 @@ resource allocation and policy comparisons.
 ``` r
 
 # install.packages("remotes")
-remotes::install_github("r-heller/dynasimR")
+remotes::install_github("cttir/dynasimR")
 ```
 
 ## Quick start
@@ -57,14 +57,14 @@ launch_app()
 
 | Analysis goal | Key function |
 |----|----|
-| Entity flow through processing stages | [`stage_throughput()`](https://r-heller.github.io/dynasimR/reference/stage_throughput.md) |
-| Time-to-event stratified by scenario | [`km_estimate()`](https://r-heller.github.io/dynasimR/reference/km_estimate.md), [`cox_model()`](https://r-heller.github.io/dynasimR/reference/cox_model.md) |
-| Policy A vs. policy B comparison | [`policy_effect()`](https://r-heller.github.io/dynasimR/reference/policy_effect.md) |
-| Autonomy-level trade-off (AL0-AL5) | [`al_efficiency()`](https://r-heller.github.io/dynasimR/reference/al_efficiency.md) |
-| Compliance Index | [`compute_compliance_index()`](https://r-heller.github.io/dynasimR/reference/compute_compliance_index.md) |
-| Profile B progress trajectory | [`progress_trajectory()`](https://r-heller.github.io/dynasimR/reference/progress_trajectory.md) |
-| Profile B wait-gap index | [`compute_wait_gap_index()`](https://r-heller.github.io/dynasimR/reference/compute_wait_gap_index.md) |
-| Manuscript placeholder fill | [`fill_placeholders()`](https://r-heller.github.io/dynasimR/reference/fill_placeholders.md) |
+| Entity flow through processing stages | [`stage_throughput()`](https://cttir.github.io/dynasimR/reference/stage_throughput.md) |
+| Time-to-event stratified by scenario | [`km_estimate()`](https://cttir.github.io/dynasimR/reference/km_estimate.md), [`cox_model()`](https://cttir.github.io/dynasimR/reference/cox_model.md) |
+| Policy A vs. policy B comparison | [`policy_effect()`](https://cttir.github.io/dynasimR/reference/policy_effect.md) |
+| Autonomy-level trade-off (AL0-AL5) | [`al_efficiency()`](https://cttir.github.io/dynasimR/reference/al_efficiency.md) |
+| Compliance Index | [`compute_compliance_index()`](https://cttir.github.io/dynasimR/reference/compute_compliance_index.md) |
+| Profile B progress trajectory | [`progress_trajectory()`](https://cttir.github.io/dynasimR/reference/progress_trajectory.md) |
+| Profile B wait-gap index | [`compute_wait_gap_index()`](https://cttir.github.io/dynasimR/reference/compute_wait_gap_index.md) |
+| Manuscript placeholder fill | [`fill_placeholders()`](https://cttir.github.io/dynasimR/reference/fill_placeholders.md) |
 
 ## Requirements
 
@@ -72,7 +72,25 @@ launch_app()
 - Required imports: dplyr, tidyr, purrr, readr, tibble, ggplot2,
   survival, rlang, cli, glue
 - Shiny app requires the `Suggests:` dependencies — install with
-  [`dynasimR::check_app_dependencies()`](https://r-heller.github.io/dynasimR/reference/check_app_dependencies.md)
+  [`dynasimR::check_app_dependencies()`](https://cttir.github.io/dynasimR/reference/check_app_dependencies.md)
+
+## Use of LLM tools
+
+Portions of this package were prepared with assistance from large
+language model tooling for narrowly defined, non-authorial tasks:
+copyediting, prose smoothing, Markdown/LaTeX formatting, scaffolding of
+boilerplate files (CI configs, build scripts), code refactoring. The
+tools used were [Chat
+AI](https://kisski.gwdg.de/leistungen/2-02-llm-service/), the LLM
+service of KISSKI (GWDG), and a self-hosted **Mistral Small (24B,
+Apache-2.0)** run locally via [Ollama](https://ollama.com/) and the
+`ollamar` R package — local inference only, with no data sent to third
+parties for the self-hosted model.
+
+All scientific claims, methodological choices, analyses,
+interpretations, and conclusions are the author’s own. No LLM-generated
+text was incorporated without review and revision, and every reference
+was verified against its DOI, arXiv ID, or ISBN.
 
 ## License
 

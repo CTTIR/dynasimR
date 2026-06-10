@@ -1,7 +1,7 @@
 # Fill scale for entity group
 
 As
-[`scale_color_group_dynasimR()`](https://r-heller.github.io/dynasimR/reference/scale_color_group_dynasimR.md)
+[`scale_color_group_dynasimR()`](https://cttir.github.io/dynasimR/reference/scale_color_group_dynasimR.md)
 but for the `fill` aesthetic.
 
 ## Usage
