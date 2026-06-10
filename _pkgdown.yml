@@ -1,12 +1,21 @@
-url: https://r-heller.github.io/dynasimR/
+url: https://cttir.github.io/dynasimR/
 
 template:
   bootstrap: 5
+  light-switch: true
+  theme: gruvbox-light
+  theme-dark: gruvbox-dark
   bslib:
-    primary: "#1B3A6B"
-    bg: "#FFFFFF"
+    # Hugo Coder colour theme — light mode
+    bg: "#fafafa"
     fg: "#212121"
-
+    primary: "#1565c0"
+    navbar-light-bg: "#fafafa"
+    # Hugo Coder colour theme — dark mode (Bootstrap 5 light-switch)
+    navbar-dark-bg: "#212121"
+    base_font: {google: "Inter"}
+    heading_font: {google: "Inter"}
+    code_font: {google: "JetBrains Mono"}
 home:
   title: dynasimR - Dynamic Agent-Node Simulation Analysis
   description: >

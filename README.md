@@ -1,7 +1,7 @@
 # dynasimR — Dynamic Agent-Node Simulation Analysis <img src="man/figures/logo.png" align="right" height="139" alt="dynasimR logo" />
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/r-heller/dynasimR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-heller/dynasimR/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/cttir/dynasimR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/cttir/dynasimR/actions/workflows/R-CMD-check.yaml)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
@@ -20,7 +20,7 @@ resource allocation and policy comparisons.
 
 ```r
 # install.packages("remotes")
-remotes::install_github("r-heller/dynasimR")
+remotes::install_github("cttir/dynasimR")
 ```
 
 ## Quick start
@@ -77,6 +77,19 @@ launch_app()
   survival, rlang, cli, glue
 - Shiny app requires the `Suggests:` dependencies — install with
   `dynasimR::check_app_dependencies()`
+
+## Use of LLM tools
+
+Portions of this package were prepared with assistance from large language model tooling for
+narrowly defined, non-authorial tasks: copyediting, prose smoothing, Markdown/LaTeX formatting,
+scaffolding of boilerplate files (CI configs, build scripts), code refactoring. The tools used were [Chat AI](https://kisski.gwdg.de/leistungen/2-02-llm-service/),
+the LLM service of KISSKI (GWDG), and a self-hosted **Mistral Small (24B, Apache-2.0)** run locally via
+[Ollama](https://ollama.com/) and the `ollamar` R package — local inference only, with no data sent to
+third parties for the self-hosted model.
+
+All scientific claims, methodological choices, analyses, interpretations, and conclusions are the
+author's own. No LLM-generated text was incorporated without review and revision, and every reference
+was verified against its DOI, arXiv ID, or ISBN.
 
 ## License
 

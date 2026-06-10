@@ -65,7 +65,7 @@ Suggests:
     rmarkdown,
     covr
 VignetteBuilder: knitr
-URL: https://github.com/r-heller/dynasimR
-BugReports: https://github.com/r-heller/dynasimR/issues
+URL: https://github.com/cttir/dynasimR, https://cttir.github.io/dynasimR/
+BugReports: https://github.com/cttir/dynasimR/issues
 Config/testthat/edition: 3
 Language: en-GB
