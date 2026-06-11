@@ -2,7 +2,7 @@
 
 ## Authors
 
-- **Raban A. Heller**. Author, maintainer.
+- **R. Heller**. Author, maintainer.
 
 ## Citation
 
@@ -14,7 +14,7 @@ package version 0.1.0, <https://github.com/cttir/dynasimR>.
 
     @Manual{,
       title = {dynasimR: Dynamic Agent-Node Simulation Analysis},
-      author = {Raban A. Heller},
+      author = {R. Heller},
       year = {2026},
       note = {R package version 0.1.0},
       url = {https://github.com/cttir/dynasimR},
