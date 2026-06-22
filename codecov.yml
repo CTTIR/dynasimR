@@ -1,0 +1,16 @@
+comment: false
+
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+    patch:
+      default:
+        target: auto
+        threshold: 1%
+
+ignore:
+  - "inst/app"        # interactive Shiny dashboard
+  - "R/launch_app.R"  # blocks on shiny::runApp(); not unit-testable

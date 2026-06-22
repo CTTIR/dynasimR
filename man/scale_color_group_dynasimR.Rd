@@ -7,7 +7,7 @@
 scale_color_group_dynasimR(...)
 }
 \arguments{
-\item{...}{Arguments passed to \code{\link[ggplot2:scale_manual]{ggplot2::scale_color_manual()}}.}
+\item{...}{Arguments passed to \code{\link[ggplot2:scale_color_manual]{ggplot2::scale_color_manual()}}.}
 }
 \value{
 A ggplot2 scale object.

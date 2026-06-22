@@ -40,13 +40,19 @@ single API.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/r-heller/dynasimR}
-  \item Report bugs at \url{https://github.com/r-heller/dynasimR/issues}
+  \item \url{https://github.com/cttir/dynasimR}
+  \item \url{https://cttir.github.io/dynasimR/}
+  \item Report bugs at \url{https://github.com/cttir/dynasimR/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Raban A. Heller \email{r-heller@example.org}
+\strong{Maintainer}: R. Heller \email{r-heller@example.org}
+
+Authors:
+\itemize{
+  \item R. Heller \email{r-heller@example.org}
+}
 
 }
 \keyword{internal}

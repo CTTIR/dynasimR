@@ -20,3 +20,4 @@
 ^\.lintr$
 ^codecov\.yml$
 ^_pkgdown\.yml$
+^_coverage$
