@@ -25,6 +25,6 @@ print(sim)
 #> • Profile: "Profile_A"
 #> • Summary rows: 200
 #> • Entity events: 16000
-#> • Loaded: "2026-06-22 12:21"
+#> • Loaded: "2026-06-24 09:25"
 #> • Path: /home/runner/work/_temp/Library/dynasimR/extdata
 ```
