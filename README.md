@@ -1,10 +1,10 @@
 # dynasimR — Dynamic Agent-Node Simulation Analysis <img src="man/figures/logo.png" align="right" height="139" alt="dynasimR logo" />
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/r-heller/dynasimR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-heller/dynasimR/actions/workflows/R-CMD-check.yaml)
-[![pkgdown](https://github.com/r-heller/dynasimR/actions/workflows/pkgdown.yaml/badge.svg)](https://r-heller.github.io/dynasimR/)
+[![R-CMD-check](https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml)
+[![pkgdown](https://github.com/CTTIR/dynasimR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/dynasimR/)
 [![CRAN status](https://www.r-pkg.org/badges/version/dynasimR)](https://CRAN.R-project.org/package=dynasimR)
-[![Codecov test coverage](https://codecov.io/gh/r-heller/dynasimR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-heller/dynasimR?branch=main)
+[![Codecov test coverage](https://codecov.io/gh/CTTIR/dynasimR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/dynasimR?branch=main)
 [![CRAN downloads](https://cranlogs.r-pkg.org/badges/dynasimR)](https://cran.r-project.org/package=dynasimR)
 [![CRAN downloads total](https://cranlogs.r-pkg.org/badges/grand-total/dynasimR)](https://cran.r-project.org/package=dynasimR)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
