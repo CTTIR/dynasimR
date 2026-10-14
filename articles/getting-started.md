@@ -20,7 +20,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 library(dynasimR)
 ```
 
-### Load data
+## Load data
 
 ``` r
 
@@ -32,11 +32,11 @@ print(sim)
 #> • Profile: "Profile_A"
 #> • Summary rows: 200
 #> • Entity events: 16000
-#> • Loaded: "2026-08-22 13:47"
+#> • Loaded: "2026-10-14 10:39"
 #> • Path: /home/runner/work/_temp/Library/dynasimR/extdata
 ```
 
-### Time-to-event analysis
+## Time-to-event analysis
 
 ``` r
 
@@ -49,7 +49,7 @@ plot_km(km, title = "Time-to-stage-2")
 
 ![](getting-started_files/figure-html/unnamed-chunk-3-1.png)
 
-### Policy effect
+## Policy effect
 
 ``` r
 
@@ -61,7 +61,7 @@ cat(pol$narrative)
 #> Under policy A (scenario A-S08), an event-rate reduction of 7.4 percentage points (95\%-CI: -9 to -5.6) was observed versus policy B (scenario A-S07) (Wilcoxon test: W = 215, p < 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658).
 ```
 
-### Autonomy trade-off
+## Autonomy trade-off
 
 Only two AL points are present in the shipped example data, but the
 machinery is the same for a full AL sweep.
@@ -80,7 +80,7 @@ plot_al_tradeoff(al)
 
 ![](getting-started_files/figure-html/unnamed-chunk-5-1.png)
 
-### Manuscript-ready export
+## Manuscript-ready export
 
 ``` r
 
@@ -92,28 +92,10 @@ export_latex_table(
 )
 ```
 
-### Launching the dashboard
+## Launching the dashboard
 
 ``` r
 
 launch_app()                                        # example data
 launch_app(data_dir = "~/my-simulation/data/raw")
 ```
-
-## Use of LLM tools
-
-Portions of this package were prepared with assistance from large
-language model tooling for narrowly defined, non-authorial tasks:
-copyediting, prose smoothing, Markdown/LaTeX formatting, scaffolding of
-boilerplate files (CI configs, build scripts), code refactoring. The
-tools used were [Chat
-AI](https://kisski.gwdg.de/leistungen/2-02-llm-service/), the LLM
-service of KISSKI (GWDG), and a self-hosted **Mistral Small (24B,
-Apache-2.0)** run locally via [Ollama](https://ollama.com/) and the
-`ollamar` R package — local inference only, with no data sent to third
-parties for the self-hosted model.
-
-All scientific claims, methodological choices, analyses,
-interpretations, and conclusions are the author’s own. No LLM-generated
-text was incorporated without review and revision, and every reference
-was verified against its DOI, arXiv ID, or ISBN.

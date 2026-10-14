@@ -76,9 +76,9 @@
 <p><a href="https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cttir.github.io/dynasimR/"><img src="https://github.com/CTTIR/dynasimR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://CRAN.R-project.org/package=dynasimR" class="external-link"><img src="https://www.r-pkg.org/badges/version/dynasimR" alt="CRAN status"></a> <a href="https://app.codecov.io/gh/CTTIR/dynasimR?branch=main" class="external-link"><img src="https://codecov.io/gh/CTTIR/dynasimR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://cran.r-project.org/package=dynasimR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/dynasimR" alt="CRAN downloads"></a> <a href="https://cran.r-project.org/package=dynasimR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/dynasimR" alt="CRAN downloads total"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cttir/dynasimR" class="external-link">dynasimR</a></span><span class="op">)</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="load-data">Load data<a class="anchor" aria-label="anchor" href="#load-data"></a>
-</h3>
+<div class="section level2">
+<h2 id="load-data">Load data<a class="anchor" aria-label="anchor" href="#load-data"></a>
+</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_example_data.html">load_example_data</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sim</span><span class="op">)</span></span>
@@ -88,12 +88,12 @@
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Profile: <span style="color: #0000BB;">"Profile_A"</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Summary rows: <span style="color: #0000BB;">200</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Entity events: <span style="color: #0000BB;">16000</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Loaded: <span style="color: #0000BB;">"2026-08-22 13:47"</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Loaded: <span style="color: #0000BB;">"2026-10-14 10:39"</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Path: <span style="color: #0000BB;">/home/runner/work/_temp/Library/dynasimR/extdata</span></span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="time-to-event-analysis">Time-to-event analysis<a class="anchor" aria-label="anchor" href="#time-to-event-analysis"></a>
-</h3>
+<div class="section level2">
+<h2 id="time-to-event-analysis">Time-to-event analysis<a class="anchor" aria-label="anchor" href="#time-to-event-analysis"></a>
+</h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">km</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/km_estimate.html">km_estimate</a></span><span class="op">(</span><span class="va">sim</span>, endpoint <span class="op">=</span> <span class="st">"stage2"</span>,</span>
 <span>                  stratify_by <span class="op">=</span> <span class="st">"scenario"</span><span class="op">)</span></span>
@@ -102,9 +102,9 @@
 <span><span class="co">#&gt; (`geom_ribbon()`).</span></span></code></pre></div>
 <p><img src="getting-started_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="576"></p>
 </div>
-<div class="section level3">
-<h3 id="policy-effect">Policy effect<a class="anchor" aria-label="anchor" href="#policy-effect"></a>
-</h3>
+<div class="section level2">
+<h2 id="policy-effect">Policy effect<a class="anchor" aria-label="anchor" href="#policy-effect"></a>
+</h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pol</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/policy_effect.html">policy_effect</a></span><span class="op">(</span><span class="va">sim</span>,</span>
 <span>  policy_a_scenario <span class="op">=</span> <span class="st">"A-S08"</span>,</span>
@@ -113,9 +113,9 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">pol</span><span class="op">$</span><span class="va">narrative</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Under policy A (scenario A-S08), an event-rate reduction of 7.4 percentage points (95\%-CI: -9 to -5.6) was observed versus policy B (scenario A-S07) (Wilcoxon test: W = 215, p &lt; 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658).</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="autonomy-trade-off">Autonomy trade-off<a class="anchor" aria-label="anchor" href="#autonomy-trade-off"></a>
-</h3>
+<div class="section level2">
+<h2 id="autonomy-trade-off">Autonomy trade-off<a class="anchor" aria-label="anchor" href="#autonomy-trade-off"></a>
+</h2>
 <p>Only two AL points are present in the shipped example data, but the
 machinery is the same for a full AL sweep.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -129,9 +129,9 @@ machinery is the same for a full AL sweep.</p>
 <span><span class="co">#&gt; `height` was translated to `width`.</span></span></code></pre></div>
 <p><img src="getting-started_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="576"></p>
 </div>
-<div class="section level3">
-<h3 id="manuscript-ready-export">Manuscript-ready export<a class="anchor" aria-label="anchor" href="#manuscript-ready-export"></a>
-</h3>
+<div class="section level2">
+<h2 id="manuscript-ready-export">Manuscript-ready export<a class="anchor" aria-label="anchor" href="#manuscript-ready-export"></a>
+</h2>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/export_latex_table.html">export_latex_table</a></span><span class="op">(</span></span>
 <span>  data     <span class="op">=</span> <span class="va">pol</span><span class="op">$</span><span class="va">effect_sizes</span>,</span>
@@ -140,29 +140,12 @@ machinery is the same for a full AL sweep.</p>
 <span>  label    <span class="op">=</span> <span class="st">"policy"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="launching-the-dashboard">Launching the dashboard<a class="anchor" aria-label="anchor" href="#launching-the-dashboard"></a>
-</h3>
+<div class="section level2">
+<h2 id="launching-the-dashboard">Launching the dashboard<a class="anchor" aria-label="anchor" href="#launching-the-dashboard"></a>
+</h2>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/launch_app.html">launch_app</a></span><span class="op">(</span><span class="op">)</span>                                        <span class="co"># example data</span></span>
 <span><span class="fu"><a href="../reference/launch_app.html">launch_app</a></span><span class="op">(</span>data_dir <span class="op">=</span> <span class="st">"~/my-simulation/data/raw"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="use-of-llm-tools">Use of LLM tools<a class="anchor" aria-label="anchor" href="#use-of-llm-tools"></a>
-</h2>
-<p>Portions of this package were prepared with assistance from large
-language model tooling for narrowly defined, non-authorial tasks:
-copyediting, prose smoothing, Markdown/LaTeX formatting, scaffolding of
-boilerplate files (CI configs, build scripts), code refactoring. The
-tools used were <a href="https://kisski.gwdg.de/leistungen/2-02-llm-service/" class="external-link">Chat AI</a>,
-the LLM service of KISSKI (GWDG), and a self-hosted <strong>Mistral
-Small (24B, Apache-2.0)</strong> run locally via <a href="https://ollama.com/" class="external-link">Ollama</a> and the <code>ollamar</code> R
-package — local inference only, with no data sent to third parties for
-the self-hosted model.</p>
-<p>All scientific claims, methodological choices, analyses,
-interpretations, and conclusions are the author’s own. No LLM-generated
-text was incorporated without review and revision, and every reference
-was verified against its DOI, arXiv ID, or ISBN.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
