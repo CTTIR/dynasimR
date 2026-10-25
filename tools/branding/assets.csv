@@ -1,0 +1,17 @@
+identity,rendered,destination
+dynasimR,logo-symbol.svg,dynasimR_icon.svg
+dynasimR,logo.png,inst/app/www/logo.png
+dynasimR,icon-128.png,man/figures/icon-128.png
+dynasimR,icon-256.png,man/figures/icon-256.png
+dynasimR,icon-32.png,man/figures/icon-32.png
+dynasimR,icon-48.png,man/figures/icon-48.png
+dynasimR,icon-64.png,man/figures/icon-64.png
+dynasimR,logo-light.png,man/figures/logo-light.png
+dynasimR,logo-light.svg,man/figures/logo-light.svg
+dynasimR,logo-mono.png,man/figures/logo-mono.png
+dynasimR,logo-mono.svg,man/figures/logo-mono.svg
+dynasimR,logo-symbol.svg,man/figures/logo-symbol.svg
+dynasimR,logo.pdf,man/figures/logo.pdf
+dynasimR,logo.png,man/figures/logo.png
+dynasimR,logo.svg,man/figures/logo.svg
+dynasimR,icon-48.png,pkgdown/favicon/favicon-48x48.png

@@ -21,3 +21,4 @@
 ^codecov\.yml$
 ^_pkgdown\.yml$
 ^_coverage$
+^tools/branding$
