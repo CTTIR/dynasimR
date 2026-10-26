@@ -28,3 +28,9 @@ dynasimR,hex.pdf,man/figures/logo.pdf
 dynasimR,hex.png,man/figures/logo.png
 dynasimR,hex.svg,man/figures/logo.svg
 dynasimR,icon-48.png,pkgdown/favicon/favicon-48x48.png
+dynasimR,hex-dark.svg,pkgdown/favicon/favicon.svg
+dynasimR,favicon.ico,pkgdown/favicon/favicon.ico
+dynasimR,icon-96.png,pkgdown/favicon/favicon-96x96.png
+dynasimR,icon-180.png,pkgdown/favicon/apple-touch-icon.png
+dynasimR,icon-192.png,pkgdown/favicon/web-app-manifest-192x192.png
+dynasimR,icon-512.png,pkgdown/favicon/web-app-manifest-512x512.png
