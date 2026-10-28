@@ -1,5 +1,8 @@
 # Getting started with dynasimR
 
+![dynasimR logo](figures/logo.svg)![dynasimR
+logo](figures/logo-dark.svg)
+
 [![R-CMD-check](https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/CTTIR/dynasimR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/dynasimR/)
 [![CRAN
@@ -32,7 +35,7 @@ print(sim)
 #> • Profile: "Profile_A"
 #> • Summary rows: 200
 #> • Entity events: 16000
-#> • Loaded: "2026-10-26 17:43"
+#> • Loaded: "2026-10-28 07:42"
 #> • Path: /home/runner/work/_temp/Library/dynasimR/extdata
 ```
 

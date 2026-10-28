@@ -1,5 +1,8 @@
 # Autonomy-level trade-off (AL0-AL5)
 
+![dynasimR logo](figures/logo.svg)![dynasimR
+logo](figures/logo-dark.svg)
+
 [![R-CMD-check](https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/CTTIR/dynasimR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/dynasimR/)
 [![CRAN
