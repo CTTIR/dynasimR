@@ -10,6 +10,8 @@ header <- shinydashboard::dashboardHeader(
 )
 
 sidebar <- shinydashboard::dashboardSidebar(
+  shiny::div(style = "padding:12px;text-align:center;",
+    utils::getFromNamespace(".cttir_brand_logo", "dynasimR")(96, mode = "dark")),
   shinydashboard::sidebarMenu(
     shinydashboard::menuItem("Overview",
       tabName = "overview",   icon = icon("gauge")),
