@@ -1,16 +1,24 @@
-d <- read.dcf("DESCRIPTION")
-imp <- if ("Imports" %in% colnames(d)) d[, "Imports"] else ""
-sug <- if ("Suggests" %in% colnames(d)) d[, "Suggests"] else ""
-imp_pkgs <- trimws(gsub("\\s*\\([^)]*\\)", "", strsplit(imp, ",")[[1]]))
-sug_pkgs <- trimws(gsub("\\s*\\([^)]*\\)", "", strsplit(sug, ",")[[1]]))
-cat("Imports:\n"); cat(imp_pkgs, sep = "\n")
-cat("\n\nSuggests:\n"); cat(sug_pkgs, sep = "\n")
-
-used <- system("grep -rhoE \"\\b[a-zA-Z][a-zA-Z0-9.]*::[a-zA-Z_.]+\" R/ | sed 's/::.*//' | sort -u",
-  intern = TRUE)
-cat("\n\nUsed via ::\n"); cat(used, sep = "\n")
-
-cat("\n\nIn Imports but NOT used:\n")
-cat(setdiff(imp_pkgs, used), sep = "\n")
-cat("\n\nUsed but NOT in Imports or Suggests:\n")
-cat(setdiff(used, c(imp_pkgs, sug_pkgs, "base")), sep = "\n")
+# Run from any directory with Rscript /path/to/dynasimR/dev/dep_check.R.
+script <- sub("^--file=", "", grep("^--file=", commandArgs(), value = TRUE)[1])
+root <- dirname(dirname(normalizePath(script, mustWork = TRUE)))
+setwd(root)
+desc <- read.dcf("DESCRIPTION")
+packages <- function(field) {
+  if (!field %in% colnames(desc)) return(character())
+  trimws(gsub("\\s*\\([^)]*\\)", "", strsplit(desc[1, field], ",")[[1]]))
+}
+declared <- unique(c(packages("Imports"), packages("Suggests"), packages("Depends"), "base"))
+sources <- list.files("R", pattern = "\\.R$", full.names = TRUE)
+used <- character()
+visit <- function(expr) {
+  if (is.call(expr) && (identical(expr[[1]], as.name("::")) ||
+                       identical(expr[[1]], as.name(":::"))))
+    used <<- c(used, as.character(expr[[2]]))
+  if (is.recursive(expr)) for (i in seq_along(expr))
+    if (!identical(expr[[i]], quote(expr = ))) visit(expr[[i]])
+}
+for (file in sources) visit(parse(file))
+used <- sort(unique(used))
+cat("Namespaces used:\n", paste(used, collapse = "\n"), "\n", sep = "")
+missing <- setdiff(used, declared)
+if (length(missing)) stop("Undeclared namespaces: ", paste(missing, collapse = ", "))

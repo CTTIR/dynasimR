@@ -22,3 +22,10 @@
 ^_pkgdown\.yml$
 ^_coverage$
 ^tools/branding$
+
+^MAINTENANCE\.md$
+^\.checks$
+(^|/)Rplots\.pdf$
+^\.git$
+^\.zenodo\.json$
+^CITATION\.cff$

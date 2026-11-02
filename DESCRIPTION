@@ -1,8 +1,7 @@
 Package: dynasimR
 Type: Package
 Title: Dynamic Agent-Node Simulation Analysis
-Version: 0.1.0
-Date: 2026-04-15
+Version: 0.1.1
 Authors@R: c(
     person(
       given   = "R.",
@@ -16,9 +15,8 @@ Description:
     discrete-event, agent-based and node-actor simulation outputs.
     Designed as a general-purpose toolkit for systems in which entities
     (actors, nodes, agents) move through states and interact within
-    spatial or network environments. Supports two interchangeable
-    output schemas (Profile A and Profile B) that can be analysed with
-    a single API. Includes an interactive Shiny dashboard and
+    spatial or network environments. Supports two output schemas (Profile A and Profile B) through
+    a common loader and profile-specific analysis functions. Includes an interactive Shiny dashboard and
     publication-ready export helpers.
 License: MIT + file LICENSE
 Encoding: UTF-8

@@ -1,36 +1,45 @@
-## End-to-end smoke test
-suppressPackageStartupMessages(devtools::load_all(quiet = TRUE))
-
+# Run from any directory with Rscript /path/to/dynasimR/dev/smoke_test.R.
+script <- sub("^--file=", "", grep("^--file=", commandArgs(), value = TRUE)[1])
+root <- dirname(dirname(normalizePath(script, mustWork = TRUE)))
+setwd(root)
+if ("--installed" %in% commandArgs(trailingOnly = TRUE)) {
+  library(dynasimR)
+} else {
+  if (!requireNamespace("pkgload", quietly = TRUE)) stop("Install developer package pkgload.")
+  pkgload::load_all(root, quiet = TRUE)
+}
+set.seed(42)
 sim <- load_example_data()
-cat("Loaded:", sim$load_info$simulation_type, "\n")
+stopifnot(nrow(sim$entities) > 0, all(c("al", "policy") %in% names(sim$summary)))
+km <- km_estimate(sim, endpoint = "stage2")
+cx <- cox_model(sim, endpoint = "stage2", reference_scenario = "A-S00")
+pol <- policy_effect(sim, "A-S08", "A-S07", n_bootstrap = 100)
+al <- al_efficiency(sim, al_scenarios = c("0" = "A-S00", "1" = "A-S01"), n_bootstrap = 100)
+ci <- compute_compliance_index(sim, by_group = FALSE, n_bootstrap = 100)
+stopifnot(km$params$n_obs == nrow(sim$entities), nrow(cx$forest_data) == 3L,
+          all(is.finite(pol$delta_event$median_pct_points)), nrow(ci) == 4L)
 
-km <- km_estimate(sim, endpoint = "role2")
-cat("KM OK, log-rank p =",
-    round(km$logrank$p_value, 4), "\n")
+# Small synthetic Profile B fixture with hand-calculated results.
+b <- data.frame(scenario = rep(c("B-S00", "B-S01"), each = 3),
+  progress_start = 0, progress_end = c(1, 2, 3, 4, 5, 6),
+  wait_days = c(2, 20, NA, 1, 2, 3))
+progress <- progress_trajectory(b)
+wait <- compute_wait_gap_index(b, n_bootstrap = 100)
+stopifnot(identical(progress$summary$progress_gain_median, c(2, 5)),
+          isTRUE(all.equal(wait$wgi, c(1/3, 1))))
+summary_b <- data.frame(scenario = rep(c("B-S00", "B-S01"), each = 3),
+  completion_rate = c(.2, .3, .4, .5, .6, .7), cost = 10:15)
+group <- group_effect(summary_b, "B-S01", "B-S00", n_bootstrap = 100)
+stopifnot(isTRUE(all.equal(group$delta_completion$delta_median, .3)))
 
-cx <- cox_model(sim, endpoint = "role2",
-                reference_scenario = "M-S00")
-cat("Cox OK, N HR terms =", nrow(cx$forest_data), "\n")
-
-doc <- doctrine_effect(sim, muf_scenario = "M-S08",
-                       milnec_scenario = "M-S07",
-                       n_bootstrap = 200)
-cat("Doctrine OK, narrative len =",
-    nchar(doc$narrative), "\n")
-
-al <- al_efficiency(sim,
-        al_scenarios = c("0" = "M-S00", "1" = "M-S01"),
-        n_bootstrap  = 100)
-cat("AL OK, optimal =", al$optimal_al, "\n")
-
-ihl <- compute_ihl_index(sim, by_identity = FALSE,
-                         n_bootstrap = 100)
-cat("IHL OK, scenarios =", nrow(ihl), "\n")
-
-cat("Plot classes: ")
-cat(class(plot_km(km))[1], "/")
-cat(class(plot_forest(cx))[1], "/")
-cat(class(plot_al_tradeoff(al))[1], "/")
-cat(class(plot_doctrine(doc))[1], "/")
-cat(class(plot_scenario_heatmap(sim))[1], "\n")
-cat("ALL GOOD.\n")
+out <- tempfile("dynasimR-smoke-")
+dir.create(out)
+plots <- list(km = plot_km(km), forest = plot_forest(cx),
+              policy = plot_policy(pol), autonomy = plot_al_tradeoff(al),
+              progress = plot_progress_curves(progress))
+for (nm in names(plots)) export_figure(plots[[nm]], file.path(out, paste0(nm, ".pdf")))
+export_latex_table(pol$effect_sizes, file.path(out, "policy.tex"),
+                   caption = "Policy comparison", label = "policy")
+stopifnot(all(file.info(list.files(out, full.names = TRUE))$size > 0))
+cat("Profile A and B analysis, plot and export smoke checks passed.\n")
+cat("Temporary outputs:", out, "\n")

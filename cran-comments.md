@@ -1,19 +1,18 @@
-## R CMD check results
+## Development candidate: 0.1.1
 
-0 errors | 0 warnings | 0 notes
+No submission has been made. The final source archive was checked
+on macOS ARM64 with R 4.6.1 using R CMD check --as-cran, including incoming
+checks and PDF/HTML manuals: 0 errors, 0 warnings, 1 note. The note reports a
+new submission and displays the placeholder maintainer address. Tests passed
+532 assertions with one existing CRAN-specific skip. Vignette rebuilds passed.
+The strict developer gate exits 1 for the unresolved note. See MAINTENANCE.md
+for the exact archive SHA-256 and evidence.
 
-## Test environments
+The earlier Windows R 4.5.2 and hosted-platform statements described historical
+work. They are not verification of this maintenance revision. Linux, Windows,
+R-devel, and hosted CI must be checked for the exact release commit.
 
-* local: Windows 11, R 4.5.2
-* GitHub Actions: ubuntu-latest (release, devel, oldrel-1),
-  macos-latest (release), windows-latest (release)
-
-## This is a new submission.
-
-The package provides a domain-neutral analysis and visualisation
-layer for discrete-event and agent-based simulation outputs. All
-external, non-base dependencies are widely used CRAN packages
-(dplyr, ggplot2, survival, rlang, cli, glue, readr, tibble, tidyr,
-purrr). Optional integrations (shiny, plotly, xtable, broom, nnet,
-viridis, patchwork, kableExtra, etc.) are declared as `Suggests:`
-and accessed through `requireNamespace()` guards.
+Before submission, replace the placeholder maintainer contact in DESCRIPTION
+with an approved reachable public address, confirm citation/deposit metadata,
+run current CRAN incoming checks and review all notes. The package is not
+currently listed on CRAN; the draft Zenodo identifier has no public record.

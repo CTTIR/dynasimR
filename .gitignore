@@ -30,3 +30,6 @@ Thumbs.db
 *.bak
 *.orig
 *.Rcheck/
+
+.checks/
+Rplots.pdf
