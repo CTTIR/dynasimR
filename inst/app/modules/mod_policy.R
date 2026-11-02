@@ -84,8 +84,8 @@ mod_policy_server <- function(id, sim_data,
 
     output$narrative <- renderUI({
       p <- pol_res()
-      if (is.null(p)) return(HTML("<em>Pick two scenarios.</em>"))
-      HTML(paste0("<p>", p$narrative, "</p>"))
+      if (is.null(p)) return(tags$em("Pick two scenarios."))
+      tags$p(as.character(p$narrative))
     })
 
     output$effects_tbl <- DT::renderDT({

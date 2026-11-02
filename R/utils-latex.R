@@ -2,6 +2,25 @@
 
 #' @keywords internal
 #' @noRd
+.escape_latex_text <- function(x) {
+  substitutions <- c(
+    "\\" = "\\textbackslash{}", "{" = "\\{", "}" = "\\}",
+    "$" = "\\$", "&" = "\\&", "%" = "\\%", "_" = "\\_",
+    "#" = "\\#", "^" = "\\textasciicircum{}",
+    "~" = "\\textasciitilde{}", "<" = "$<$", ">" = "$>$",
+    "|" = "\\textbar{}"
+  )
+  vapply(as.character(x), function(value) {
+    if (is.na(value)) return(NA_character_)
+    chars <- strsplit(value, "", fixed = TRUE)[[1]]
+    escaped <- substitutions[chars]
+    chars[!is.na(escaped)] <- escaped[!is.na(escaped)]
+    paste0(chars, collapse = "")
+  }, character(1), USE.NAMES = FALSE)
+}
+
+#' @keywords internal
+#' @noRd
 .escape_latex_math <- function(x) {
   if (is.null(x)) return(x)
   x <- gsub("<", "$<$", x, fixed = TRUE)

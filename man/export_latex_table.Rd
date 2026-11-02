@@ -22,7 +22,8 @@ export_latex_table(
 \item{caption}{Character. Table caption.}
 
 \item{label}{Character. LaTeX label (without the \verb{tab:} prefix;
-it will be added).}
+it will be added). Use letters, digits, colons, periods, underscores
+and hyphens, starting with a letter or digit.}
 
 \item{note}{Character. Optional footnote text.}
 
@@ -37,8 +38,11 @@ The LaTeX source, invisibly.
 }
 \description{
 Produces a \code{booktabs}-style table using \verb{\\\\botrule} instead of
-\verb{\\\\bottomrule} and escaping \code{<}/\code{>} in cells. Optionally appends
-a \code{tablenotes} footnote.
+\verb{\\\\bottomrule}. Cells, column names, captions and notes are treated as
+literal text and escaped once. Notes use a \code{threeparttable} environment.
+The document needs \code{booktabs} and, for notes, \code{threeparttable}; outside
+a publisher class defining \verb{\\\\botrule}, add
+\verb{\\\\providecommand\{\\\\botrule\}\{\\\\bottomrule\}} to the preamble.
 }
 \examples{
 \dontrun{

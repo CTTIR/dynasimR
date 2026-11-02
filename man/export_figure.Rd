@@ -4,19 +4,30 @@
 \alias{export_figure}
 \title{Export a ggplot in publication-ready format}
 \usage{
-export_figure(plot, filename, width_mm = 174, height_mm = 120, dpi = 300)
+export_figure(
+  plot,
+  filename,
+  width_mm = 174,
+  height_mm = 120,
+  dpi = 300,
+  format = NULL
+)
 }
 \arguments{
 \item{plot}{A ggplot2 object.}
 
-\item{filename}{Character. Output path (extension determines format).}
+\item{filename}{Character. Output path (extension determines format
+unless \code{format} is supplied).}
 
-\item{width_mm}{Numeric. Width in mm. \code{174} = single-column,
-\code{88} = double-column. Default \code{174}.}
+\item{width_mm}{Numeric. Width in mm. \code{88} approximates one column and
+\code{174} two columns; check the target journal's dimensions. Default \code{174}.}
 
 \item{height_mm}{Numeric. Height in mm. Default \code{120}.}
 
 \item{dpi}{Integer. Raster resolution. Default \code{300}.}
+
+\item{format}{Character. Optional explicit format (\code{pdf}, \code{svg}, \code{png},
+\code{tiff}, or \code{eps}), useful for extensionless download staging paths.}
 }
 \value{
 Invisibly, the filename.

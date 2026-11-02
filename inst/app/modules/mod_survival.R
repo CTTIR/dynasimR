@@ -62,9 +62,12 @@ mod_survival_server <- function(id, sim_data) {
 
     cox_result <- reactive({
       req(input$scenarios)
+      if (length(unique(input$scenarios)) < 2L) return(NULL)
+      selected <- sim_data$entities |>
+        dplyr::filter(.data$scenario %in% input$scenarios)
       tryCatch(
         dynasimR::cox_model(
-          sim_data,
+          selected,
           endpoint = input$endpoint,
           reference_scenario = input$scenarios[1]
         ),
@@ -76,7 +79,9 @@ mod_survival_server <- function(id, sim_data) {
       cr <- cox_result()
       if (is.null(cr)) {
         plot.new()
-        text(0.5, 0.5, "Cox model failed; try different scenarios")
+        text(0.5, 0.5, if (length(input$scenarios) < 2L)
+          "Select at least two scenarios for a Cox comparison" else
+            "Cox model failed; try different scenarios")
       } else {
         dynasimR::plot_forest(cr)
       }

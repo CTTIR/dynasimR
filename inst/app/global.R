@@ -20,7 +20,9 @@ SIM_DATA <- if (!is.null(.data_dir)) {
   dynasimR::load_example_data()
 }
 
-SCENARIO_META <- dynasimR::scenario_meta
+APP_PROFILE <- utils::getFromNamespace(".dashboard_profile", "dynasimR")(SIM_DATA)
+
+SCENARIO_META <- SIM_DATA$metadata
 COLORS        <- dynasimR::dynasimR_colors()
 
 AVAILABLE_SCENARIOS <- unique(SIM_DATA$summary$scenario)
@@ -28,12 +30,12 @@ AVAILABLE_SCENARIOS <- unique(SIM_DATA$summary$scenario)
 scenario_choices <- function(scenarios = AVAILABLE_SCENARIOS) {
   sc <- SCENARIO_META |>
     dplyr::filter(.data$id %in% scenarios)
-  if (nrow(sc) == 0) return(setNames(scenarios, scenarios))
+  if (nrow(sc) == 0 || !"label" %in% names(sc))
+    return(setNames(scenarios, scenarios))
   setNames(sc$id, paste0(sc$id, " - ", sc$label))
 }
 
 # Policy A / Policy B defaults depending on which profile is loaded
-.is_profile_b <- identical(SIM_DATA$load_info$profile_type,
-                           "Profile_B")
+.is_profile_b <- identical(APP_PROFILE, "Profile_B")
 DEFAULT_POLICY_A <- if (.is_profile_b) "B-S19" else "A-S08"
 DEFAULT_POLICY_B <- if (.is_profile_b) "B-S00" else "A-S07"

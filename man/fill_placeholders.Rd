@@ -11,7 +11,8 @@ fill_placeholders(
   dry_run = FALSE,
   policy_a_scenario = "A-S08",
   policy_b_scenario = "A-S07",
-  baseline_scenario = "A-S00"
+  baseline_scenario = "A-S00",
+  overwrite = FALSE
 )
 }
 \arguments{
@@ -20,7 +21,8 @@ fill_placeholders(
 \item{tex_file}{Character. Path to the LaTeX source file.}
 
 \item{output_file}{Character. Output path; default appends
-\verb{_filled} before \code{.tex}.}
+\verb{_filled} before \code{.tex} (case insensitive), or \verb{_filled.tex} to a
+filename without that extension. The source is never overwritten.}
 
 \item{dry_run}{Logical. If \code{TRUE}, print replacements but do not
 write a file. Default \code{FALSE}.}
@@ -33,6 +35,9 @@ Default \code{"A-S07"}.}
 
 \item{baseline_scenario}{Character. Baseline scenario ID.
 Default \code{"A-S00"}.}
+
+\item{overwrite}{Logical. Allow replacement of an existing output file.
+Default \code{FALSE}. This never permits overwriting the source manuscript.}
 }
 \value{
 Named character vector of the replacements (invisibly).
@@ -43,4 +48,10 @@ automatically computed simulation statistics. The mapping from
 placeholder to computation is assembled inside this function from
 \code{\link[=policy_effect]{policy_effect()}}, \code{\link[=al_efficiency]{al_efficiency()}} and
 \code{\link[=compute_compliance_index]{compute_compliance_index()}}.
+}
+\details{
+Policy event differences and their confidence limits use the
+signed A-minus-B convention, in percentage points. A write is refused
+if the manuscript requests unknown placeholders or unavailable/non-finite
+statistics. \code{dry_run = TRUE} reports these without writing a file.
 }

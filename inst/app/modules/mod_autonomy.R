@@ -11,7 +11,8 @@ mod_autonomy_ui <- function(id) {
           "Compliance threshold",
           min = 0.5, max = 1, value = 0.8, step = 0.05),
         checkboxInput(ns("highlight"),
-          "Highlight optimal AL", TRUE)
+          "Highlight optimal AL", TRUE),
+        textOutput(ns("availability"))
       ),
       shinydashboard::box(
         title = "Trade-off plot", status = "primary",
@@ -38,6 +39,11 @@ mod_autonomy_server <- function(id, sim_data) {
           compliance_threshold = input$compliance_threshold),
         error = function(e) NULL
       )
+    })
+
+    output$availability <- renderText({
+      if (is.null(al_res()))
+        "Autonomy analysis is unavailable for this dataset. It requires autonomy levels and compliance/event outcomes." else ""
     })
 
     output$tradeoff_plot <- plotly::renderPlotly({

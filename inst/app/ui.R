@@ -30,22 +30,33 @@ sidebar <- shinydashboard::dashboardSidebar(
   )
 )
 
+profile_b_notice <- function(analysis) {
+  shinydashboard::box(
+    title = analysis, status = "info", solidHeader = TRUE, width = 12,
+    p(paste0(analysis, " is not available for Profile B in this dashboard.")),
+    p("Use Overview and Comparison for progress and completion summaries, and Export for a summary table. Additional Profile B analyses are available through the R package.")
+  )
+}
+
 body <- shinydashboard::dashboardBody(
   shinydashboard::tabItems(
     shinydashboard::tabItem(tabName = "overview",
-      mod_overview_ui("overview")),
+      mod_overview_ui("overview", profile_b = .is_profile_b)),
     shinydashboard::tabItem(tabName = "map",
-      mod_map_ui("map")),
+      if (.is_profile_b) profile_b_notice("Map") else mod_map_ui("map")),
     shinydashboard::tabItem(tabName = "survival",
-      mod_survival_ui("survival")),
+      if (.is_profile_b) profile_b_notice("Time-to-event") else
+        mod_survival_ui("survival")),
     shinydashboard::tabItem(tabName = "comparison",
       mod_comparison_ui("comparison")),
     shinydashboard::tabItem(tabName = "policy",
-      mod_policy_ui("policy")),
+      if (.is_profile_b) profile_b_notice("Policy analysis") else
+        mod_policy_ui("policy")),
     shinydashboard::tabItem(tabName = "autonomy",
-      mod_autonomy_ui("autonomy")),
+      if (.is_profile_b) profile_b_notice("Autonomy analysis") else
+        mod_autonomy_ui("autonomy")),
     shinydashboard::tabItem(tabName = "export",
-      mod_export_ui("export"))
+      mod_export_ui("export", profile_b = .is_profile_b))
   )
 )
 

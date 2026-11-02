@@ -3,6 +3,10 @@
 #' Starts the interactive analysis app bundled with dynasimR. The app
 #' requires simulation data; either supply a directory via `data_dir`
 #' or leave it `NULL` to use the bundled example data.
+#' Profile B supports progress/completion overview, comparison and summary
+#' table export. Other dashboard analyses require Profile A. Mixed-profile
+#' directories must be separated for dashboard use; the R loading API can
+#' still read them together.
 #'
 #' @param data_dir Character. Path to a directory of simulation
 #'   outputs. Default `NULL` = use bundled example data.
@@ -21,10 +25,12 @@ launch_app <- function(data_dir       = NULL,
                        launch.browser = TRUE,
                        ...) {
 
-  if (!requireNamespace("shiny", quietly = TRUE))
+  missing <- .app_dependencies()[!vapply(.app_dependencies(),
+    requireNamespace, logical(1), quietly = TRUE)]
+  if (length(missing))
     cli::cli_abort(
-      c("Package {.pkg shiny} required.",
-        "i" = "Install with {.code install.packages('shiny')}.")
+      c("Dashboard packages required: {.pkg {missing}}.",
+        "i" = "Run {.code check_app_dependencies()} for installation instructions.")
     )
 
   app_dir <- system.file("app", package = "dynasimR")
@@ -33,9 +39,14 @@ launch_app <- function(data_dir       = NULL,
       "App directory not found. Is dynasimR installed correctly?"
     )
 
+  previous_options <- options("dynasimR.data_dir")
+  on.exit(options(previous_options), add = TRUE)
   if (!is.null(data_dir)) {
+    if (!is.character(data_dir) || length(data_dir) != 1L || is.na(data_dir))
+      cli::cli_abort("{.arg data_dir} must name one directory.")
     if (!dir.exists(data_dir))
       cli::cli_abort("data_dir not found: {.path {data_dir}}")
+    data_dir <- normalizePath(data_dir, mustWork = TRUE)
     options(dynasimR.data_dir = data_dir)
     cli::cli_alert_info("Loading data from {.path {data_dir}}")
   } else {
@@ -57,16 +68,14 @@ launch_app <- function(data_dir       = NULL,
 #' Check availability of Shiny-app dependencies
 #'
 #' Inspects the `Suggests:` packages required by the embedded Shiny
-#' dashboard and prints a summary of which ones are installed.
+#' dashboard, including table export, and prints which ones are installed.
+#' This function reports an installation command; it does not install packages.
 #'
 #' @return A tibble with columns `package`, `installed`, `version`,
 #'   invisibly.
 #' @export
 check_app_dependencies <- function() {
-  pkgs <- c("shiny", "shinydashboard", "shinyWidgets",
-            "plotly", "DT", "fresh", "survminer", "broom",
-            "xtable", "kableExtra", "viridis", "patchwork",
-            "yaml", "nnet")
+  pkgs <- .app_dependencies()
 
   status <- purrr::map_dfr(pkgs, function(p) {
     ok <- requireNamespace(p, quietly = TRUE)
@@ -92,4 +101,18 @@ check_app_dependencies <- function() {
     cli::cli_alert_success("All Shiny-app dependencies available.")
   }
   invisible(status)
+}
+
+.app_dependencies <- function() {
+  c("shiny", "shinydashboard", "shinyWidgets", "plotly", "DT", "xtable")
+}
+
+.dashboard_profile <- function(data) {
+  profile <- data$load_info$profile_type
+  if (identical(profile, "mixed"))
+    cli::cli_abort("The dashboard cannot combine Profile A and Profile B. Use separate data directories for each profile; read_simulation() can still load mixed data for analysis in R.")
+  if (length(profile) != 1L || is.na(profile) ||
+      !profile %in% c("Profile_A", "Profile_B"))
+    cli::cli_abort("The dashboard requires an identified Profile A or Profile B dataset.")
+  profile
 }
