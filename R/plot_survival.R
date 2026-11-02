@@ -4,19 +4,23 @@
 #'
 #' @param km_result A `dynasimR_km` object.
 #' @param show_ci Logical. Show CI ribbon. Default `TRUE`.
-#' @param show_risktable Logical. Show risk table (requires survminer).
+#' @param show_risktable Logical. Show numbers at risk immediately before
+#'   each displayed time (requires patchwork).
 #'   Default `FALSE`.
 #' @param show_pval Logical. Annotate log-rank p-value. Default `TRUE`.
 #' @param show_median Logical. Draw horizontal 50% reference line.
 #'   Default `TRUE`.
-#' @param color_by Character. Aesthetic grouping. One of `"scenario"`,
-#'   `"group"`, `"policy"`. Default `"scenario"`.
+#' @param color_by Character. Palette hint: `"policy"` uses policy colours
+#'   for at most two strata; otherwise uses a discrete palette. Curves always
+#'   retain the strata fitted by [km_estimate()]; this does not regroup them.
 #' @param title,subtitle,xlab,ylab Character overrides.
 #' @param xlim Numeric length-2. Restrict x range. Default `NULL`.
-#' @param manuscript_width Numeric. mm width hint. Default `174`.
+#' @param manuscript_width Numeric. Retained for compatibility; does not
+#'   resize the plot. Set `width_mm` in [export_figure()] instead.
 #' @param ... Unused.
 #'
-#' @return A ggplot2 object.
+#' @return A ggplot2 object, or a patchwork composition when
+#'   `show_risktable = TRUE`.
 #' @export
 plot_km <- function(km_result,
                     show_ci          = TRUE,
@@ -43,26 +47,57 @@ plot_km <- function(km_result,
              theme_dynasimR())
   }
 
+  # Include the initial survival probability before the first observation.
+  d <- dplyr::bind_rows(lapply(split(d, d$strata), function(s) {
+    s <- s[order(s$time), , drop = FALSE]
+    if (min(s$time) > 0) {
+      initial <- s[1, , drop = FALSE]
+      initial$time <- 0
+      initial$estimate <- 1
+      for (nm in intersect(c("conf.low", "conf.high"), names(initial)))
+        initial[[nm]] <- if (any(is.finite(s[[nm]]))) 1 else NA_real_
+      s <- dplyr::bind_rows(initial, s)
+    }
+    s
+  }))
   n_strata <- length(unique(d$strata))
-  palette <- if (identical(color_by, "policy"))
+  palette <- if (identical(color_by, "policy") && n_strata <= 2L)
     c(dynasimR_colors()$GROUP_A, dynasimR_colors()$GROUP_B)
   else
     .safe_viridis(max(1, n_strata))
+
+  sizes <- table(d$strata)
+  single <- d$strata %in% names(sizes)[sizes == 1L]
 
   p <- ggplot2::ggplot(
     d,
     ggplot2::aes(x = .data$time, y = .data$estimate,
                  color = .data$strata, fill = .data$strata)
   ) +
-    ggplot2::geom_step(linewidth = 0.8)
+    ggplot2::geom_step(data = d[!single, , drop = FALSE], linewidth = 0.8)
+  if (any(single))
+    p <- p + ggplot2::geom_point(data = d[single, , drop = FALSE], size = 2)
 
-  if (show_ci && all(c("conf.low", "conf.high") %in% names(d)))
+  if (show_ci && all(c("conf.low", "conf.high") %in% names(d))) {
+    # Expand intervals into steps; analytic limits can be undefined after
+    # complete depletion. Omit those limits, retaining the survival curve.
+    ribbon <- dplyr::bind_rows(lapply(split(d, d$strata), function(s) {
+      if (nrow(s) > 1L) {
+        before <- s[-nrow(s), , drop = FALSE]
+        before$time <- s$time[-1L]
+        s <- dplyr::bind_rows(s, before) |>
+          dplyr::arrange(.data$time, dplyr::desc(.data$estimate))
+      }
+      s[is.finite(s$conf.low) & is.finite(s$conf.high), , drop = FALSE]
+    }))
     p <- p +
       ggplot2::geom_ribbon(
+        data = ribbon,
         ggplot2::aes(ymin = .data$conf.low,
                      ymax = .data$conf.high),
         alpha = 0.15, color = NA
       )
+  }
 
   if (show_median)
     p <- p +
@@ -90,7 +125,8 @@ plot_km <- function(km_result,
     ) +
     theme_dynasimR()
 
-  if (show_pval && !is.null(km_result$logrank)) {
+  if (show_pval && !is.null(km_result$logrank) &&
+      is.finite(km_result$logrank$p_value)) {
     pv  <- km_result$logrank$p_value
     pvt <- paste0("Log-rank p ", .format_p(pv))
     p <- p +
@@ -103,7 +139,35 @@ plot_km <- function(km_result,
       )
   }
 
+  if (show_risktable) {
+    if (!requireNamespace("patchwork", quietly = TRUE))
+      cli::cli_abort("Install {.pkg patchwork} to display a risk table.")
+    limits <- if (is.null(xlim)) range(d$time) else xlim
+    times <- pretty(limits, n = 5)
+    times <- times[times >= limits[1] & times <= limits[2]]
+    if (!length(times)) times <- limits
+    risks <- .km_risk_table(km_result, times)
+    risk_plot <- ggplot2::ggplot(risks, ggplot2::aes(
+      x = .data$time, y = .data$strata, label = .data$n.risk
+    )) +
+      ggplot2::geom_text(show.legend = FALSE, size = 3) +
+      ggplot2::scale_x_continuous(breaks = times) +
+      ggplot2::coord_cartesian(xlim = limits) +
+      ggplot2::labs(x = xlab, y = NULL, title = "Number at risk") +
+      theme_dynasimR()
+    p <- p + ggplot2::scale_x_continuous(breaks = times)
+    p <- patchwork::wrap_plots(p, risk_plot, ncol = 1,
+                              heights = c(3, max(1, n_strata / 3)))
+  }
   p
+}
+
+.km_risk_table <- function(km_result, times) {
+  s <- summary(km_result$fit, times = times, extend = TRUE)
+  strata <- if (is.null(s$strata))
+    rep(as.character(km_result$tidy$strata[1]), length(s$time))
+  else as.character(s$strata)
+  tibble::tibble(time = s$time, strata = strata, n.risk = s$n.risk)
 }
 
 #' Forest plot of Cox hazard ratios
@@ -135,7 +199,7 @@ plot_forest <- function(cox_result,
   ) +
     ggplot2::geom_vline(xintercept = 1, linetype = "dashed",
                         color = "gray60", linewidth = 0.5) +
-    ggplot2::geom_errorbarh(height = 0.2, linewidth = 0.6,
+    ggplot2::geom_errorbar(orientation = "y", width = 0.2, linewidth = 0.6,
                             color = dynasimR_colors()$NEUTRAL) +
     ggplot2::geom_point(
       ggplot2::aes(color = .data$p.value < 0.05),

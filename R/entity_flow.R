@@ -1,9 +1,13 @@
 #' Stage throughput analysis
 #'
-#' Computes median and interquartile range of transit times for each
+#' Computes median and interquartile range of recorded times for each
 #' processing stage along the entity flow. If a `reached_stageN`
 #' column is present in the entity data, computes the fraction of
-#' entities completing each stage.
+#' entities completing each stage among nonmissing completion indicators.
+#' Time summaries use all recorded nonmissing values, including values
+#' for unreached entities if supplied; they are descriptive quantiles, not
+#' censoring-adjusted estimates. A `time_to_stageN` column may contain
+#' cumulative elapsed time rather than time spent in that stage.
 #'
 #' @param data A `dynasimR_data` object or entity tibble.
 #' @param stages Character vector. Stage labels in ordering. Default
@@ -18,6 +22,8 @@ stage_throughput <- function(data,
 
   d <- if (inherits(data, "dynasimR_data")) data$entities else data
 
+  .require_cols(d, "scenario", where = "entities")
+
   stage_time_col <- function(s) {
     candidates <- c(
       paste0("time_to_", tolower(s)),
@@ -30,7 +36,10 @@ stage_throughput <- function(data,
   out <- purrr::map_dfr(stages, function(s) {
     col <- stage_time_col(s)
     if (is.na(col)) return(NULL)
+    .validate_elapsed_time(d[[col]], col)
     reached_col <- paste0("reached_", tolower(s))
+    has_reached <- reached_col %in% names(d)
+    if (has_reached) .validate_binary(d[[reached_col]], reached_col, allow_na = TRUE)
     d |>
       dplyr::group_by(.data$scenario) |>
       dplyr::summarise(
@@ -41,7 +50,8 @@ stage_throughput <- function(data,
                                       na.rm = TRUE, names = FALSE),
         q75         = stats::quantile(.data[[col]], 0.75,
                                       na.rm = TRUE, names = FALSE),
-        completed_frac = if (reached_col %in% names(.data))
+        completed_frac = if (has_reached &&
+                             any(!is.na(.data[[reached_col]])))
           mean(.data[[reached_col]], na.rm = TRUE)
         else NA_real_,
         .groups = "drop"
@@ -52,9 +62,10 @@ stage_throughput <- function(data,
 
 #' Bottleneck detection across processing stages
 #'
-#' Identifies scenario-stage combinations where the median transit
+#' Identifies scenario-stage combinations where the median recorded
 #' time exceeds a percentile threshold relative to the grand
-#' distribution.
+#' distribution. This descriptive ranking does not establish a capacity
+#' bottleneck, especially when input times are cumulative or censored.
 #'
 #' @param data A `dynasimR_data` object or throughput tibble from
 #'   [stage_throughput()].

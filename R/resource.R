@@ -29,7 +29,7 @@ resource_comparison <- function(data,
   if (!"resource" %in% names(d))
     cli::cli_abort(
       "Summary table does not contain a 'resource' column. ",
-      "Run {.fn read_simulation} with bundled scenario_meta."
+      "Supply a resource column or a local scenario_metadata.csv."
     )
 
   if (!is.null(scenarios))

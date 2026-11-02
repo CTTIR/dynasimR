@@ -9,7 +9,10 @@ plot_progress_curves(progress_result, show_ci = TRUE)
 \arguments{
 \item{progress_result}{A \code{dynasimR_progress} object.}
 
-\item{show_ci}{Logical. Show 95\% CI ribbon. Default \code{TRUE}.}
+\item{show_ci}{Logical. Show the central 2.5--97.5 percentile range
+of observed progress scores. This is a descriptive range, not a
+confidence interval; the argument name is retained for compatibility.
+Default \code{TRUE}.}
 }
 \value{
 A ggplot2 object.

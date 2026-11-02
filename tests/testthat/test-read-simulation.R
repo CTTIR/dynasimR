@@ -41,8 +41,12 @@ test_that("read_simulation warns on scenario IDs without prefix", {
                    event_rate = 0.3, compliance_index = 0.8),
     file.path(dir, "S00_summary.csv")
   )
+  readr::write_csv(
+    tibble::tibble(scenario = "S00", replication = 1, entity_id = 1),
+    file.path(dir, "S00_entities.csv")
+  )
   expect_warning(
-    read_simulation(dir, validate = FALSE, verbose = FALSE),
+    read_simulation(dir, verbose = FALSE),
     "without prefix"
   )
 })

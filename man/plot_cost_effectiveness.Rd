@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_cost_effectiveness.R
 \name{plot_cost_effectiveness}
 \alias{plot_cost_effectiveness}
-\title{Cost-effectiveness plane and CEAC curve}
+\title{Descriptive cost-outcome plane and net-benefit fractions}
 \usage{
 plot_cost_effectiveness(
   data,
@@ -15,29 +15,41 @@ plot_cost_effectiveness(
 )
 }
 \arguments{
-\item{data}{A \code{dynasimR_data} object or summary tibble.}
+\item{data}{A \code{dynasimR_data} object or summary tibble. Every selected
+row, including the reference, must have finite observed cost and outcome
+values together; incomplete pairs are rejected rather than silently
+using different observations for cost and outcome.}
 
-\item{reference}{Character. Scenario ID treated as the comparator.}
+\item{reference}{Character. One scenario ID used as the comparator.}
 
-\item{scenarios}{Character vector. Scenarios to evaluate against
-\code{reference}.}
+\item{scenarios}{Character vector. Unique scenario IDs to evaluate.
+Every requested ID must occur in the input.}
 
 \item{outcome_col}{Character. Outcome column.
 Default \code{"completion_rate"}.}
 
 \item{cost_col}{Character. Cost column. Default \code{"cost"}.}
 
-\item{wtp}{Numeric vector. Willingness-to-pay thresholds for CEAC.
-Default \code{seq(0, 2e5, length.out = 40)}.}
+\item{wtp}{Nonempty numeric vector of finite nonnegative willingness-to-pay
+thresholds. Default \code{seq(0, 2e5, length.out = 40)}.}
 
-\item{show_ceac}{Logical. If \code{TRUE}, return a CEAC plot instead of
-the CE plane. Default \code{FALSE}.}
+\item{show_ceac}{Logical. Legacy argument: \code{TRUE} returns the observed
+positive-net-benefit fraction curve, not an inferential CEAC.
+Default \code{FALSE} returns the median cost-outcome plane.}
 }
 \value{
-A ggplot2 object.
+A ggplot2 object. Plane data include \code{delta_effect}, \code{delta_cost},
+\code{icer} (their ratio, \code{NA} when the effect difference is zero), and
+\code{n_observed}. Curve data retain the legacy \code{prob_ce} column name for
+the observed fraction with strictly positive net benefit; ties do not
+count as positive. These fractions are not uncertainty probabilities.
 }
 \description{
-Plots the cost-effectiveness plane (delta cost vs. delta outcome)
-for a set of scenarios and, optionally, a cost-effectiveness
-acceptability curve (CEAC) across willingness-to-pay thresholds.
+Compares scenario medians with fixed reference medians. The optional
+threshold curve reports the observed fraction of scenario runs with
+positive incremental net benefit relative to those fixed medians.
+It does not propagate reference uncertainty, pair runs across scenarios,
+or estimate a cost-effectiveness acceptability probability.
+Higher outcome values are treated as better. Cost and willingness-to-pay
+units must be consistent with the outcome unit.
 }

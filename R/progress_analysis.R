@@ -1,8 +1,11 @@
 #' Progress-score trajectory analysis (Profile B)
 #'
 #' Summarises longitudinal progress-score trajectories by scenario
-#' and (optionally) cohort. Returns both a per-replication summary
-#' (start, end, gain) and a longitudinal tidy table suitable for
+#' and optional grouping variables. By default, the summary pools entities
+#' within each scenario; include `replication` in `group_by` for replicate
+#' summaries. Quantile bounds describe the observed entity distribution,
+#' not confidence intervals for the median. Also returns a longitudinal
+#' tidy table suitable for
 #' [plot_progress_curves()].
 #'
 #' @param data A `dynasimR_data` object or entity/summary tibble
@@ -26,6 +29,12 @@ progress_trajectory <- function(data,
 
   req <- c("progress_start", "progress_end", group_by)
   .require_cols(src, req, where = "entities")
+  for (nm in c("progress_start", "progress_end")) {
+    value <- src[[nm]]
+    if ((!is.numeric(value) && !(is.logical(value) && all(is.na(value)))) ||
+        any(!is.na(value) & !is.finite(value)))
+      cli::cli_abort("{.field {nm}} must contain finite numeric values or NA.")
+  }
 
   summ <- src |>
     dplyr::group_by(dplyr::across(dplyr::all_of(group_by))) |>
@@ -56,6 +65,12 @@ progress_trajectory <- function(data,
   } else if (longitudinal &&
              inherits(data, "dynasimR_data") &&
              "progress" %in% names(data$timeseries)) {
+    .require_cols(data$timeseries, c(group_by, "time_step", "progress"),
+                  where = "timeseries")
+    value <- data$timeseries$progress
+    if ((!is.numeric(value) && !(is.logical(value) && all(is.na(value)))) ||
+        any(!is.na(value) & !is.finite(value)))
+      cli::cli_abort("Time-series progress must contain finite numeric values or NA.")
     long <- data$timeseries |>
       dplyr::group_by(dplyr::across(dplyr::all_of(
         c(group_by, "time_step")))) |>

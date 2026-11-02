@@ -39,12 +39,14 @@ plot_al_tradeoff <- function(al_result,
     ) +
     ggplot2::geom_hline(yintercept = thr, linetype = "dashed",
                         color = "#2E7D32", linewidth = 0.5) +
-    ggplot2::geom_errorbarh(
+    ggplot2::geom_errorbar(
+      data = d[is.finite(d$event_reduction_ci_lo) &
+                 is.finite(d$event_reduction_ci_hi), , drop = FALSE],
       ggplot2::aes(
-        xmin = .data$event_ci_lo * 100,
-        xmax = .data$event_ci_hi * 100
+        xmin = .data$event_reduction_ci_lo,
+        xmax = .data$event_reduction_ci_hi
       ),
-      height = 0.005, alpha = 0.4
+      orientation = "y", width = 0.005, alpha = 0.4
     ) +
     ggplot2::geom_point(size = 4)
 
@@ -74,12 +76,12 @@ plot_al_tradeoff <- function(al_result,
       begin  = 0.1, end = 0.9
     ) +
     ggplot2::labs(
-      x = "Event reduction vs. AL0 [percentage points]",
+      x = glue::glue("Event reduction vs. AL{al_result$params$reference_al} [percentage points]"),
       y = "Compliance Index",
       title    = "Autonomy level trade-off",
       subtitle = "Event reduction vs. Compliance Index",
       caption  = glue::glue(
-        "Green band: CI >= {thr} (compliant). ",
+        "Green band: compliance >= {thr} (compliant). ",
         "Optimum (circle): AL{opt}."
       )
     ) +

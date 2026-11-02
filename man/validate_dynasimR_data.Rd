@@ -10,16 +10,18 @@ validate_dynasimR_data(x, strict = FALSE)
 \item{x}{A \code{dynasimR_data} object (list with \code{summary}, \code{entities},
 \code{timeseries}).}
 
-\item{strict}{Logical. If \code{TRUE}, missing required columns abort;
-if \code{FALSE} (default), they produce a warning and the function
+\item{strict}{Logical. If \code{TRUE}, any validation issue aborts;
+if \code{FALSE} (default), issues produce warnings and the function
 still returns \code{x}.}
 }
 \value{
-The input \code{x}, invisibly, possibly with attribute
-\code{validation_issues} attached.
+The input \code{x}, invisibly, with current issues in the
+\code{validation_issues} attribute, or no such attribute when valid.
 }
 \description{
-Checks that the required columns are present in each table and
-reports out-of-range values. Does not modify the data; returns it
-unchanged (with warnings when problems are found).
+Checks required columns, nonmissing scenario/replication identifiers,
+numeric types, finite observed values and bounded rates. Entity and
+time-series scenario/replication pairs must occur in the summary table.
+Missing measurements are allowed; analysis functions document their
+treatment. Data values are not modified.
 }

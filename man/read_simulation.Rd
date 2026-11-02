@@ -16,7 +16,9 @@ simulation outputs. Files are expected to follow the pattern
 \code{NULL} loads every scenario found in \code{data_dir}.}
 
 \item{validate}{Logical. Run \code{\link[=validate_dynasimR_data]{validate_dynasimR_data()}} on the
-loaded tables. Default \code{TRUE}.}
+loaded tables. Default \code{TRUE}. Requires nonempty summary and entity
+files, matching scenario IDs and valid schemas. \code{FALSE} bypasses
+those checks for inspection of incomplete output.}
 
 \item{verbose}{Logical. Print progress messages. Default \code{TRUE}.}
 }
@@ -29,6 +31,17 @@ Reads CSV outputs from any discrete-event or agent-based
 simulation framework that follows the dynasimR file-naming
 convention and validates them against the dynasimR data schema.
 Returns a structured S3 object of class \code{dynasimR_data}.
+}
+\details{
+An optional \code{scenario_metadata.csv} uses one unique \code{id} per
+scenario. Its columns are joined without suffixes; conflicts with
+nonmissing table values are errors when \code{validate = TRUE}. With
+validation disabled, existing table values take precedence. The bundled
+scenario settings are used only for the package example directory,
+with local metadata taking precedence over bundled descriptions.
+External files never inherit example settings merely by sharing an ID.
+Each row retains its scenario's \code{profile_type}; \code{load_info$profile_type}
+is \code{"mixed"} when the loaded scenarios use different profiles.
 }
 \examples{
 \dontrun{

@@ -19,7 +19,9 @@ Default \code{"event_rate"}.}
 }
 \value{
 A tibble suitable for a tornado plot with columns
-\code{scenario}, \code{delta}, \code{lo}, \code{hi}, sorted by absolute delta.
+\code{scenario}, \code{delta}, \code{lo}, \code{hi}, sorted by absolute delta. \code{lo} and
+\code{hi} are the perturbation's observed percentile range minus the fixed
+baseline median, not a confidence interval for their difference.
 }
 \description{
 Given a baseline scenario and perturbation scenarios, computes the

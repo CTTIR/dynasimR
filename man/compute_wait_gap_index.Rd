@@ -25,7 +25,8 @@ Default \code{14}.}
 Default \code{TRUE}.}
 
 \item{n_bootstrap}{Integer. Bootstrap replicates for CIs.
-Default \code{1000}.}
+Default \code{1000}; \code{0} omits intervals. Bootstrap intervals treat
+entities as independent observations, without replication clustering.}
 }
 \value{
 A tibble with columns \code{scenario} (if stratified),
@@ -36,5 +37,9 @@ A tibble with columns \code{scenario} (if stratified),
 Analogue of the Compliance Index for entity-flow profiles:
 fraction of entities whose wait time from arrival to activation
 does not exceed a threshold number of days (default 14). A value
-below \code{0.80} is flagged as a critical wait-gap.
+below \code{0.80} is flagged as a critical wait-gap. Missing wait times
+remain in the denominator and do not count as timely activation;
+negative or infinite waits are rejected. Supply observed activation
+waits only: encode unactivated entities with \code{NA}, not a censoring
+time. This index does not estimate a censoring-adjusted probability.
 }

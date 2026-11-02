@@ -23,7 +23,8 @@ plot_policy <- function(policy_result) {
   ) +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed",
                         color = "gray60", linewidth = 0.5) +
-    ggplot2::geom_errorbarh(height = 0.2, linewidth = 0.6,
+    ggplot2::geom_errorbar(data = d[is.finite(d$ci_lo) & is.finite(d$ci_hi), , drop = FALSE],
+                            orientation = "y", width = 0.2, linewidth = 0.6,
                             color = dynasimR_colors()$NEUTRAL) +
     ggplot2::geom_point(size = 3,
                         color = dynasimR_colors()$GROUP_A) +

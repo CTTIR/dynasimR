@@ -4,7 +4,10 @@
 #' [progress_trajectory()] (with `longitudinal = TRUE`).
 #'
 #' @param progress_result A `dynasimR_progress` object.
-#' @param show_ci Logical. Show 95% CI ribbon. Default `TRUE`.
+#' @param show_ci Logical. Show the central 2.5--97.5 percentile range
+#'   of observed progress scores. This is a descriptive range, not a
+#'   confidence interval; the argument name is retained for compatibility.
+#'   Default `TRUE`.
 #' @return A ggplot2 object.
 #' @export
 plot_progress_curves <- function(progress_result, show_ci = TRUE) {
@@ -17,16 +20,18 @@ plot_progress_curves <- function(progress_result, show_ci = TRUE) {
   if (is.null(long) || nrow(long) == 0) {
     # fallback: plot summary as bar chart
     d <- progress_result$summary
-    return(
-      ggplot2::ggplot(d,
+    p <- ggplot2::ggplot(d,
         ggplot2::aes(x = .data$scenario,
                      y = .data$progress_gain_median)) +
-        ggplot2::geom_col(fill = dynasimR_colors()$GROUP_A) +
+        ggplot2::geom_col(fill = dynasimR_colors()$GROUP_A)
+    if (show_ci)
+      p <- p +
         ggplot2::geom_errorbar(
           ggplot2::aes(ymin = .data$progress_gain_q025,
                        ymax = .data$progress_gain_q975),
           width = 0.3, color = dynasimR_colors()$NEUTRAL
-        ) +
+        )
+    return(p +
         ggplot2::labs(x = "Scenario",
                       y = "Median progress gain") +
         theme_dynasimR()

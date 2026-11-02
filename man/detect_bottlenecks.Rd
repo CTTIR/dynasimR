@@ -17,7 +17,8 @@ as a bottleneck (0-1). Default \code{0.75} (top quartile).}
 A tibble with only the bottleneck rows.
 }
 \description{
-Identifies scenario-stage combinations where the median transit
+Identifies scenario-stage combinations where the median recorded
 time exceeds a percentile threshold relative to the grand
-distribution.
+distribution. This descriptive ranking does not establish a capacity
+bottleneck, especially when input times are cumulative or censored.
 }

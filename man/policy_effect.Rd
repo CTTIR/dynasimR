@@ -23,7 +23,7 @@ policy_effect(
 \item{alpha}{Numeric. Significance level. Default \code{0.05}.}
 
 \item{n_bootstrap}{Integer. Bootstrap replicates for CIs.
-Default \code{1000}.}
+Default \code{1000}; \code{0} omits intervals.}
 }
 \value{
 An S3 object of class \code{dynasimR_policy} with slots
@@ -35,7 +35,16 @@ Computes the full suite of effect metrics comparing two scenarios
 that differ only in the allocation policy. Returns deltas on the
 event rate and the Compliance Index, Cohen's d, risk differences
 and an auto-generated narrative suitable for pasting into a
-report.
+report. All event-rate differences are signed policy A minus B.
+Cohen's d uses the independent-sample, degrees-of-freedom-weighted
+pooled standard deviation. Bootstrap intervals and Wilcoxon tests
+assume independent simulation replications, not paired runs.
+\code{NNT_surrogate} is the reciprocal absolute mean rate difference;
+its direction is supplied by \code{Risk_Difference_event}. Missing replicate
+rates are omitted and effective counts are recorded. Each scenario
+needs an observed rate; intervals and standardized effects need at least
+two observations per scenario. Subgroup rates use the binary \code{event}
+flag, or \code{status == "TERMINATED"} only when the flag column is absent.
 }
 \details{
 No hardcoded defaults are used - you \strong{must} supply both scenario

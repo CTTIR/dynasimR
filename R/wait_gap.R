@@ -3,7 +3,11 @@
 #' Analogue of the Compliance Index for entity-flow profiles:
 #' fraction of entities whose wait time from arrival to activation
 #' does not exceed a threshold number of days (default 14). A value
-#' below `0.80` is flagged as a critical wait-gap.
+#' below `0.80` is flagged as a critical wait-gap. Missing wait times
+#' remain in the denominator and do not count as timely activation;
+#' negative or infinite waits are rejected. Supply observed activation
+#' waits only: encode unactivated entities with `NA`, not a censoring
+#' time. This index does not estimate a censoring-adjusted probability.
 #'
 #' @param data A `dynasimR_data` object or entity tibble with a
 #'   `wait_days` column (or `wait_days_to_min` in minutes).
@@ -13,7 +17,8 @@
 #' @param by_cohort Logical. Stratify by `cohort` (if present).
 #'   Default `TRUE`.
 #' @param n_bootstrap Integer. Bootstrap replicates for CIs.
-#'   Default `1000`.
+#'   Default `1000`; `0` omits intervals. Bootstrap intervals treat
+#'   entities as independent observations, without replication clustering.
 #'
 #' @return A tibble with columns `scenario` (if stratified),
 #'   `cohort` (if stratified), `wgi`, `wgi_ci_lo`, `wgi_ci_hi`,
@@ -25,6 +30,8 @@ compute_wait_gap_index <- function(data,
                                    by_cohort    = TRUE,
                                    n_bootstrap  = 1000) {
 
+  .validate_window(window_days, "window_days")
+  .validate_n_boot(n_bootstrap)
   d <- if (inherits(data, "dynasimR_data")) data$entities else data
   if (nrow(d) == 0) return(tibble::tibble())
 
@@ -37,6 +44,8 @@ compute_wait_gap_index <- function(data,
       "Entity table needs 'wait_days' or 'wait_days_to_min'."
     )
 
+  .validate_elapsed_time(d[[col]], col)
+
   # Normalise to days if column is in minutes
   vals <- if (col == "wait_days_to_min")
     d[[col]] / 1440 else d[[col]]
@@ -44,7 +53,10 @@ compute_wait_gap_index <- function(data,
   d <- dplyr::mutate(d, .__wait = vals)
 
   group_vars <- character(0)
-  if (by_scenario) group_vars <- c(group_vars, "scenario")
+  if (by_scenario) {
+    .require_cols(d, "scenario", where = "entities")
+    group_vars <- c(group_vars, "scenario")
+  }
   if (by_cohort && "cohort" %in% names(d))
     group_vars <- c(group_vars, "cohort")
 

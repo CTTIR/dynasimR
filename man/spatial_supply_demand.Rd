@@ -14,7 +14,8 @@ spatial_supply_demand(
 }
 \arguments{
 \item{data}{A \code{dynasimR_data} object or summary tibble with
-\code{region}, \code{supply} and \code{demand} columns.}
+\code{region}, \code{supply} and \code{demand} columns. Observed supply and demand
+must be finite and nonnegative. Missing values are allowed.}
 
 \item{region_col}{Character. Region column name. Default \code{"region"}.}
 
@@ -22,15 +23,20 @@ spatial_supply_demand(
 
 \item{demand_col}{Character. Demand column name. Default \code{"demand"}.}
 
-\item{eps}{Numeric. Offset to avoid division by zero. Default \code{1}.}
+\item{eps}{Deprecated compatibility argument. No offset is applied:
+adding an offset changes the ratio even when demand is positive.}
 }
 \value{
-A tibble with columns \code{region}, \code{supply_median},
+A tibble with the region column, \code{supply_median},
 \code{demand_median}, \code{sdi_median}, \code{sdi_q025}, \code{sdi_q975},
-\code{undersupply}.
+\code{undersupply}, \code{n_observed} (valid paired ratios) and
+\code{n_zero_demand}. The interval is the observed 2.5th to 97.5th
+percentile range, not a confidence interval for the median.
 }
 \description{
-Computes a per-region Supply-Demand Index: the ratio of available
-service capacity to demand. Values > 1 indicate oversupply,
-values < 1 undersupply.
+Computes the ratio of available service capacity to positive demand.
+Values > 1 indicate oversupply, values < 1 undersupply, and equal
+supply and demand give exactly 1. Rows with zero demand have an
+undefined ratio and are excluded from SDI summaries; a region with
+no valid ratio has \code{NA} SDI and \code{NA} undersupply status.
 }

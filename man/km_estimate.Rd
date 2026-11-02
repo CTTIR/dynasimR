@@ -16,7 +16,9 @@ km_estimate(
 }
 \arguments{
 \item{data}{A \code{dynasimR_data} object or a tibble/data.frame
-containing entity-level columns.}
+containing entity-level columns. Endpoint times must be nonnegative
+finite observed event or censoring times, with binary 0/1 event flags.
+Missing times, flags or strata are rejected, not silently omitted.}
 
 \item{scenarios}{Character vector. Restrict to these scenario IDs.
 Default \code{NULL} = all.}
@@ -26,20 +28,29 @@ Default \code{NULL} = all.}
 The latter three are Profile-B-only endpoints.}
 
 \item{stratify_by}{Character vector. Strata variables, e.g.
-\code{"scenario"} or \code{c("scenario", "group")}.}
+\code{"scenario"} or \code{c("scenario", "group")}. Use \code{character()}
+for a pooled curve. A log-rank p-value is unavailable for one stratum
+or when no events were observed.}
 
 \item{ci_method}{Character. Passed to \code{\link[survival:survfit]{survival::survfit()}} as
 \code{conf.type}. Default \code{"log"}.}
 
-\item{n_bootstrap}{Integer. Bootstrap replicates for KM CIs
-(0 = disabled). Default \code{0}.}
+\item{n_bootstrap}{Integer. Bootstrap replicates for pointwise 95\%
+percentile bands, resampling entities within each stratum. \code{0}
+omits bootstrap bands (default). Entities are assumed independent;
+this does not account for dependence within simulation replications.}
 
-\item{seed}{Integer. RNG seed for bootstrap. Default \code{42}.}
+\item{seed}{Integer. RNG seed for bootstrap. Default \code{42}; a supplied
+seed preserves the caller's RNG state. \code{NULL} uses the current RNG.}
 }
 \value{
 An S3 object of class \code{dynasimR_km} (list) with slots
 \code{fit}, \code{tidy}, \code{logrank}, \code{median_survival}, \code{boot_ci} and
-\code{params}.
+\code{params}. \code{boot_ci} contains \code{strata}, \code{time}, \code{estimate},
+\code{conf.low}, \code{conf.high} and successful replicate count \code{n_boot},
+evaluated at time zero and the original observed times of each stratum.
+Bands are unavailable for a stratum with fewer than two entities.
+\code{tidy} retains the analytic intervals selected by \code{ci_method}.
 }
 \description{
 Estimates survival functions from simulated entity outcomes.

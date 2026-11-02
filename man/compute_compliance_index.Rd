@@ -30,7 +30,7 @@ Values are internally normalised to minutes.}
 present. Default \code{TRUE}.}
 
 \item{n_bootstrap}{Integer. Bootstrap replicates for CIs.
-Default \code{1000}.}
+Default \code{1000}; \code{0} omits intervals.}
 }
 \value{
 A tibble with columns \code{scenario} (if stratified),
@@ -43,8 +43,12 @@ within a defined time window. A value below \code{0.80} is treated as
 a critical compliance violation.
 }
 \details{
-For Profile B data the analogous metric uses \code{wait_days} with a
-14-day window (\code{window_unit = "days"}).
+When \code{received_service} is supplied, only a confirmed service (1)
+counts in the numerator. Missing times or service indicators are not
+confirmed timely service and remain in the denominator. Without an
+indicator, a nonmissing time is assumed to represent received service.
+For Profile B wait times, see \code{\link[=compute_wait_gap_index]{compute_wait_gap_index()}}.
+Bootstrap intervals treat entities as independent observations.
 }
 \examples{
 \dontrun{

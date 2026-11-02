@@ -12,12 +12,17 @@ cox_model(
 )
 }
 \arguments{
-\item{data}{A \code{dynasimR_data} object or entity tibble.}
+\item{data}{A \code{dynasimR_data} object or entity tibble. Endpoint times
+must be nonnegative finite observed event or censoring times; flags
+must be 0 (censored) or 1 (event). Missing times, flags, strata, or
+model covariates are rejected rather than silently dropping entities.}
 
 \item{endpoint}{See \code{\link[=km_estimate]{km_estimate()}}.}
 
 \item{covariates}{Character vector. Covariates entering the Cox
-model. Default \code{c("scenario","severity","group")}.}
+model. Default \code{c("scenario","severity","group")}; unavailable
+defaults are omitted with a warning for profile compatibility.
+Explicitly requested unavailable covariates are an error.}
 
 \item{reference_scenario}{Character. Reference level for the
 \code{scenario} factor. Default \code{"A-S00"}. Use \code{"B-S00"} for Profile B.}

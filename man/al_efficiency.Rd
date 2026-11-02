@@ -27,7 +27,7 @@ an AL level to be considered acceptable. Default \code{0.80}.}
 calculation. Default \code{0}.}
 
 \item{n_bootstrap}{Integer. Bootstrap replicates for CIs.
-Default \code{1000}.}
+Default \code{1000}; \code{0} omits intervals.}
 }
 \value{
 An S3 object of class \code{dynasimR_al_analysis} with slots
@@ -38,7 +38,17 @@ An S3 object of class \code{dynasimR_al_analysis} with slots
 Quantifies the trade-off between event-rate reduction and the
 Compliance Index across autonomy levels AL0-AL5. Returns the
 trade-off table, the optimal AL level (highest event reduction
-still above the compliance threshold) and compliance violations.
+still above the compliance threshold) and observed compliance violations.
+Missing compliance is unknown, cannot qualify an optimum, and is not
+labelled an observed violation. \code{al_ratio} is a descriptive ratio
+\code{event_reduction_pct / (1 - compliance + 0.001)} with a fixed stabilizer;
+it is not a validated utility or a criterion used to choose the optimum.
+\code{event_ci_lo} and \code{event_ci_hi} describe absolute event rates.
+\code{event_reduction_ci_lo} and \code{event_reduction_ci_hi} are percentile
+intervals for the reference-minus-scenario median difference in
+percentage points, assuming independent replications between scenarios.
+The reference compared with itself has zero difference and, when an
+interval is requested with at least two observed rates, bounds of zero.
 }
 \examples{
 \dontrun{

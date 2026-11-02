@@ -12,9 +12,20 @@
 #' @param scenarios Character vector. Scenario IDs to load. Default
 #'   `NULL` loads every scenario found in `data_dir`.
 #' @param validate Logical. Run [validate_dynasimR_data()] on the
-#'   loaded tables. Default `TRUE`.
+#'   loaded tables. Default `TRUE`. Requires nonempty summary and entity
+#'   files, matching scenario IDs and valid schemas. `FALSE` bypasses
+#'   those checks for inspection of incomplete output.
 #' @param verbose Logical. Print progress messages. Default `TRUE`.
 #'
+#' @details An optional `scenario_metadata.csv` uses one unique `id` per
+#'   scenario. Its columns are joined without suffixes; conflicts with
+#'   nonmissing table values are errors when `validate = TRUE`. With
+#'   validation disabled, existing table values take precedence. The bundled
+#'   scenario settings are used only for the package example directory,
+#'   with local metadata taking precedence over bundled descriptions.
+#'   External files never inherit example settings merely by sharing an ID.
+#'   Each row retains its scenario's `profile_type`; `load_info$profile_type`
+#'   is `"mixed"` when the loaded scenarios use different profiles.
 #' @return An S3 object of class `dynasimR_data` (a list) with slots
 #'   `summary`, `entities`, `timeseries`, `metadata` and `load_info`.
 #' @export
@@ -30,24 +41,24 @@ read_simulation <- function(data_dir,
                             validate  = TRUE,
                             verbose   = TRUE) {
 
-  if (!dir.exists(data_dir))
-    cli::cli_abort(
-      "Directory {.path {data_dir}} not found.",
-      call = rlang::caller_env()
-    )
+  if (!is.character(data_dir) || length(data_dir) != 1L ||
+      is.na(data_dir) || !dir.exists(data_dir))
+    cli::cli_abort("{.arg data_dir} must name an existing directory.")
+  for (nm in c("validate", "verbose")) {
+    value <- get(nm)
+    if (!is.logical(value) || length(value) != 1L || is.na(value))
+      cli::cli_abort("{nm} must be TRUE or FALSE.")
+  }
+  if (!is.null(scenarios) &&
+      (!is.character(scenarios) || anyNA(scenarios) ||
+       any(!nzchar(trimws(scenarios)))))
+    cli::cli_abort("{.arg scenarios} must contain nonmissing scenario IDs.")
 
-  ## Discover scenarios ---------------------------------------------------
-  summary_files <- list.files(data_dir, pattern = "_summary\\.csv$",
-                              full.names = FALSE)
+  summary_files <- list.files(data_dir, pattern = "_summary\\.csv$")
   available <- sub("_summary\\.csv$", "", summary_files)
-
   if (length(available) == 0)
-    cli::cli_abort(
-      c("No simulation outputs found in {.path {data_dir}}.",
-        "i" = "Each scenario needs a _summary.csv file."
-      )
-    )
-
+    cli::cli_abort(c("No simulation outputs found in {.path {data_dir}}.",
+                    "i" = "Each scenario needs a _summary.csv file."))
   if (!is.null(scenarios)) {
     missing_sc <- setdiff(scenarios, available)
     if (length(missing_sc) > 0)
@@ -59,101 +70,127 @@ read_simulation <- function(data_dir,
     scenarios <- available
   }
 
-  ## Load helper ----------------------------------------------------------
-  load_table <- function(sc, suffix) {
-    f <- file.path(data_dir, paste0(sc, "_", suffix, ".csv"))
-    if (!file.exists(f)) return(NULL)
-    t <- readr::read_csv(f, show_col_types = FALSE,
-                         progress = FALSE)
-    if (!"scenario" %in% names(t)) t$scenario <- sc
-    t
+  read_csv <- function(path) {
+    tbl <- readr::read_csv(path, show_col_types = FALSE, progress = FALSE,
+                          name_repair = "minimal")
+    if (validate && (anyDuplicated(names(tbl)) || any(!nzchar(names(tbl)))))
+      cli::cli_abort("CSV {.path {path}} has empty or duplicate column names.")
+    if (validate && nrow(readr::problems(tbl)) > 0)
+      cli::cli_abort("CSV {.path {path}} has parsing problems.")
+    tbl
   }
-
+  load_table <- function(sc, suffix) {
+    path <- file.path(data_dir, paste0(sc, "_", suffix, ".csv"))
+    if (!file.exists(path)) {
+      if (validate && suffix != "timeseries")
+        cli::cli_abort("Required simulation file {.path {path}} is missing.")
+      return(tibble::tibble())
+    }
+    tbl <- read_csv(path)
+    if (validate && suffix != "timeseries" && nrow(tbl) == 0)
+      cli::cli_abort("Required simulation file {.path {path}} has no rows.")
+    if (!"scenario" %in% names(tbl)) {
+      tbl$scenario <- rep(sc, nrow(tbl))
+    } else if (validate &&
+               (anyNA(tbl$scenario) || any(tbl$scenario != sc))) {
+      cli::cli_abort("Scenario IDs in {.path {path}} must all equal {.val {sc}}.")
+    }
+    tbl
+  }
+  detect_profile <- function(tbl) {
+    has_progress <- "progress_gain" %in% names(tbl)
+    has_event <- "event_rate" %in% names(tbl)
+    if (has_progress && has_event) "mixed"
+    else if (has_progress) "Profile_B"
+    else if (has_event) "Profile_A"
+    else "unknown"
+  }
   if (verbose) cli::cli_alert_info(
     "Loading {length(scenarios)} scenario{?s} from {.path {data_dir}}"
   )
-
-  summary_tbls <- purrr::map(scenarios, load_table, "summary") |>
-    purrr::compact()
-  entity_tbls  <- purrr::map(scenarios, load_table, "entities") |>
-    purrr::compact()
-  tseries_tbls <- purrr::map(scenarios, load_table, "timeseries") |>
-    purrr::compact()
-
-  result <- list(
-    summary    = if (length(summary_tbls) > 0) dplyr::bind_rows(summary_tbls)
-                 else tibble::tibble(),
-    entities   = if (length(entity_tbls)  > 0) dplyr::bind_rows(entity_tbls)
-                 else tibble::tibble(),
-    timeseries = if (length(tseries_tbls) > 0) dplyr::bind_rows(tseries_tbls)
-                 else tibble::tibble()
-  )
-
-  ## Join metadata --------------------------------------------------------
-  if (exists("scenario_meta", where = asNamespace("dynasimR"),
-             inherits = FALSE)) {
-    meta <- get("scenario_meta", envir = asNamespace("dynasimR"))
-    join_meta <- function(tbl) {
-      if (nrow(tbl) == 0) return(tbl)
-      dplyr::left_join(tbl, meta, by = c("scenario" = "id"))
+  tables <- lapply(scenarios, function(sc) {
+    summary <- load_table(sc, "summary")
+    profile <- detect_profile(summary)
+    result <- list(summary = summary,
+                   entities = load_table(sc, "entities"),
+                   timeseries = load_table(sc, "timeseries"))
+    for (nm in names(result)) {
+      tbl <- result[[nm]]
+      if (validate && "profile_type" %in% names(tbl) &&
+          profile %in% c("Profile_A", "Profile_B") &&
+          any(!is.na(tbl$profile_type) & tbl$profile_type != profile))
+        cli::cli_abort("Conflicting profile_type in {.val {sc}} {nm} table.")
+      if (!"profile_type" %in% names(tbl))
+        tbl$profile_type <- rep(profile, nrow(tbl))
+      else tbl$profile_type[is.na(tbl$profile_type)] <- profile
+      result[[nm]] <- tbl
     }
-    result$summary  <- join_meta(result$summary)
-    result$entities <- join_meta(result$entities)
-    result$metadata <- dplyr::filter(meta, .data$id %in% scenarios)
-  } else {
-    result$metadata <- tibble::tibble(id = scenarios)
+    if (validate) result <- validate_dynasimR_data(result, strict = TRUE)
+    result
+  })
+  names(tables) <- scenarios
+  result <- lapply(c("summary", "entities", "timeseries"), function(nm)
+    dplyr::bind_rows(lapply(tables, `[[`, nm)))
+  names(result) <- c("summary", "entities", "timeseries")
+
+  meta_path <- file.path(data_dir, "scenario_metadata.csv")
+  meta <- if (file.exists(meta_path)) read_csv(meta_path)
+          else tibble::tibble(id = scenarios)
+  .require_cols(meta, "id", where = "scenario_metadata.csv")
+  if (anyNA(meta$id) || any(!nzchar(trimws(as.character(meta$id)))) ||
+      anyDuplicated(meta$id))
+    cli::cli_abort("scenario_metadata.csv needs unique, nonmissing IDs.")
+  meta$id <- as.character(meta$id)
+  meta <- dplyr::left_join(tibble::tibble(id = scenarios), meta, by = "id")
+  example_dir <- system.file("extdata", package = "dynasimR")
+  is_example <- nzchar(example_dir) &&
+    identical(normalizePath(data_dir), normalizePath(example_dir))
+  if (is_example) {
+    bundled <- getExportedValue("dynasimR", "scenario_meta")
+    absent <- setdiff(names(bundled), names(meta))
+    meta <- dplyr::left_join(meta, bundled[c("id", absent)], by = "id")
   }
+  join_meta <- function(tbl) {
+    if (nrow(tbl) == 0) return(tbl)
+    matched <- meta[match(tbl$scenario, meta$id), , drop = FALSE]
+    for (nm in setdiff(names(meta), "id")) {
+      incoming <- matched[[nm]]
+      if (!nm %in% names(tbl)) {
+        tbl[[nm]] <- incoming
+      } else {
+        current <- tbl[[nm]]
+        conflict <- !is.na(current) & !is.na(incoming) &
+          as.character(current) != as.character(incoming)
+        if (validate && any(conflict))
+          cli::cli_abort("Metadata conflicts with table column {.val {nm}}.")
+        tbl[[nm]] <- dplyr::coalesce(current, incoming)
+      }
+    }
+    tbl
+  }
+  result$summary <- join_meta(result$summary)
+  result$entities <- join_meta(result$entities)
+  result$timeseries <- join_meta(result$timeseries)
+  result$metadata <- meta
+  profiles <- unique(result$summary$profile_type)
+  profile_type <- if (length(profiles) == 1L) profiles else "mixed"
 
-  ## Profile detection ----------------------------------------------------
-  has_progress <- "progress_gain" %in% names(result$summary)
-  has_event    <- "event_rate"    %in% names(result$summary)
-  profile_type <- dplyr::case_when(
-    has_progress & !has_event ~ "Profile_B",
-    has_event & !has_progress ~ "Profile_A",
-    has_progress &  has_event ~ "mixed",
-    TRUE                      ~ "unknown"
-  )
-
-  ## Prefix-convention warning --------------------------------------------
   missing_prefix <- scenarios[!grepl("^[AB]-", scenarios)]
   if (length(missing_prefix) > 0)
     cli::cli_warn(c(
       "Scenario IDs without prefix: {.val {missing_prefix}}",
-      "i" = paste(
-        "Recommended: 'A-S00'-'A-S14' (Profile A) or",
-        "'B-S00'-'B-S20' (Profile B).",
-        "Prefixes are required when mixing both profiles.")
+      "i" = "Recommended prefixes are 'A-' (Profile A) and 'B-' (Profile B)."
     ))
-
-  ## load_info ------------------------------------------------------------
   result$load_info <- list(
-    timestamp    = Sys.time(),
-    data_dir     = data_dir,
-    scenarios    = scenarios,
-    profile_type = profile_type,
-    n_summary    = nrow(result$summary),
-    n_entities   = nrow(result$entities)
+    timestamp = Sys.time(), data_dir = normalizePath(data_dir),
+    scenarios = scenarios, profile_type = profile_type,
+    n_summary = nrow(result$summary), n_entities = nrow(result$entities)
   )
-
-  ## Stamp profile_type on all tables (if not already present) -----------
-  if (nrow(result$summary) > 0 &&
-      !"profile_type" %in% names(result$summary))
-    result$summary$profile_type <- profile_type
-  if (nrow(result$entities) > 0 &&
-      !"profile_type" %in% names(result$entities))
-    result$entities$profile_type <- profile_type
-  if (nrow(result$timeseries) > 0 &&
-      !"profile_type" %in% names(result$timeseries))
-    result$timeseries$profile_type <- profile_type
-
-  if (validate) result <- validate_dynasimR_data(result)
-
+  if (validate) result <- validate_dynasimR_data(result, strict = TRUE)
   if (verbose) cli::cli_alert_success(
     "Loaded {nrow(result$summary)} summary row{?s}, ",
-    "{nrow(result$entities)} entit{?y/ies} ",
-    "[{profile_type}]"
+    "{nrow(result$entities)} entit{?y/ies} [{profile_type}]"
   )
-
   structure(result, class = c("dynasimR_data", "list"))
 }
 

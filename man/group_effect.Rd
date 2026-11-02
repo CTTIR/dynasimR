@@ -31,7 +31,8 @@ Default \code{"cost"}.}
 
 \item{alpha}{Numeric. Significance level. Default \code{0.05}.}
 
-\item{n_bootstrap}{Integer. Bootstrap replicates. Default \code{1000}.}
+\item{n_bootstrap}{Integer. Bootstrap replicates. Default \code{1000}; \code{0}
+omits confidence intervals.}
 }
 \value{
 An S3 object of class \code{dynasimR_group_effect} with slots
@@ -41,6 +42,9 @@ An S3 object of class \code{dynasimR_group_effect} with slots
 \description{
 Compares two Profile B scenarios that differ only in inclusion
 rules for which groups are prioritised, and returns completion
-rates, cost per completion and the difference (delta) with
-bootstrap CIs.
+rates, the supplied cost metric and their differences (A minus B) with
+bootstrap CIs. Cost is summarized as supplied, not divided by completion
+rates. Replications are assumed independent and unpaired. Missing values
+are omitted; each scenario needs at least one observed completion rate.
+Intervals are unavailable with fewer than two observations per group.
 }

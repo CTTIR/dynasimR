@@ -4,7 +4,16 @@
 #' that differ only in the allocation policy. Returns deltas on the
 #' event rate and the Compliance Index, Cohen's d, risk differences
 #' and an auto-generated narrative suitable for pasting into a
-#' report.
+#' report. All event-rate differences are signed policy A minus B.
+#' Cohen's d uses the independent-sample, degrees-of-freedom-weighted
+#' pooled standard deviation. Bootstrap intervals and Wilcoxon tests
+#' assume independent simulation replications, not paired runs.
+#' `NNT_surrogate` is the reciprocal absolute mean rate difference;
+#' its direction is supplied by `Risk_Difference_event`. Missing replicate
+#' rates are omitted and effective counts are recorded. Each scenario
+#' needs an observed rate; intervals and standardized effects need at least
+#' two observations per scenario. Subgroup rates use the binary `event`
+#' flag, or `status == "TERMINATED"` only when the flag column is absent.
 #'
 #' No hardcoded defaults are used - you **must** supply both scenario
 #' IDs explicitly, so that the same function works for Profile A
@@ -17,7 +26,7 @@
 #'   (the comparator).
 #' @param alpha Numeric. Significance level. Default `0.05`.
 #' @param n_bootstrap Integer. Bootstrap replicates for CIs.
-#'   Default `1000`.
+#'   Default `1000`; `0` omits intervals.
 #'
 #' @return An S3 object of class `dynasimR_policy` with slots
 #'   `delta_event`, `compliance_comparison`, `effect_sizes`,
@@ -43,7 +52,16 @@ policy_effect <- function(data,
       "{.arg policy_b_scenario} required."
     )
 
+  .validate_n_boot(n_bootstrap)
+  if (!is.numeric(alpha) || length(alpha) != 1L || is.na(alpha) ||
+      !is.finite(alpha) || alpha <= 0 || alpha >= 1)
+    cli::cli_abort("{.arg alpha} must be between 0 and 1 (exclusive).")
+
   d <- if (inherits(data, "dynasimR_data")) data$summary else data
+  .require_cols(d, c("scenario", "event_rate"), where = "summary")
+  .validate_rate(d$event_rate, "event_rate")
+  if ("compliance_index" %in% names(d))
+    .validate_rate(d$compliance_index, "compliance_index")
 
   a <- dplyr::filter(d, .data$scenario == policy_a_scenario)
   b <- dplyr::filter(d, .data$scenario == policy_b_scenario)
@@ -53,6 +71,9 @@ policy_effect <- function(data,
       "Scenario {.val {policy_a_scenario}} or ",
       "{.val {policy_b_scenario}} not found in data."
     )
+
+  if (!any(is.finite(a$event_rate)) || !any(is.finite(b$event_rate)))
+    cli::cli_abort("Each policy scenario needs at least one observed event rate.")
 
   delta_event <- .compute_delta_event(data,
     policy_a_scenario, policy_b_scenario, alpha, n_bootstrap)
@@ -67,7 +88,7 @@ policy_effect <- function(data,
 
   narrative <- .generate_policy_narrative(
     delta_event, comp_cmp, effects, wtests,
-    policy_a_scenario, policy_b_scenario
+    policy_a_scenario, policy_b_scenario, alpha
   )
 
   structure(
@@ -82,7 +103,8 @@ policy_effect <- function(data,
         policy_b_scenario = policy_b_scenario,
         alpha             = alpha,
         n_bootstrap       = n_bootstrap,
-        n_reps            = nrow(a)
+        n_reps            = sum(is.finite(a$event_rate)),
+        n_reps_b          = sum(is.finite(b$event_rate))
       )
     ),
     class = c("dynasimR_policy", "list")
@@ -139,14 +161,13 @@ print.dynasimR_policy <- function(x, ...) {
   # stratified - requires entity-level data
   ent <- if (inherits(data, "dynasimR_data")) data$entities else NULL
   if (!is.null(ent) && "group" %in% names(ent)) {
+    ent$.__event <- .policy_entity_event(ent)
     strat <- ent |>
       dplyr::filter(.data$scenario %in% c(a_id, b_id)) |>
       dplyr::group_by(.data$scenario, .data$replication,
                       .data$group) |>
       dplyr::summarise(
-        rate = mean(.data$event == 1 |
-                    .data$status == "TERMINATED",
-                    na.rm = TRUE),
+        rate = mean(.data$.__event, na.rm = TRUE),
         .groups = "drop"
       )
     for (g in unique(strat$group)) {
@@ -187,38 +208,33 @@ print.dynasimR_policy <- function(x, ...) {
 
   ca <- get_ci(a)
   cb <- get_ci(b)
+  ci_a <- .boot_quantile_ci(ca, n_boot,
+                            probs = c(alpha / 2, 1 - alpha / 2))
+  ci_b <- .boot_quantile_ci(cb, n_boot,
+                            probs = c(alpha / 2, 1 - alpha / 2))
 
   tibble::tibble(
-    scenario           = c(a_id, b_id),
-    median_compliance  = c(stats::median(ca, na.rm = TRUE),
-                           stats::median(cb, na.rm = TRUE)),
-    ci_lo              = c(
-      .boot_quantile_ci(ca, n_boot,
-                        probs = c(alpha / 2, 1 - alpha / 2))[1],
-      .boot_quantile_ci(cb, n_boot,
-                        probs = c(alpha / 2, 1 - alpha / 2))[1]
-    ),
-    ci_hi              = c(
-      .boot_quantile_ci(ca, n_boot,
-                        probs = c(alpha / 2, 1 - alpha / 2))[2],
-      .boot_quantile_ci(cb, n_boot,
-                        probs = c(alpha / 2, 1 - alpha / 2))[2]
-    ),
-    n                  = c(length(ca), length(cb))
+    scenario          = c(a_id, b_id),
+    median_compliance = c(stats::median(ca, na.rm = TRUE),
+                          stats::median(cb, na.rm = TRUE)),
+    ci_lo             = c(ci_a[1], ci_b[1]),
+    ci_hi             = c(ci_a[2], ci_b[2]),
+    n                 = c(sum(is.finite(ca)), sum(is.finite(cb)))
   )
 }
 
 #' @keywords internal
 #' @noRd
 .compute_effect_sizes <- function(a, b) {
-  aa <- a$event_rate
-  bb <- b$event_rate
-
-  pooled_sd <- sqrt((stats::var(aa, na.rm = TRUE) +
-                     stats::var(bb, na.rm = TRUE)) / 2)
-  cohen_d   <- if (pooled_sd > 0)
-    (mean(aa, na.rm = TRUE) - mean(bb, na.rm = TRUE)) / pooled_sd
-  else NA_real_
+  aa <- a$event_rate[is.finite(a$event_rate)]
+  bb <- b$event_rate[is.finite(b$event_rate)]
+  pooled_sd <- if (length(aa) >= 2 && length(bb) >= 2) {
+    sqrt(((length(aa) - 1) * stats::var(aa) +
+          (length(bb) - 1) * stats::var(bb)) /
+         (length(aa) + length(bb) - 2))
+  } else NA_real_
+  cohen_d <- if (is.finite(pooled_sd) && pooled_sd > 0)
+    (mean(aa) - mean(bb)) / pooled_sd else NA_real_
 
   risk_diff <- mean(aa, na.rm = TRUE) - mean(bb, na.rm = TRUE)
   nnt <- if (!is.na(risk_diff) && risk_diff != 0)
@@ -240,6 +256,8 @@ print.dynasimR_policy <- function(x, ...) {
   # overall
   a_all <- d$event_rate[d$scenario == a_id]
   b_all <- d$event_rate[d$scenario == b_id]
+  a_all <- a_all[is.finite(a_all)]
+  b_all <- b_all[is.finite(b_all)]
   rows <- list()
   if (length(a_all) > 0 && length(b_all) > 0) {
     wt <- suppressWarnings(stats::wilcox.test(a_all, b_all,
@@ -254,14 +272,13 @@ print.dynasimR_policy <- function(x, ...) {
   # stratified via entities - optional
   ent <- if (inherits(data, "dynasimR_data")) data$entities else NULL
   if (!is.null(ent) && "group" %in% names(ent)) {
+    ent$.__event <- .policy_entity_event(ent)
     strat <- ent |>
       dplyr::filter(.data$scenario %in% c(a_id, b_id)) |>
       dplyr::group_by(.data$scenario, .data$replication,
                       .data$group) |>
       dplyr::summarise(
-        rate = mean(.data$event == 1 |
-                    .data$status == "TERMINATED",
-                    na.rm = TRUE),
+        rate = mean(.data$.__event, na.rm = TRUE),
         .groups = "drop"
       )
     for (g in unique(strat$group)) {
@@ -269,6 +286,8 @@ print.dynasimR_policy <- function(x, ...) {
                        strat$group == g]
       bb <- strat$rate[strat$scenario == b_id &
                        strat$group == g]
+      aa <- aa[is.finite(aa)]
+      bb <- bb[is.finite(bb)]
       if (length(aa) < 2 || length(bb) < 2) next
       wt <- suppressWarnings(stats::wilcox.test(aa, bb,
                                                 exact = FALSE))
@@ -294,30 +313,44 @@ print.dynasimR_policy <- function(x, ...) {
 #' @keywords internal
 #' @noRd
 .generate_policy_narrative <- function(delta, comp, effects, tests,
-                                       a_id, b_id) {
-
+                                       a_id, b_id, alpha = 0.05) {
   safe <- function(x) if (length(x) == 0) NA_real_ else x[1]
-
   all_row <- delta[delta$group == "all", ]
   d_med <- safe(all_row$median_pct_points)
-  d_lo  <- safe(all_row$ci_lo)
-  d_hi  <- safe(all_row$ci_hi)
-
+  d_lo <- safe(all_row$ci_lo)
+  d_hi <- safe(all_row$ci_hi)
   w_all <- tests[tests$group == "all", ]
-  w_w   <- safe(w_all$statistic)
-  w_p   <- safe(w_all$p_adjusted)
-
+  w_w <- safe(w_all$statistic)
+  w_p <- safe(w_all$p_adjusted)
   c_a <- safe(comp$median_compliance[comp$scenario == a_id])
   c_b <- safe(comp$median_compliance[comp$scenario == b_id])
 
-  p_str <- .format_p(w_p)
+  direction <- if (!is.finite(d_med)) "unavailable" else if (d_med < 0)
+    "lower under policy A" else if (d_med > 0) "higher under policy A" else
+      "equal between the policies"
+  interval <- if (all(is.finite(c(d_lo, d_hi))))
+    glue::glue("{format(100 * (1 - alpha), trim = TRUE)}% CI: {round(d_lo, 1)} to {round(d_hi, 1)}") else
+      "bootstrap CI unavailable"
+  comparison <- if (!all(is.finite(c(c_a, c_b))))
+    "The Compliance Index comparison was unavailable." else {
+      comp_direction <- if (c_a > c_b) "higher" else if (c_a < c_b) "lower" else "equal"
+      glue::glue("The Compliance Index was {comp_direction} under policy A ({round(c_a, 3)} vs. {round(c_b, 3)}).")
+    }
+  test <- if (is.finite(w_p))
+    glue::glue("Wilcoxon test: W = {round(w_w, 0)}, adjusted p {.format_p(w_p)}") else
+      "Wilcoxon test unavailable"
+  as.character(glue::glue(
+    "The policy A-minus-B event-rate difference (scenario {a_id} vs. {b_id}) ",
+    "was {round(d_med, 1)} percentage points ({interval}); the event rate was ",
+    "{direction} ({test}). {comparison}"
+  ))
+}
 
-  glue::glue(
-    "Under policy A (scenario {a_id}), an event-rate reduction of ",
-    "{round(abs(d_med), 1)} percentage points (95\\%-CI: ",
-    "{round(d_lo, 1)} to {round(d_hi, 1)}) was observed versus ",
-    "policy B (scenario {b_id}) (Wilcoxon test: W = ",
-    "{round(w_w, 0)}, p {p_str}). The Compliance Index was higher ",
-    "under policy A ({round(c_a, 3)} vs. {round(c_b, 3)})."
-  )
+.policy_entity_event <- function(ent) {
+  if ("event" %in% names(ent)) {
+    .validate_binary(ent$event, "event", allow_na = TRUE)
+    return(as.numeric(ent$event))
+  }
+  .require_cols(ent, "status", where = "entities")
+  as.numeric(ent$status == "TERMINATED")
 }

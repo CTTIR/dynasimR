@@ -2,7 +2,7 @@
 % Please edit documentation in R/sensitivity.R
 \name{morris_screening}
 \alias{morris_screening}
-\title{Morris-style sensitivity screening from simulation replicates}
+\title{Standardized univariate sensitivity screening}
 \usage{
 morris_screening(data, outcome = "event_rate", inputs)
 }
@@ -12,17 +12,22 @@ morris_screening(data, outcome = "event_rate", inputs)
 \item{outcome}{Character. Column name of the outcome to screen.
 Default \code{"event_rate"}.}
 
-\item{inputs}{Character vector. Column names of simulation inputs
-(must be numeric) to assess.}
+\item{inputs}{Character vector. Numeric simulation input columns.
+Each input needs at least three paired complete observations and
+variation in both the input and outcome; otherwise its statistics
+and rank are \code{NA}, with a reason in \code{status} and a warning.}
 }
 \value{
-A tibble with columns \code{input}, \code{mu_star} (mean absolute
-change), \code{sigma}, \code{rank}.
+A tibble with \code{input}, legacy \code{mu_star} (absolute standardized
+slope, equal to absolute Pearson correlation), legacy \code{sigma}
+(standardized regression residual SD), \code{r2}, \code{n_observed}, \code{status}
+and \code{rank}. Missing pairs are omitted independently for each input.
 }
 \description{
-Uses per-replicate variation to screen the most influential input
-parameters on an outcome metric. The implementation is a simple
-variance-based screening; for a full Morris design use the
-\code{sensitivity} package directly and pass the results here for
-visualisation.
+Fits a separate linear association between each input and the outcome,
+after standardizing paired complete observations. Despite its legacy
+name, this function does not implement Morris elementary effects or
+a variance decomposition. It can miss nonlinear effects and cannot
+separate correlated inputs or establish causality. For a Morris design
+use \code{sensitivity::morris()} on an appropriate simulation design.
 }

@@ -25,7 +25,8 @@ plot_km(
 
 \item{show_ci}{Logical. Show CI ribbon. Default \code{TRUE}.}
 
-\item{show_risktable}{Logical. Show risk table (requires survminer).
+\item{show_risktable}{Logical. Show numbers at risk immediately before
+each displayed time (requires patchwork).
 Default \code{FALSE}.}
 
 \item{show_pval}{Logical. Annotate log-rank p-value. Default \code{TRUE}.}
@@ -33,19 +34,22 @@ Default \code{FALSE}.}
 \item{show_median}{Logical. Draw horizontal 50\% reference line.
 Default \code{TRUE}.}
 
-\item{color_by}{Character. Aesthetic grouping. One of \code{"scenario"},
-\code{"group"}, \code{"policy"}. Default \code{"scenario"}.}
+\item{color_by}{Character. Palette hint: \code{"policy"} uses policy colours
+for at most two strata; otherwise uses a discrete palette. Curves always
+retain the strata fitted by \code{\link[=km_estimate]{km_estimate()}}; this does not regroup them.}
 
 \item{title, subtitle, xlab, ylab}{Character overrides.}
 
 \item{xlim}{Numeric length-2. Restrict x range. Default \code{NULL}.}
 
-\item{manuscript_width}{Numeric. mm width hint. Default \code{174}.}
+\item{manuscript_width}{Numeric. Retained for compatibility; does not
+resize the plot. Set \code{width_mm} in \code{\link[=export_figure]{export_figure()}} instead.}
 
 \item{...}{Unused.}
 }
 \value{
-A ggplot2 object.
+A ggplot2 object, or a patchwork composition when
+\code{show_risktable = TRUE}.
 }
 \description{
 Plots a \code{dynasimR_km} object.

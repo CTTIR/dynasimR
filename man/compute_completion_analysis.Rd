@@ -8,14 +8,22 @@ compute_completion_analysis(data, covariates = c("scenario", "severity"))
 }
 \arguments{
 \item{data}{A \code{dynasimR_data} object or entity tibble with a
-\code{completion_outcome} column (factor).}
+\code{completion_outcome} column (factor) and \code{scenario}. At least two
+observed outcome classes are required. Missing outcomes or model
+inputs and rank-deficient predictor designs are rejected rather than
+silently changing the fitted sample or model.}
 
 \item{covariates}{Character vector. Additional predictors.
-Default \code{c("scenario", "severity")}.}
+Default \code{c("scenario", "severity")}. Every requested column must
+exist; predictors are interpreted as column names, not R expressions.}
 }
 \value{
 An S3 object of class \code{dynasimR_completion} with slots
-\code{fit}, \code{tidy}, \code{proportions}, \code{params}.
+\code{fit}, \code{tidy}, \code{proportions}, \code{params}. Coefficient rows name the
+actual non-reference outcome classes; \code{params$reference_outcome} is
+the first factor level and \code{params$n_obs} is the analyzed sample size.
+When the optional package \code{nnet} is unavailable, only proportions
+are returned with a warning.
 }
 \description{
 Fits a multinomial logistic regression of completion outcome
