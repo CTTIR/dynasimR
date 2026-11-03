@@ -32,4 +32,6 @@ tornado_data(data, baseline, perturbations, outcome = "event_rate")
 ## Value
 
 A tibble suitable for a tornado plot with columns `scenario`, `delta`,
-`lo`, `hi`, sorted by absolute delta.
+`lo`, `hi`, sorted by absolute delta. `lo` and `hi` are the
+perturbation's observed percentile range minus the fixed baseline
+median, not a confidence interval for their difference.

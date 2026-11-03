@@ -5,14 +5,8 @@ logo](figures/logo-dark.svg)
 
 [![R-CMD-check](https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/CTTIR/dynasimR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/dynasimR/)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/dynasimR)](https://CRAN.R-project.org/package=dynasimR)
 [![Codecov test
 coverage](https://codecov.io/gh/CTTIR/dynasimR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/dynasimR?branch=main)
-[![CRAN
-downloads](https://cranlogs.r-pkg.org/badges/dynasimR)](https://cran.r-project.org/package=dynasimR)
-[![CRAN downloads
-total](https://cranlogs.r-pkg.org/badges/grand-total/dynasimR)](https://cran.r-project.org/package=dynasimR)
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lifecycle:
@@ -35,7 +29,7 @@ print(sim)
 #> • Profile: "Profile_A"
 #> • Summary rows: 200
 #> • Entity events: 16000
-#> • Loaded: "2026-10-28 07:42"
+#> • Loaded: "2026-11-03 08:53"
 #> • Path: /home/runner/work/_temp/Library/dynasimR/extdata
 ```
 
@@ -46,8 +40,6 @@ print(sim)
 km <- km_estimate(sim, endpoint = "stage2",
                   stratify_by = "scenario")
 plot_km(km, title = "Time-to-stage-2")
-#> Warning: Removed 2 rows containing missing values or values outside the scale range
-#> (`geom_ribbon()`).
 ```
 
 ![](getting-started_files/figure-html/unnamed-chunk-3-1.png)
@@ -61,7 +53,7 @@ pol <- policy_effect(sim,
   policy_b_scenario = "A-S07",
   n_bootstrap       = 200)
 cat(pol$narrative)
-#> Under policy A (scenario A-S08), an event-rate reduction of 7.4 percentage points (95\%-CI: -9 to -5.6) was observed versus policy B (scenario A-S07) (Wilcoxon test: W = 215, p < 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658).
+#> The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was -7.4 percentage points (95% CI: -9 to -5.6); the event rate was lower under policy A (Wilcoxon test: W = 215, adjusted p < 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658).
 ```
 
 ## Autonomy trade-off
@@ -78,7 +70,6 @@ al <- al_efficiency(
   n_bootstrap          = 200
 )
 plot_al_tradeoff(al)
-#> `height` was translated to `width`.
 ```
 
 ![](getting-started_files/figure-html/unnamed-chunk-5-1.png)

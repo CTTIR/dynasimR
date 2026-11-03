@@ -3,11 +3,29 @@
 that differ only in the allocation policy. Returns deltas on the
 event rate and the Compliance Index, Cohen's d, risk differences
 and an auto-generated narrative suitable for pasting into a
-report."><meta property="og:description" content="Computes the full suite of effect metrics comparing two scenarios
+report. All event-rate differences are signed policy A minus B.
+Cohen's d uses the independent-sample, degrees-of-freedom-weighted
+pooled standard deviation. Bootstrap intervals and Wilcoxon tests
+assume independent simulation replications, not paired runs.
+NNT_surrogate is the reciprocal absolute mean rate difference;
+its direction is supplied by Risk_Difference_event. Missing replicate
+rates are omitted and effective counts are recorded. Each scenario
+needs an observed rate; intervals and standardized effects need at least
+two observations per scenario. Subgroup rates use the binary event
+flag, or status == &quot;TERMINATED&quot; only when the flag column is absent."><meta property="og:description" content="Computes the full suite of effect metrics comparing two scenarios
 that differ only in the allocation policy. Returns deltas on the
 event rate and the Compliance Index, Cohen's d, risk differences
 and an auto-generated narrative suitable for pasting into a
-report."><meta property="og:image" content="https://cttir.github.io/dynasimR/logo.svg"><meta name="theme-color" content="#1565c0"><!-- Package browser icons -->
+report. All event-rate differences are signed policy A minus B.
+Cohen's d uses the independent-sample, degrees-of-freedom-weighted
+pooled standard deviation. Bootstrap intervals and Wilcoxon tests
+assume independent simulation replications, not paired runs.
+NNT_surrogate is the reciprocal absolute mean rate difference;
+its direction is supplied by Risk_Difference_event. Missing replicate
+rates are omitted and effective counts are recorded. Each scenario
+needs an observed rate; intervals and standardized effects need at least
+two observations per scenario. Subgroup rates use the binary event
+flag, or status == &quot;TERMINATED&quot; only when the flag column is absent."><meta property="og:image" content="https://cttir.github.io/dynasimR/logo.svg"><meta name="theme-color" content="#1565c0"><!-- Package browser icons -->
 <link rel="icon" type="image/x-icon" href="../favicon.ico?v=ebbb2768fa72">
 <link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png?v=ebbb2768fa72">
 <link rel="icon" type="image/svg+xml" sizes="any" href="../favicon.svg?v=ebbb2768fa72">
@@ -23,7 +41,7 @@ report."><meta property="og:image" content="https://cttir.github.io/dynasimR/log
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">dynasimR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +79,16 @@ report."><meta property="og:image" content="https://cttir.github.io/dynasimR/log
 that differ only in the allocation policy. Returns deltas on the
 event rate and the Compliance Index, Cohen's d, risk differences
 and an auto-generated narrative suitable for pasting into a
-report.</p>
+report. All event-rate differences are signed policy A minus B.
+Cohen's d uses the independent-sample, degrees-of-freedom-weighted
+pooled standard deviation. Bootstrap intervals and Wilcoxon tests
+assume independent simulation replications, not paired runs.
+<code>NNT_surrogate</code> is the reciprocal absolute mean rate difference;
+its direction is supplied by <code>Risk_Difference_event</code>. Missing replicate
+rates are omitted and effective counts are recorded. Each scenario
+needs an observed rate; intervals and standardized effects need at least
+two observations per scenario. Subgroup rates use the binary <code>event</code>
+flag, or <code>status == "TERMINATED"</code> only when the flag column is absent.</p>
     </div>
 
     <div class="section level2">
@@ -98,7 +125,7 @@ report.</p>
 
 <dt id="arg-n-bootstrap">n_bootstrap<a class="anchor" aria-label="anchor" href="#arg-n-bootstrap"></a></dt>
 <dd><p>Integer. Bootstrap replicates for CIs.
-Default <code>1000</code>.</p></dd>
+Default <code>1000</code>; <code>0</code> omits intervals.</p></dd>
 
 </dl></div>
     <div class="section level2">

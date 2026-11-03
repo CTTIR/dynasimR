@@ -15,7 +15,7 @@
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">dynasimR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,10 @@
 
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>A <code>dynasimR_data</code> object or entity tibble.</p></dd>
+<dd><p>A <code>dynasimR_data</code> object or entity tibble. Endpoint times
+must be nonnegative finite observed event or censoring times; flags
+must be 0 (censored) or 1 (event). Missing times, flags, strata, or
+model covariates are rejected rather than silently dropping entities.</p></dd>
 
 
 <dt id="arg-endpoint">endpoint<a class="anchor" aria-label="anchor" href="#arg-endpoint"></a></dt>
@@ -76,7 +79,9 @@
 
 <dt id="arg-covariates">covariates<a class="anchor" aria-label="anchor" href="#arg-covariates"></a></dt>
 <dd><p>Character vector. Covariates entering the Cox
-model. Default <code>c("scenario","severity","group")</code>.</p></dd>
+model. Default <code>c("scenario","severity","group")</code>; unavailable
+defaults are omitted with a warning for profile compatibility.
+Explicitly requested unavailable covariates are an error.</p></dd>
 
 
 <dt id="arg-reference-scenario">reference_scenario<a class="anchor" aria-label="anchor" href="#arg-reference-scenario"></a></dt>

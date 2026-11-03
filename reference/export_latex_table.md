@@ -1,8 +1,11 @@
 # Export a tibble as a publication-quality LaTeX table
 
 Produces a `booktabs`-style table using `\\botrule` instead of
-`\\bottomrule` and escaping `<`/`>` in cells. Optionally appends a
-`tablenotes` footnote.
+`\\bottomrule`. Cells, column names, captions and notes are treated as
+literal text and escaped once. Notes use a `threeparttable` environment.
+The document needs `booktabs` and, for notes, `threeparttable`; outside
+a publisher class defining `\\botrule`, add
+`\\providecommand{\\botrule}{\\bottomrule}` to the preamble.
 
 ## Usage
 
@@ -35,6 +38,8 @@ export_latex_table(
 - label:
 
   Character. LaTeX label (without the `tab:` prefix; it will be added).
+  Use letters, digits, colons, periods, underscores and hyphens,
+  starting with a letter or digit.
 
 - note:
 

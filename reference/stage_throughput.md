@@ -1,9 +1,13 @@
 # Stage throughput analysis
 
-Computes median and interquartile range of transit times for each
+Computes median and interquartile range of recorded times for each
 processing stage along the entity flow. If a `reached_stageN` column is
 present in the entity data, computes the fraction of entities completing
-each stage.
+each stage among nonmissing completion indicators. Time summaries use
+all recorded nonmissing values, including values for unreached entities
+if supplied; they are descriptive quantiles, not censoring-adjusted
+estimates. A `time_to_stageN` column may contain cumulative elapsed time
+rather than time spent in that stage.
 
 ## Usage
 

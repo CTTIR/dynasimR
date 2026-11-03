@@ -17,7 +17,7 @@ Supports several endpoints for both output profiles."><meta property="og:image" 
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">dynasimR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,7 +74,9 @@ Supports several endpoints for both output profiles.</p>
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>A <code>dynasimR_data</code> object or a tibble/data.frame
-containing entity-level columns.</p></dd>
+containing entity-level columns. Endpoint times must be nonnegative
+finite observed event or censoring times, with binary 0/1 event flags.
+Missing times, flags or strata are rejected, not silently omitted.</p></dd>
 
 
 <dt id="arg-scenarios">scenarios<a class="anchor" aria-label="anchor" href="#arg-scenarios"></a></dt>
@@ -90,7 +92,9 @@ The latter three are Profile-B-only endpoints.</p></dd>
 
 <dt id="arg-stratify-by">stratify_by<a class="anchor" aria-label="anchor" href="#arg-stratify-by"></a></dt>
 <dd><p>Character vector. Strata variables, e.g.
-<code>"scenario"</code> or <code>c("scenario", "group")</code>.</p></dd>
+<code>"scenario"</code> or <code>c("scenario", "group")</code>. Use <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>
+for a pooled curve. A log-rank p-value is unavailable for one stratum
+or when no events were observed.</p></dd>
 
 
 <dt id="arg-ci-method">ci_method<a class="anchor" aria-label="anchor" href="#arg-ci-method"></a></dt>
@@ -99,19 +103,26 @@ The latter three are Profile-B-only endpoints.</p></dd>
 
 
 <dt id="arg-n-bootstrap">n_bootstrap<a class="anchor" aria-label="anchor" href="#arg-n-bootstrap"></a></dt>
-<dd><p>Integer. Bootstrap replicates for KM CIs
-(0 = disabled). Default <code>0</code>.</p></dd>
+<dd><p>Integer. Bootstrap replicates for pointwise 95%
+percentile bands, resampling entities within each stratum. <code>0</code>
+omits bootstrap bands (default). Entities are assumed independent;
+this does not account for dependence within simulation replications.</p></dd>
 
 
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
-<dd><p>Integer. RNG seed for bootstrap. Default <code>42</code>.</p></dd>
+<dd><p>Integer. RNG seed for bootstrap. Default <code>42</code>; a supplied
+seed preserves the caller's RNG state. <code>NULL</code> uses the current RNG.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An S3 object of class <code>dynasimR_km</code> (list) with slots
 <code>fit</code>, <code>tidy</code>, <code>logrank</code>, <code>median_survival</code>, <code>boot_ci</code> and
-<code>params</code>.</p>
+<code>params</code>. <code>boot_ci</code> contains <code>strata</code>, <code>time</code>, <code>estimate</code>,
+<code>conf.low</code>, <code>conf.high</code> and successful replicate count <code>n_boot</code>,
+evaluated at time zero and the original observed times of each stratum.
+Bands are unavailable for a stratum with fewer than two entities.
+<code>tidy</code> retains the analytic intervals selected by <code>ci_method</code>.</p>
     </div>
 
     <div class="section level2">

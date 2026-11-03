@@ -36,7 +36,7 @@
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">dynasimR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,7 +104,7 @@
 </div>
 <!-- cttir-vignette-logo: end -->
 <!-- badges: start -->
-<p><a href="https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cttir.github.io/dynasimR/"><img src="https://github.com/CTTIR/dynasimR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://CRAN.R-project.org/package=dynasimR" class="external-link"><img src="https://www.r-pkg.org/badges/version/dynasimR" alt="CRAN status"></a> <a href="https://app.codecov.io/gh/CTTIR/dynasimR?branch=main" class="external-link"><img src="https://codecov.io/gh/CTTIR/dynasimR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://cran.r-project.org/package=dynasimR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/dynasimR" alt="CRAN downloads"></a> <a href="https://cran.r-project.org/package=dynasimR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/dynasimR" alt="CRAN downloads total"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
+<p><a href="https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cttir.github.io/dynasimR/"><img src="https://github.com/CTTIR/dynasimR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://app.codecov.io/gh/CTTIR/dynasimR?branch=main" class="external-link"><img src="https://codecov.io/gh/CTTIR/dynasimR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
 <p>This vignette shows how to get from raw simulation output to a
 publication-quality document with automatically filled
 <code>[XX_*]</code> placeholders.</p>
@@ -125,9 +125,14 @@ publication-quality document with automatically filled
 <span>  label    <span class="op">=</span> <span class="st">"policy"</span>,</span>
 <span>  note     <span class="op">=</span> <span class="st">"n = 50 replications per scenario."</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>The generated <code>.tex</code> uses <code>\botrule</code> and
-escapes <code>&lt;</code>/<code>&gt;</code> in character cells for
-compatibility with common publisher templates.</p>
+<p>The generated <code>.tex</code> uses <code>booktabs</code> rules and
+treats captions, notes and character cells as literal text, escaping
+LaTeX metacharacters once. Load <code>\usepackage{booktabs}</code> in
+the document preamble and, for tables with notes,
+<code>\usepackage{threeparttable}</code>. The publisher-compatible
+bottom rule is <code>\botrule</code>; if your template does not define
+it, add <code>\providecommand{\botrule}{\bottomrule}</code> to the
+preamble.</p>
 </div>
 <div class="section level2">
 <h2 id="figures-at-publication-dimensions">2. Figures at publication dimensions<a class="anchor" aria-label="anchor" href="#figures-at-publication-dimensions"></a>
@@ -137,7 +142,7 @@ compatibility with common publisher templates.</p>
 <span><span class="fu"><a href="../reference/export_figure.html">export_figure</a></span><span class="op">(</span></span>
 <span>  plot      <span class="op">=</span> <span class="fu"><a href="../reference/plot_km.html">plot_km</a></span><span class="op">(</span><span class="va">km</span><span class="op">)</span>,</span>
 <span>  filename  <span class="op">=</span> <span class="st">"figure_km.pdf"</span>,</span>
-<span>  width_mm  <span class="op">=</span> <span class="fl">174</span>,          <span class="co"># single column</span></span>
+<span>  width_mm  <span class="op">=</span> <span class="fl">174</span>,          <span class="co"># double column (88 mm for a single column)</span></span>
 <span>  height_mm <span class="op">=</span> <span class="fl">110</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -156,6 +161,14 @@ compatibility with common publisher templates.</p>
 <span>  baseline_scenario <span class="op">=</span> <span class="st">"A-S00"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">reps</span>          <span class="co"># named character vector of substitutions performed</span></span></code></pre></div>
+<p>The policy delta and its bounds are signed <strong>A minus
+B</strong>, in percentage points. The source file is preserved. Existing
+output files require <code>overwrite = TRUE</code>; unknown or
+unavailable requested results cause an error before any file is written.
+<code>dry_run = TRUE</code> returns the substitution map without
+writing. For extensionless staging paths, use
+<code>export_figure(..., format = "pdf")</code> (or <code>"png"</code> /
+<code>"svg"</code>).</p>
 </div>
 <div class="section level2">
 <h2 id="complete-placeholder-list">Complete placeholder list<a class="anchor" aria-label="anchor" href="#complete-placeholder-list"></a>

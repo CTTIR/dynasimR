@@ -19,7 +19,7 @@ a critical compliance violation."><meta property="og:image" content="https://ctt
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">dynasimR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,7 +101,7 @@ present. Default <code>TRUE</code>.</p></dd>
 
 <dt id="arg-n-bootstrap">n_bootstrap<a class="anchor" aria-label="anchor" href="#arg-n-bootstrap"></a></dt>
 <dd><p>Integer. Bootstrap replicates for CIs.
-Default <code>1000</code>.</p></dd>
+Default <code>1000</code>; <code>0</code> omits intervals.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -112,8 +112,12 @@ Default <code>1000</code>.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>For Profile B data the analogous metric uses <code>wait_days</code> with a
-14-day window (<code>window_unit = "days"</code>).</p>
+    <p>When <code>received_service</code> is supplied, only a confirmed service (1)
+counts in the numerator. Missing times or service indicators are not
+confirmed timely service and remain in the denominator. Without an
+indicator, a nonmissing time is assumed to represent received service.
+For Profile B wait times, see <code><a href="compute_wait_gap_index.html">compute_wait_gap_index()</a></code>.
+Bootstrap intervals treat entities as independent observations.</p>
     </div>
 
     <div class="section level2">

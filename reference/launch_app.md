@@ -2,7 +2,11 @@
 
 Starts the interactive analysis app bundled with dynasimR. The app
 requires simulation data; either supply a directory via `data_dir` or
-leave it `NULL` to use the bundled example data.
+leave it `NULL` to use the bundled example data. Profile B supports
+progress/completion overview, comparison and summary table export. Other
+dashboard analyses require Profile A. Mixed-profile directories must be
+separated for dashboard use; the R loading API can still read them
+together.
 
 ## Usage
 

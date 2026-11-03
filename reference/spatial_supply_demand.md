@@ -1,8 +1,10 @@
 # Supply-Demand Index (SDI) per region
 
-Computes a per-region Supply-Demand Index: the ratio of available
-service capacity to demand. Values \> 1 indicate oversupply, values \< 1
-undersupply.
+Computes the ratio of available service capacity to positive demand.
+Values \> 1 indicate oversupply, values \< 1 undersupply, and equal
+supply and demand give exactly 1. Rows with zero demand have an
+undefined ratio and are excluded from SDI summaries; a region with no
+valid ratio has `NA` SDI and `NA` undersupply status.
 
 ## Usage
 
@@ -21,7 +23,8 @@ spatial_supply_demand(
 - data:
 
   A `dynasimR_data` object or summary tibble with `region`, `supply` and
-  `demand` columns.
+  `demand` columns. Observed supply and demand must be finite and
+  nonnegative. Missing values are allowed.
 
 - region_col:
 
@@ -37,9 +40,12 @@ spatial_supply_demand(
 
 - eps:
 
-  Numeric. Offset to avoid division by zero. Default `1`.
+  Deprecated compatibility argument. No offset is applied: adding an
+  offset changes the ratio even when demand is positive.
 
 ## Value
 
-A tibble with columns `region`, `supply_median`, `demand_median`,
-`sdi_median`, `sdi_q025`, `sdi_q975`, `undersupply`.
+A tibble with the region column, `supply_median`, `demand_median`,
+`sdi_median`, `sdi_q025`, `sdi_q975`, `undersupply`, `n_observed` (valid
+paired ratios) and `n_zero_demand`. The interval is the observed 2.5th
+to 97.5th percentile range, not a confidence interval for the median.

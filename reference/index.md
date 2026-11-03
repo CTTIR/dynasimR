@@ -64,7 +64,7 @@ Compliance Index, throughput, bottlenecks.
 ## Sensitivity analysis
 
 - [`morris_screening()`](https://cttir.github.io/dynasimR/reference/morris_screening.md)
-  : Morris-style sensitivity screening from simulation replicates
+  : Standardized univariate sensitivity screening
 - [`tornado_data()`](https://cttir.github.io/dynasimR/reference/tornado_data.md)
   : Tornado-diagram data from one-at-a-time perturbation
 
@@ -85,7 +85,7 @@ Compliance Index, throughput, bottlenecks.
 - [`plot_sdi_map()`](https://cttir.github.io/dynasimR/reference/plot_sdi_map.md)
   : Supply-Demand Index choropleth
 - [`plot_cost_effectiveness()`](https://cttir.github.io/dynasimR/reference/plot_cost_effectiveness.md)
-  : Cost-effectiveness plane and CEAC curve
+  : Descriptive cost-outcome plane and net-benefit fractions
 
 ## Visualisation
 

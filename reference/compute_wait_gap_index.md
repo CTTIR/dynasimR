@@ -3,7 +3,11 @@
 Analogue of the Compliance Index for entity-flow profiles: fraction of
 entities whose wait time from arrival to activation does not exceed a
 threshold number of days (default 14). A value below `0.80` is flagged
-as a critical wait-gap.
+as a critical wait-gap. Missing wait times remain in the denominator and
+do not count as timely activation; negative or infinite waits are
+rejected. Supply observed activation waits only: encode unactivated
+entities with `NA`, not a censoring time. This index does not estimate a
+censoring-adjusted probability.
 
 ## Usage
 
@@ -38,7 +42,9 @@ compute_wait_gap_index(
 
 - n_bootstrap:
 
-  Integer. Bootstrap replicates for CIs. Default `1000`.
+  Integer. Bootstrap replicates for CIs. Default `1000`; `0` omits
+  intervals. Bootstrap intervals treat entities as independent
+  observations, without replication clustering.
 
 ## Value
 

@@ -1,8 +1,12 @@
-# Cost-effectiveness plane and CEAC curve
+# Descriptive cost-outcome plane and net-benefit fractions
 
-Plots the cost-effectiveness plane (delta cost vs. delta outcome) for a
-set of scenarios and, optionally, a cost-effectiveness acceptability
-curve (CEAC) across willingness-to-pay thresholds.
+Compares scenario medians with fixed reference medians. The optional
+threshold curve reports the observed fraction of scenario runs with
+positive incremental net benefit relative to those fixed medians. It
+does not propagate reference uncertainty, pair runs across scenarios, or
+estimate a cost-effectiveness acceptability probability. Higher outcome
+values are treated as better. Cost and willingness-to-pay units must be
+consistent with the outcome unit.
 
 ## Usage
 
@@ -22,15 +26,19 @@ plot_cost_effectiveness(
 
 - data:
 
-  A `dynasimR_data` object or summary tibble.
+  A `dynasimR_data` object or summary tibble. Every selected row,
+  including the reference, must have finite observed cost and outcome
+  values together; incomplete pairs are rejected rather than silently
+  using different observations for cost and outcome.
 
 - reference:
 
-  Character. Scenario ID treated as the comparator.
+  Character. One scenario ID used as the comparator.
 
 - scenarios:
 
-  Character vector. Scenarios to evaluate against `reference`.
+  Character vector. Unique scenario IDs to evaluate. Every requested ID
+  must occur in the input.
 
 - outcome_col:
 
@@ -42,14 +50,19 @@ plot_cost_effectiveness(
 
 - wtp:
 
-  Numeric vector. Willingness-to-pay thresholds for CEAC. Default
-  `seq(0, 2e5, length.out = 40)`.
+  Nonempty numeric vector of finite nonnegative willingness-to-pay
+  thresholds. Default `seq(0, 2e5, length.out = 40)`.
 
 - show_ceac:
 
-  Logical. If `TRUE`, return a CEAC plot instead of the CE plane.
-  Default `FALSE`.
+  Logical. Legacy argument: `TRUE` returns the observed
+  positive-net-benefit fraction curve, not an inferential CEAC. Default
+  `FALSE` returns the median cost-outcome plane.
 
 ## Value
 
-A ggplot2 object.
+A ggplot2 object. Plane data include `delta_effect`, `delta_cost`,
+`icer` (their ratio, `NA` when the effect difference is zero), and
+`n_observed`. Curve data retain the legacy `prob_ce` column name for the
+observed fraction with strictly positive net benefit; ties do not count
+as positive. These fractions are not uncertainty probabilities.

@@ -22,7 +22,9 @@ km_estimate(
 - data:
 
   A `dynasimR_data` object or a tibble/data.frame containing
-  entity-level columns.
+  entity-level columns. Endpoint times must be nonnegative finite
+  observed event or censoring times, with binary 0/1 event flags.
+  Missing times, flags or strata are rejected, not silently omitted.
 
 - scenarios:
 
@@ -38,7 +40,10 @@ km_estimate(
 - stratify_by:
 
   Character vector. Strata variables, e.g. `"scenario"` or
-  `c("scenario", "group")`.
+  `c("scenario", "group")`. Use
+  [`character()`](https://rdrr.io/r/base/character.html) for a pooled
+  curve. A log-rank p-value is unavailable for one stratum or when no
+  events were observed.
 
 - ci_method:
 
@@ -48,16 +53,25 @@ km_estimate(
 
 - n_bootstrap:
 
-  Integer. Bootstrap replicates for KM CIs (0 = disabled). Default `0`.
+  Integer. Bootstrap replicates for pointwise 95% percentile bands,
+  resampling entities within each stratum. `0` omits bootstrap bands
+  (default). Entities are assumed independent; this does not account for
+  dependence within simulation replications.
 
 - seed:
 
-  Integer. RNG seed for bootstrap. Default `42`.
+  Integer. RNG seed for bootstrap. Default `42`; a supplied seed
+  preserves the caller's RNG state. `NULL` uses the current RNG.
 
 ## Value
 
 An S3 object of class `dynasimR_km` (list) with slots `fit`, `tidy`,
-`logrank`, `median_survival`, `boot_ci` and `params`.
+`logrank`, `median_survival`, `boot_ci` and `params`. `boot_ci` contains
+`strata`, `time`, `estimate`, `conf.low`, `conf.high` and successful
+replicate count `n_boot`, evaluated at time zero and the original
+observed times of each stratum. Bands are unavailable for a stratum with
+fewer than two entities. `tidy` retains the analytic intervals selected
+by `ci_method`.
 
 ## Examples
 

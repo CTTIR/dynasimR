@@ -6,7 +6,14 @@ physical dimensions (in millimetres) and resolution.
 ## Usage
 
 ``` r
-export_figure(plot, filename, width_mm = 174, height_mm = 120, dpi = 300)
+export_figure(
+  plot,
+  filename,
+  width_mm = 174,
+  height_mm = 120,
+  dpi = 300,
+  format = NULL
+)
 ```
 
 ## Arguments
@@ -17,12 +24,13 @@ export_figure(plot, filename, width_mm = 174, height_mm = 120, dpi = 300)
 
 - filename:
 
-  Character. Output path (extension determines format).
+  Character. Output path (extension determines format unless `format` is
+  supplied).
 
 - width_mm:
 
-  Numeric. Width in mm. `174` = single-column, `88` = double-column.
-  Default `174`.
+  Numeric. Width in mm. `88` approximates one column and `174` two
+  columns; check the target journal's dimensions. Default `174`.
 
 - height_mm:
 
@@ -31,6 +39,11 @@ export_figure(plot, filename, width_mm = 174, height_mm = 120, dpi = 300)
 - dpi:
 
   Integer. Raster resolution. Default `300`.
+
+- format:
+
+  Character. Optional explicit format (`pdf`, `svg`, `png`, `tiff`, or
+  `eps`), useful for extensionless download staging paths.
 
 ## Value
 

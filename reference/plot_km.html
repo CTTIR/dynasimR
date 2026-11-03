@@ -15,7 +15,7 @@
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">dynasimR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +84,8 @@
 
 
 <dt id="arg-show-risktable">show_risktable<a class="anchor" aria-label="anchor" href="#arg-show-risktable"></a></dt>
-<dd><p>Logical. Show risk table (requires survminer).
+<dd><p>Logical. Show numbers at risk immediately before
+each displayed time (requires patchwork).
 Default <code>FALSE</code>.</p></dd>
 
 
@@ -98,8 +99,9 @@ Default <code>TRUE</code>.</p></dd>
 
 
 <dt id="arg-color-by">color_by<a class="anchor" aria-label="anchor" href="#arg-color-by"></a></dt>
-<dd><p>Character. Aesthetic grouping. One of <code>"scenario"</code>,
-<code>"group"</code>, <code>"policy"</code>. Default <code>"scenario"</code>.</p></dd>
+<dd><p>Character. Palette hint: <code>"policy"</code> uses policy colours
+for at most two strata; otherwise uses a discrete palette. Curves always
+retain the strata fitted by <code><a href="km_estimate.html">km_estimate()</a></code>; this does not regroup them.</p></dd>
 
 
 <dt id="arg-title-subtitle-xlab-ylab">title, subtitle, xlab, ylab<a class="anchor" aria-label="anchor" href="#arg-title-subtitle-xlab-ylab"></a></dt>
@@ -111,7 +113,8 @@ Default <code>TRUE</code>.</p></dd>
 
 
 <dt id="arg-manuscript-width">manuscript_width<a class="anchor" aria-label="anchor" href="#arg-manuscript-width"></a></dt>
-<dd><p>Numeric. mm width hint. Default <code>174</code>.</p></dd>
+<dd><p>Numeric. Retained for compatibility; does not
+resize the plot. Set <code>width_mm</code> in <code><a href="export_figure.html">export_figure()</a></code> instead.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -120,7 +123,8 @@ Default <code>TRUE</code>.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A ggplot2 object.</p>
+    <p>A ggplot2 object, or a patchwork composition when
+<code>show_risktable = TRUE</code>.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

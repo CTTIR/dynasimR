@@ -5,14 +5,8 @@ logo](figures/logo-dark.svg)
 
 [![R-CMD-check](https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/CTTIR/dynasimR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/dynasimR/)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/dynasimR)](https://CRAN.R-project.org/package=dynasimR)
 [![Codecov test
 coverage](https://codecov.io/gh/CTTIR/dynasimR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/dynasimR?branch=main)
-[![CRAN
-downloads](https://cranlogs.r-pkg.org/badges/dynasimR)](https://cran.r-project.org/package=dynasimR)
-[![CRAN downloads
-total](https://cranlogs.r-pkg.org/badges/grand-total/dynasimR)](https://cran.r-project.org/package=dynasimR)
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lifecycle:
@@ -41,8 +35,12 @@ export_latex_table(
 )
 ```
 
-The generated `.tex` uses `\botrule` and escapes `<`/`>` in character
-cells for compatibility with common publisher templates.
+The generated `.tex` uses `booktabs` rules and treats captions, notes
+and character cells as literal text, escaping LaTeX metacharacters once.
+Load `\usepackage{booktabs}` in the document preamble and, for tables
+with notes, `\usepackage{threeparttable}`. The publisher-compatible
+bottom rule is `\botrule`; if your template does not define it, add
+`\providecommand{\botrule}{\bottomrule}` to the preamble.
 
 ## 2. Figures at publication dimensions
 
@@ -52,7 +50,7 @@ km <- km_estimate(sim, endpoint = "stage2")
 export_figure(
   plot      = plot_km(km),
   filename  = "figure_km.pdf",
-  width_mm  = 174,          # single column
+  width_mm  = 174,          # double column (88 mm for a single column)
   height_mm = 110
 )
 ```
@@ -74,6 +72,13 @@ reps <- fill_placeholders(
 )
 reps          # named character vector of substitutions performed
 ```
+
+The policy delta and its bounds are signed **A minus B**, in percentage
+points. The source file is preserved. Existing output files require
+`overwrite = TRUE`; unknown or unavailable requested results cause an
+error before any file is written. `dry_run = TRUE` returns the
+substitution map without writing. For extensionless staging paths, use
+`export_figure(..., format = "pdf")` (or `"png"` / `"svg"`).
 
 ## Complete placeholder list
 

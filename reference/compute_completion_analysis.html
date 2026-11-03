@@ -19,7 +19,7 @@ coefficients, and class-level proportions."><meta property="og:image" content="h
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">dynasimR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,18 +69,26 @@ coefficients, and class-level proportions.</p>
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>A <code>dynasimR_data</code> object or entity tibble with a
-<code>completion_outcome</code> column (factor).</p></dd>
+<code>completion_outcome</code> column (factor) and <code>scenario</code>. At least two
+observed outcome classes are required. Missing outcomes or model
+inputs and rank-deficient predictor designs are rejected rather than
+silently changing the fitted sample or model.</p></dd>
 
 
 <dt id="arg-covariates">covariates<a class="anchor" aria-label="anchor" href="#arg-covariates"></a></dt>
 <dd><p>Character vector. Additional predictors.
-Default <code>c("scenario", "severity")</code>.</p></dd>
+Default <code>c("scenario", "severity")</code>. Every requested column must
+exist; predictors are interpreted as column names, not R expressions.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An S3 object of class <code>dynasimR_completion</code> with slots
-<code>fit</code>, <code>tidy</code>, <code>proportions</code>, <code>params</code>.</p>
+<code>fit</code>, <code>tidy</code>, <code>proportions</code>, <code>params</code>. Coefficient rows name the
+actual non-reference outcome classes; <code>params$reference_outcome</code> is
+the first factor level and <code>params$n_obs</code> is the analyzed sample size.
+When the optional package <code>nnet</code> is unavailable, only proportions
+are returned with a warning.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

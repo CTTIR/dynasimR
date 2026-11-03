@@ -17,7 +17,10 @@ cox_model(
 
 - data:
 
-  A `dynasimR_data` object or entity tibble.
+  A `dynasimR_data` object or entity tibble. Endpoint times must be
+  nonnegative finite observed event or censoring times; flags must be 0
+  (censored) or 1 (event). Missing times, flags, strata, or model
+  covariates are rejected rather than silently dropping entities.
 
 - endpoint:
 
@@ -27,7 +30,9 @@ cox_model(
 - covariates:
 
   Character vector. Covariates entering the Cox model. Default
-  `c("scenario","severity","group")`.
+  `c("scenario","severity","group")`; unavailable defaults are omitted
+  with a warning for profile compatibility. Explicitly requested
+  unavailable covariates are an error.
 
 - reference_scenario:
 

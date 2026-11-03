@@ -29,7 +29,9 @@ read_simulation(data_dir, scenarios = NULL, validate = TRUE, verbose = TRUE)
 
   Logical. Run
   [`validate_dynasimR_data()`](https://cttir.github.io/dynasimR/reference/validate_dynasimR_data.md)
-  on the loaded tables. Default `TRUE`.
+  on the loaded tables. Default `TRUE`. Requires nonempty summary and
+  entity files, matching scenario IDs and valid schemas. `FALSE`
+  bypasses those checks for inspection of incomplete output.
 
 - verbose:
 
@@ -39,6 +41,18 @@ read_simulation(data_dir, scenarios = NULL, validate = TRUE, verbose = TRUE)
 
 An S3 object of class `dynasimR_data` (a list) with slots `summary`,
 `entities`, `timeseries`, `metadata` and `load_info`.
+
+## Details
+
+An optional `scenario_metadata.csv` uses one unique `id` per scenario.
+Its columns are joined without suffixes; conflicts with nonmissing table
+values are errors when `validate = TRUE`. With validation disabled,
+existing table values take precedence. The bundled scenario settings are
+used only for the package example directory, with local metadata taking
+precedence over bundled descriptions. External files never inherit
+example settings merely by sharing an ID. Each row retains its
+scenario's `profile_type`; `load_info$profile_type` is `"mixed"` when
+the loaded scenarios use different profiles.
 
 ## Examples
 

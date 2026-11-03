@@ -18,7 +18,8 @@ fill_placeholders(
   dry_run = FALSE,
   policy_a_scenario = "A-S08",
   policy_b_scenario = "A-S07",
-  baseline_scenario = "A-S00"
+  baseline_scenario = "A-S00",
+  overwrite = FALSE
 )
 ```
 
@@ -34,7 +35,9 @@ fill_placeholders(
 
 - output_file:
 
-  Character. Output path; default appends `_filled` before `.tex`.
+  Character. Output path; default appends `_filled` before `.tex` (case
+  insensitive), or `_filled.tex` to a filename without that extension.
+  The source is never overwritten.
 
 - dry_run:
 
@@ -53,6 +56,18 @@ fill_placeholders(
 
   Character. Baseline scenario ID. Default `"A-S00"`.
 
+- overwrite:
+
+  Logical. Allow replacement of an existing output file. Default
+  `FALSE`. This never permits overwriting the source manuscript.
+
 ## Value
 
 Named character vector of the replacements (invisibly).
+
+## Details
+
+Policy event differences and their confidence limits use the signed
+A-minus-B convention, in percentage points. A write is refused if the
+manuscript requests unknown placeholders or unavailable/non-finite
+statistics. `dry_run = TRUE` reports these without writing a file.

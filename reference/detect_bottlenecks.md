@@ -1,7 +1,9 @@
 # Bottleneck detection across processing stages
 
-Identifies scenario-stage combinations where the median transit time
-exceeds a percentile threshold relative to the grand distribution.
+Identifies scenario-stage combinations where the median recorded time
+exceeds a percentile threshold relative to the grand distribution. This
+descriptive ranking does not establish a capacity bottleneck, especially
+when input times are cumulative or censored.
 
 ## Usage
 

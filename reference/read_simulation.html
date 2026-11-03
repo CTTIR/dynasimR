@@ -21,7 +21,7 @@ Returns a structured S3 object of class dynasimR_data."><meta property="og:image
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">dynasimR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +84,9 @@ simulation outputs. Files are expected to follow the pattern
 
 <dt id="arg-validate">validate<a class="anchor" aria-label="anchor" href="#arg-validate"></a></dt>
 <dd><p>Logical. Run <code><a href="validate_dynasimR_data.html">validate_dynasimR_data()</a></code> on the
-loaded tables. Default <code>TRUE</code>.</p></dd>
+loaded tables. Default <code>TRUE</code>. Requires nonempty summary and entity
+files, matching scenario IDs and valid schemas. <code>FALSE</code> bypasses
+those checks for inspection of incomplete output.</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
@@ -95,6 +97,18 @@ loaded tables. Default <code>TRUE</code>.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An S3 object of class <code>dynasimR_data</code> (a list) with slots
 <code>summary</code>, <code>entities</code>, <code>timeseries</code>, <code>metadata</code> and <code>load_info</code>.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>An optional <code>scenario_metadata.csv</code> uses one unique <code>id</code> per
+scenario. Its columns are joined without suffixes; conflicts with
+nonmissing table values are errors when <code>validate = TRUE</code>. With
+validation disabled, existing table values take precedence. The bundled
+scenario settings are used only for the package example directory,
+with local metadata taking precedence over bundled descriptions.
+External files never inherit example settings merely by sharing an ID.
+Each row retains its scenario's <code>profile_type</code>; <code>load_info$profile_type</code>
+is <code>"mixed"</code> when the loaded scenarios use different profiles.</p>
     </div>
 
     <div class="section level2">

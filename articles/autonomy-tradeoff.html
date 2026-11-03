@@ -36,7 +36,7 @@
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">dynasimR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,7 +104,7 @@
 </div>
 <!-- cttir-vignette-logo: end -->
 <!-- badges: start -->
-<p><a href="https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cttir.github.io/dynasimR/"><img src="https://github.com/CTTIR/dynasimR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://CRAN.R-project.org/package=dynasimR" class="external-link"><img src="https://www.r-pkg.org/badges/version/dynasimR" alt="CRAN status"></a> <a href="https://app.codecov.io/gh/CTTIR/dynasimR?branch=main" class="external-link"><img src="https://codecov.io/gh/CTTIR/dynasimR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://cran.r-project.org/package=dynasimR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/dynasimR" alt="CRAN downloads"></a> <a href="https://cran.r-project.org/package=dynasimR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/dynasimR" alt="CRAN downloads total"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
+<p><a href="https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cttir.github.io/dynasimR/"><img src="https://github.com/CTTIR/dynasimR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://app.codecov.io/gh/CTTIR/dynasimR?branch=main" class="external-link"><img src="https://codecov.io/gh/CTTIR/dynasimR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cttir/dynasimR" class="external-link">dynasimR</a></span><span class="op">)</span></span>
 <span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_example_data.html">load_example_data</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -122,20 +122,19 @@ with the two AL points in the shipped example data.</p>
 <span>  n_bootstrap          <span class="op">=</span> <span class="fl">200</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">al</span><span class="op">$</span><span class="va">tradeoff_table</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 10</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 12</span></span></span>
 <span><span class="co">#&gt;      al scenario event_median event_ci_lo event_ci_hi event_reduction_pct</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     0 A-S00           0.341       0.328       0.353                0   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 A-S01           0.272       0.260       0.290                6.91</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: compliance &lt;dbl&gt;, above_threshold &lt;lgl&gt;, al_ratio &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   n_reps &lt;int&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: event_reduction_ci_lo &lt;dbl&gt;, event_reduction_ci_hi &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   compliance &lt;dbl&gt;, above_threshold &lt;lgl&gt;, al_ratio &lt;dbl&gt;, n_reps &lt;int&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="trade-off-plot">Trade-off plot<a class="anchor" aria-label="anchor" href="#trade-off-plot"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_al_tradeoff.html">plot_al_tradeoff</a></span><span class="op">(</span><span class="va">al</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `height` was translated to `width`.</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_al_tradeoff.html">plot_al_tradeoff</a></span><span class="op">(</span><span class="va">al</span><span class="op">)</span></span></code></pre></div>
 <p><img src="autonomy-tradeoff_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="576"></p>
 </div>
 <div class="section level2">
@@ -149,12 +148,13 @@ event-rate reduction while staying above the compliance threshold:</p>
 <p>Compliance violations (if any):</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">al</span><span class="op">$</span><span class="va">compliance_violations</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 11</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 13</span></span></span>
 <span><span class="co">#&gt;      al scenario event_median event_ci_lo event_ci_hi event_reduction_pct</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     0 A-S00           0.341       0.328       0.353                   0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: compliance &lt;dbl&gt;, above_threshold &lt;lgl&gt;, al_ratio &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   n_reps &lt;int&gt;, compliance_deficit &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 7 more variables: event_reduction_ci_lo &lt;dbl&gt;, event_reduction_ci_hi &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   compliance &lt;dbl&gt;, above_threshold &lt;lgl&gt;, al_ratio &lt;dbl&gt;, n_reps &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   compliance_deficit &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

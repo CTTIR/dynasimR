@@ -1,9 +1,11 @@
-# Morris-style sensitivity screening from simulation replicates
+# Standardized univariate sensitivity screening
 
-Uses per-replicate variation to screen the most influential input
-parameters on an outcome metric. The implementation is a simple
-variance-based screening; for a full Morris design use the `sensitivity`
-package directly and pass the results here for visualisation.
+Fits a separate linear association between each input and the outcome,
+after standardizing paired complete observations. Despite its legacy
+name, this function does not implement Morris elementary effects or a
+variance decomposition. It can miss nonlinear effects and cannot
+separate correlated inputs or establish causality. For a Morris design
+use `sensitivity::morris()` on an appropriate simulation design.
 
 ## Usage
 
@@ -24,10 +26,14 @@ morris_screening(data, outcome = "event_rate", inputs)
 
 - inputs:
 
-  Character vector. Column names of simulation inputs (must be numeric)
-  to assess.
+  Character vector. Numeric simulation input columns. Each input needs
+  at least three paired complete observations and variation in both the
+  input and outcome; otherwise its statistics and rank are `NA`, with a
+  reason in `status` and a warning.
 
 ## Value
 
-A tibble with columns `input`, `mu_star` (mean absolute change),
-`sigma`, `rank`.
+A tibble with `input`, legacy `mu_star` (absolute standardized slope,
+equal to absolute Pearson correlation), legacy `sigma` (standardized
+regression residual SD), `r2`, `n_observed`, `status` and `rank`.
+Missing pairs are omitted independently for each input.

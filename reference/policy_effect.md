@@ -3,7 +3,17 @@
 Computes the full suite of effect metrics comparing two scenarios that
 differ only in the allocation policy. Returns deltas on the event rate
 and the Compliance Index, Cohen's d, risk differences and an
-auto-generated narrative suitable for pasting into a report.
+auto-generated narrative suitable for pasting into a report. All
+event-rate differences are signed policy A minus B. Cohen's d uses the
+independent-sample, degrees-of-freedom-weighted pooled standard
+deviation. Bootstrap intervals and Wilcoxon tests assume independent
+simulation replications, not paired runs. `NNT_surrogate` is the
+reciprocal absolute mean rate difference; its direction is supplied by
+`Risk_Difference_event`. Missing replicate rates are omitted and
+effective counts are recorded. Each scenario needs an observed rate;
+intervals and standardized effects need at least two observations per
+scenario. Subgroup rates use the binary `event` flag, or
+`status == "TERMINATED"` only when the flag column is absent.
 
 ## Usage
 
@@ -37,7 +47,8 @@ policy_effect(
 
 - n_bootstrap:
 
-  Integer. Bootstrap replicates for CIs. Default `1000`.
+  Integer. Bootstrap replicates for CIs. Default `1000`; `0` omits
+  intervals.
 
 ## Value
 

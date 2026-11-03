@@ -18,7 +18,10 @@ plot_progress_curves(progress_result, show_ci = TRUE)
 
 - show_ci:
 
-  Logical. Show 95% CI ribbon. Default `TRUE`.
+  Logical. Show the central 2.5–97.5 percentile range of observed
+  progress scores. This is a descriptive range, not a confidence
+  interval; the argument name is retained for compatibility. Default
+  `TRUE`.
 
 ## Value
 

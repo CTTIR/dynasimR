@@ -45,7 +45,8 @@ compute_compliance_index(
 
 - n_bootstrap:
 
-  Integer. Bootstrap replicates for CIs. Default `1000`.
+  Integer. Bootstrap replicates for CIs. Default `1000`; `0` omits
+  intervals.
 
 ## Value
 
@@ -55,8 +56,13 @@ stratified), `ci`, `ci_ci_lo`, `ci_ci_hi`, `n_total`, `n_in_window`,
 
 ## Details
 
-For Profile B data the analogous metric uses `wait_days` with a 14-day
-window (`window_unit = "days"`).
+When `received_service` is supplied, only a confirmed service (1) counts
+in the numerator. Missing times or service indicators are not confirmed
+timely service and remain in the denominator. Without an indicator, a
+nonmissing time is assumed to represent received service. For Profile B
+wait times, see
+[`compute_wait_gap_index()`](https://cttir.github.io/dynasimR/reference/compute_wait_gap_index.md).
+Bootstrap intervals treat entities as independent observations.
 
 ## Examples
 

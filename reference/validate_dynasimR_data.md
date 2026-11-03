@@ -1,8 +1,10 @@
 # Validate a dynasimR_data object
 
-Checks that the required columns are present in each table and reports
-out-of-range values. Does not modify the data; returns it unchanged
-(with warnings when problems are found).
+Checks required columns, nonmissing scenario/replication identifiers,
+numeric types, finite observed values and bounded rates. Entity and
+time-series scenario/replication pairs must occur in the summary table.
+Missing measurements are allowed; analysis functions document their
+treatment. Data values are not modified.
 
 ## Usage
 
@@ -19,10 +21,10 @@ validate_dynasimR_data(x, strict = FALSE)
 
 - strict:
 
-  Logical. If `TRUE`, missing required columns abort; if `FALSE`
-  (default), they produce a warning and the function still returns `x`.
+  Logical. If `TRUE`, any validation issue aborts; if `FALSE` (default),
+  issues produce warnings and the function still returns `x`.
 
 ## Value
 
-The input `x`, invisibly, possibly with attribute `validation_issues`
-attached.
+The input `x`, invisibly, with current issues in the `validation_issues`
+attribute, or no such attribute when valid.

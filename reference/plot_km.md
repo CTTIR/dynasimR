@@ -34,7 +34,8 @@ plot_km(
 
 - show_risktable:
 
-  Logical. Show risk table (requires survminer). Default `FALSE`.
+  Logical. Show numbers at risk immediately before each displayed time
+  (requires patchwork). Default `FALSE`.
 
 - show_pval:
 
@@ -46,8 +47,11 @@ plot_km(
 
 - color_by:
 
-  Character. Aesthetic grouping. One of `"scenario"`, `"group"`,
-  `"policy"`. Default `"scenario"`.
+  Character. Palette hint: `"policy"` uses policy colours for at most
+  two strata; otherwise uses a discrete palette. Curves always retain
+  the strata fitted by
+  [`km_estimate()`](https://cttir.github.io/dynasimR/reference/km_estimate.md);
+  this does not regroup them.
 
 - title, subtitle, xlab, ylab:
 
@@ -59,7 +63,10 @@ plot_km(
 
 - manuscript_width:
 
-  Numeric. mm width hint. Default `174`.
+  Numeric. Retained for compatibility; does not resize the plot. Set
+  `width_mm` in
+  [`export_figure()`](https://cttir.github.io/dynasimR/reference/export_figure.md)
+  instead.
 
 - ...:
 
@@ -67,4 +74,5 @@ plot_km(
 
 ## Value
 
-A ggplot2 object.
+A ggplot2 object, or a patchwork composition when
+`show_risktable = TRUE`.

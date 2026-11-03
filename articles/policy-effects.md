@@ -5,14 +5,8 @@ logo](figures/logo-dark.svg)
 
 [![R-CMD-check](https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/dynasimR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/CTTIR/dynasimR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/dynasimR/)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/dynasimR)](https://CRAN.R-project.org/package=dynasimR)
 [![Codecov test
 coverage](https://codecov.io/gh/CTTIR/dynasimR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/dynasimR?branch=main)
-[![CRAN
-downloads](https://cranlogs.r-pkg.org/badges/dynasimR)](https://cran.r-project.org/package=dynasimR)
-[![CRAN downloads
-total](https://cranlogs.r-pkg.org/badges/grand-total/dynasimR)](https://cran.r-project.org/package=dynasimR)
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lifecycle:
@@ -54,7 +48,7 @@ print(pol)
 #> 3 B                -11.3  -14.9  -7.65
 #> 4 C                 -9.39 -16.1  -4.13
 #> ── Narrative ──
-#> Under policy A (scenario A-S08), an event-rate reduction of 7.4 percentage points (95\%-CI: -9.1 to -5.5) was observed versus policy B (scenario A-S07) (Wilcoxon test: W = 215, p < 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658).
+#> The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was -7.4 percentage points (95% CI: -9.1 to -5.5); the event rate was lower under policy A (Wilcoxon test: W = 215, adjusted p < 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658).
 ```
 
 ## Delta event-rate visualisation
@@ -62,25 +56,23 @@ print(pol)
 ``` r
 
 plot_policy(pol)
-#> `height` was translated to `width`.
 ```
 
 ![](policy-effects_files/figure-html/unnamed-chunk-3-1.png)
 
 ## Auto-generated narrative
 
-The `narrative` slot is a LaTeX-escaped string ready to drop into a
-report:
+The `narrative` slot is plain text with literal scenario identifiers and
+a confidence label matching the requested `alpha`. Review it in the
+context of your simulation design before using it in a report. It is not
+escaped LaTeX; escape special characters before inserting it into a
+`.tex` document:
 
 ``` r
 
 cat(pol$narrative)
+#> The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was -7.4 percentage points (95% CI: -9.1 to -5.5); the event rate was lower under policy A (Wilcoxon test: W = 215, adjusted p < 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658).
 ```
-
-Under policy A (scenario A-S08), an event-rate reduction of 7.4
-percentage points (95%-CI: -9.1 to -5.5) was observed versus policy B
-(scenario A-S07) (Wilcoxon test: W = 215, p \< 0.001). The Compliance
-Index was higher under policy A (0.919 vs. 0.658).
 
 ## Effect sizes
 

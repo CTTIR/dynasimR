@@ -1,5 +1,23 @@
 # Changelog
 
+## dynasimR 0.1.1 (unreleased)
+
+- Validate each input file and preserve caller-supplied scenario
+  metadata. Report zero-demand ratios as undefined, correct stage
+  completion counts, and distinguish descriptive percentiles from
+  confidence intervals.
+- Correct signed policy narratives, bootstrap intervals and pooled
+  effect sizes; reject invalid survival observations and missing model
+  predictors.
+- Preserve source manuscripts and existing outputs, treat identifiers as
+  literal data, and validate requested placeholders before writing.
+- Repair dashboard selection and profile handling, literal-text
+  rendering, figure formats and LaTeX table compilation.
+- Add actual survival risk tables, current ggplot2 interval geometry,
+  portable developer checks and reproducible regression coverage.
+- Clarify development/publication status; no new release has been
+  published.
+
 ## dynasimR 0.1.0
 
 - Standardize the named v5 package logo across README, documentation

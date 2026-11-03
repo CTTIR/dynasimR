@@ -41,7 +41,7 @@
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="index.html"><img src="logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="reference/figures/logo-dark.svg">dynasimR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,17 +80,20 @@
 <img src="logo.svg" class="logo" alt=""><h1 id="dynasimr--dynamic-agent-node-simulation-analysis-">dynasimR — Dynamic Agent-Node Simulation Analysis <picture class="cttir-readme-logo"><source class="cttir-logo-dark-source" media="(prefers-color-scheme: dark)" srcset="reference/figures/logo-with-name-dark.png"><img src="reference/figures/logo-with-name.png" align="right" alt="dynasimR logo" width="120" height="139"></picture><a class="anchor" aria-label="anchor" href="#dynasimr--dynamic-agent-node-simulation-analysis-"></a>
 </h1>
 </div>
-<p><a href="https://doi.org/10.5281/zenodo.21889932" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.21889932.svg" alt="DOI"></a></p>
 <!-- badges: start -->
 
-<p>A domain-neutral analysis and visualisation layer for discrete-event, agent-based and node-actor simulation outputs. The package is schema-harmonised so that two output profiles (<strong>Profile A</strong> and <strong>Profile B</strong>) can be analysed with a single API.</p>
+<p>A domain-neutral analysis and visualisation layer for discrete-event, agent-based and node-actor simulation outputs. The package is schema-harmonised: <strong>Profile A</strong> and <strong>Profile B</strong> share a loader and use analysis functions appropriate to their recorded outcomes.</p>
 <p>Typical use cases include any system in which entities (actors, nodes, agents) move through states and interact within spatial or network environments — for example flow analyses, state-transition studies, resource allocation and policy comparisons.</p>
+<p>The current version is an unreleased development candidate. CRAN and Zenodo publication have not been confirmed; use the source repository for installation.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<code class="sourceCode R"><span><span class="co"># Prerequisites for the complete quick start, including exports/dashboard:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"remotes"</span>, <span class="st">"xtable"</span>, <span class="st">"shiny"</span>, <span class="st">"shinydashboard"</span>,</span>
+<span>                   <span class="st">"shinyWidgets"</span>, <span class="st">"plotly"</span>, <span class="st">"DT"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"cttir/dynasimR"</span><span class="op">)</span></span></code></pre></div>
+<p>To install an unpublished local checkout instead, replace the last line with <code>remotes::install_local("/path/to/dynasimR", dependencies = NA, upgrade = "never")</code>. This installs required imports without upgrading existing dependencies.</p>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
@@ -112,7 +115,7 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">pol</span><span class="op">$</span><span class="va">narrative</span><span class="op">)</span>   <span class="co"># ready to drop into a report</span></span>
 <span></span>
 <span><span class="co"># 4. Autonomy-level trade-off</span></span>
-<span><span class="va">al</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/al_efficiency.html">al_efficiency</a></span><span class="op">(</span><span class="va">sim</span><span class="op">)</span></span>
+<span><span class="va">al</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/al_efficiency.html">al_efficiency</a></span><span class="op">(</span><span class="va">sim</span>, al_scenarios <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0"</span> <span class="op">=</span> <span class="st">"A-S00"</span>, <span class="st">"1"</span> <span class="op">=</span> <span class="st">"A-S01"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/plot_al_tradeoff.html">plot_al_tradeoff</a></span><span class="op">(</span><span class="va">al</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># 5. Manuscript export</span></span>
@@ -182,9 +185,29 @@
 <ul>
 <li>R &gt;= 4.1.0 (base pipe <code>|&gt;</code> used throughout)</li>
 <li>Required imports: dplyr, tidyr, purrr, readr, tibble, ggplot2, survival, rlang, cli, glue</li>
-<li>Shiny app requires the <code>Suggests:</code> dependencies — install with <code><a href="reference/check_app_dependencies.html">dynasimR::check_app_dependencies()</a></code>
-</li>
+<li>The dashboard requires <code>shiny</code>, <code>shinydashboard</code>, <code>shinyWidgets</code>, <code>plotly</code>, <code>DT</code> and <code>xtable</code>. <code><a href="reference/check_app_dependencies.html">dynasimR::check_app_dependencies()</a></code> reports missing packages and prints an installation command; it does not install them.</li>
+<li>LaTeX table compilation needs <code>booktabs</code>; tables with notes also need <code>threeparttable</code>. For an ordinary article template, add <code>\providecommand{\botrule}{\bottomrule}</code> to the preamble (publisher templates may already define it). Figure export supports PDF, PNG and SVG. Typical manuscript widths are 88 mm for one column and 174 mm for two columns; check the target journal specifications.</li>
 </ul>
+</div>
+<div class="section level2">
+<h2 id="data-and-interpretation">Data and interpretation<a class="anchor" aria-label="anchor" href="#data-and-interpretation"></a>
+</h2>
+<p><code><a href="reference/read_simulation.html">read_simulation()</a></code> validates each scenario file before combining it. Keep summary/entity scenario IDs consistent with their filenames and supply both files for each scenario. A local <code>scenario_metadata.csv</code> is authoritative; your own data never inherit assumptions from the bundled example scenarios. See <code><a href="reference/read_simulation.html">?read_simulation</a></code> and <code><a href="reference/validate_dynasimR_data.html">?validate_dynasimR_data</a></code> for the schema.</p>
+<p>For Profile B, use <code><a href="reference/progress_trajectory.html">progress_trajectory()</a></code>, <code><a href="reference/compute_wait_gap_index.html">compute_wait_gap_index()</a></code>, <code><a href="reference/group_effect.html">group_effect()</a></code> and <code><a href="reference/compute_completion_analysis.html">compute_completion_analysis()</a></code>. The dashboard supports progress/completion overview, scenario comparison and summary-table export; other dashboard analyses require Profile A. Separate mixed-profile directories before launching the dashboard.</p>
+<p>Policy differences and their intervals use <strong>A minus B</strong>, so a positive event rate difference is an increase in events. Bootstrap comparisons resample runs independently, not matched pairs. Entity-level survival/compliance intervals assume independent entities and do not account for clustering by simulation replication. Progress percentile bands describe the observed distribution; they are not confidence intervals for an estimated median.</p>
+<p>Survival analyses need observed event or censoring times and binary event flags; invalid or missing inputs are rejected. Wait-gap calculations instead need observed activation waits: encode entities not activated as <code>NA</code>. They remain in the denominator and are not counted as timely activation.</p>
+<p>Supply-demand ratios use <code>supply / demand</code>; zero-demand cells are undefined (<code>NA</code>) and counted separately. The deprecated <code>eps</code> argument no longer changes that ratio. The legacy <code><a href="reference/morris_screening.html">morris_screening()</a></code> function is a descriptive univariate standardized-slope screen, not a replacement for a designed Morris trajectory experiment.</p>
+<p><code>plot_cost_effectiveness(..., show_ceac = TRUE)</code> retains its legacy argument name but reports observed run fractions relative to fixed reference medians. It does not estimate reference uncertainty or a cost-effectiveness acceptance probability. Cost/outcome pairs must be complete; a zero effect difference has an undefined (<code>NA</code>) incremental cost-effectiveness ratio.</p>
+<p>Manuscript placeholders are literal values, never R expressions. By default, <code><a href="reference/fill_placeholders.html">fill_placeholders()</a></code> preserves the source and existing output files. A template requesting an unknown or unavailable result fails before writing; use <code>dry_run</code> to inspect available substitutions. Exported table text is escaped as literal LaTeX content, so embedded LaTeX commands are not interpreted.</p>
+</div>
+<div class="section level2">
+<h2 id="development-and-validation">Development and validation<a class="anchor" aria-label="anchor" href="#development-and-validation"></a>
+</h2>
+<p>From a checkout, install package dependencies plus <code>pkgload</code>, <code>roxygen2</code> at the version in <code>DESCRIPTION</code>, and <code>rcmdcheck</code>. TeX and Pandoc are needed for the full manual/vignette check. The following scripts work from any directory:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">Rscript</span> /path/to/dynasimR/dev/dep_check.R</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="ex">Rscript</span> /path/to/dynasimR/dev/smoke_test.R</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="ex">Rscript</span> /path/to/dynasimR/dev/doc_and_check.R</span></code></pre></div>
+<p>The smoke script exercises both profiles and renders real export files. The check script regenerates documentation without deleting unrelated files, builds a source archive, and fails on errors, warnings or notes. See <a href="MAINTENANCE.html">MAINTENANCE.md</a> for the audit, validation evidence and remaining release gates.</p>
 </div>
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
@@ -194,11 +217,11 @@
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<p>If you use this software, please cite it as:</p>
+<p>Cite the version or commit actually used and the repository URL, for example:</p>
 <blockquote>
-<p>Heller, R. (2026). <em>dynasimR: Analysis and visualisation of agent-based and discrete-event simulation output</em> (Version 0.1.0) [Computer software]. Zenodo. <a href="https://doi.org/10.5281/zenodo.21889932" class="external-link uri">https://doi.org/10.5281/zenodo.21889932</a></p>
+<p>Heller, R. (2026). <em>dynasimR: Analysis and visualisation of agent-based and discrete-event simulation output</em> (Version 0.1.1, development candidate) [Computer software]. <a href="https://github.com/CTTIR/dynasimR" class="external-link uri">https://github.com/CTTIR/dynasimR</a></p>
 </blockquote>
-<p>DOI: <a href="https://doi.org/10.5281/zenodo.21889932" class="external-link">10.5281/zenodo.21889932</a></p>
+<p>The earlier draft metadata named DOI <code>10.5281/zenodo.21889932</code>. It is retained in the maintenance record for provenance; the public Zenodo and DataCite APIs returned no published record during this audit. Confirm publication before using that DOI in a manuscript.</p>
 </div>
 <div class="section level2">
 <h2 id="use-of-llm-tools">Use of LLM tools<a class="anchor" aria-label="anchor" href="#use-of-llm-tools"></a>

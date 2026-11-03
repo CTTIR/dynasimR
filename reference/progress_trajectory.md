@@ -1,8 +1,11 @@
 # Progress-score trajectory analysis (Profile B)
 
 Summarises longitudinal progress-score trajectories by scenario and
-(optionally) cohort. Returns both a per-replication summary (start, end,
-gain) and a longitudinal tidy table suitable for
+optional grouping variables. By default, the summary pools entities
+within each scenario; include `replication` in `group_by` for replicate
+summaries. Quantile bounds describe the observed entity distribution,
+not confidence intervals for the median. Also returns a longitudinal
+tidy table suitable for
 [`plot_progress_curves()`](https://cttir.github.io/dynasimR/reference/plot_progress_curves.md).
 
 ## Usage
