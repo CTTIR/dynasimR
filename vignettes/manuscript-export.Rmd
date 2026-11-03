@@ -85,6 +85,13 @@ export_figure(
 )
 ```
 
+SVG output requires working Cairo runtime libraries. Some macOS R builds,
+including CRAN binaries, need [XQuartz](https://www.xquartz.org/); restart R after
+installing it. A positive `capabilities("cairo")` alone does not prove that the
+libraries can load. `export_figure()` checks staged output before replacing a
+previous file and reporting success. See the
+[R graphics-device documentation](https://stat.ethz.ch/R-manual/R-devel/library/grDevices/html/cairo.html).
+
 ## 3. Placeholder substitution in the .tex body
 
 Given a source `manuscript.tex` with placeholders like

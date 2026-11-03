@@ -36,6 +36,13 @@ Invisibly, the filename.
 Writes a ggplot2 object to PDF/SVG/PNG/TIFF/EPS at the specified
 physical dimensions (in millimetres) and resolution.
 }
+\details{
+SVG uses R's Cairo graphics device. Its runtime libraries must be
+available; macOS builds of R linked to X11, including CRAN binaries, may
+require XQuartz. Install it and restart R if SVG reports missing X11/Cairo
+libraries. Exports are staged and checked for nonempty output before an
+existing file is replaced. Device errors and warnings remain visible.
+}
 \examples{
 \dontrun{
 p <- ggplot2::ggplot(mtcars, ggplot2::aes(mpg, hp)) +

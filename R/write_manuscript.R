@@ -13,6 +13,11 @@
 #' @param format Character. Optional explicit format (`pdf`, `svg`, `png`,
 #'   `tiff`, or `eps`), useful for extensionless download staging paths.
 #' @return Invisibly, the filename.
+#' @details SVG uses R's Cairo graphics device. Its runtime libraries must be
+#'   available; macOS builds of R linked to X11, including CRAN binaries, may
+#'   require XQuartz. Install it and restart R if SVG reports missing X11/Cairo
+#'   libraries. Exports are staged and checked for nonempty output before an
+#'   existing file is replaced. Device errors and warnings remain visible.
 #' @export
 #' @examples
 #' \dontrun{
@@ -32,19 +37,62 @@ export_figure <- function(plot,
   if (length(fmt) != 1L || is.na(fmt) ||
       !fmt %in% c("pdf", "svg", "png", "tiff", "eps"))
     cli::cli_abort("Unknown format: {.val {fmt}}")
+  if (dir.exists(filename)) cli::cli_abort("Figure output must not be a directory.")
+  stage <- tempfile(".dynasimR-figure-", tmpdir = dirname(filename),
+                    fileext = paste0(".", fmt))
+  on.exit(unlink(stage), add = TRUE)
 
   ggplot2::ggsave(
-    filename = filename,
+    filename = stage,
     plot     = plot,
     width    = width_mm  / 25.4,
     height   = height_mm / 25.4,
     dpi      = dpi,
-    device   = if (fmt == "svg") grDevices::svg else fmt
+    device   = if (fmt == "svg") .svg_export_device else fmt
   )
+  size <- file.info(stage)$size
+  if (is.na(size) || size <= 0 || dir.exists(stage)) {
+    cli::cli_abort(c(
+      "The graphics device did not create a nonempty figure.",
+      "i" = "Check its runtime libraries; macOS SVG may require XQuartz and an R restart."
+    ))
+  }
+  .publish_figure_export(stage, filename)
 
   cli::cli_alert_success(
     "Figure saved: {.path {filename}} ({width_mm}x{height_mm} mm)"
   )
+  invisible(filename)
+}
+
+.svg_export_device <- function(filename, width, height, ...) {
+  previous <- grDevices::dev.cur()
+  grDevices::svg(filename = filename, width = width, height = height, ...)
+  if (grDevices::dev.cur() == previous) {
+    cli::cli_abort(c(
+      "The SVG graphics device could not initialize.",
+      "i" = "Check Cairo/X11 runtime libraries; macOS may require XQuartz and an R restart."
+    ))
+  }
+}
+
+.publish_figure_export <- function(stage, filename, rename = file.rename) {
+  backup <- NULL
+  complete <- FALSE
+  on.exit({
+    if (!is.null(backup)) {
+      if (complete) unlink(backup) else if (!rename(backup, filename)) {
+        cli::cli_warn("Could not restore the previous figure; it is retained at {.path {backup}}.")
+      }
+    }
+  }, add = TRUE)
+  if (file.exists(filename)) {
+    previous <- tempfile(".dynasimR-previous-", tmpdir = dirname(filename))
+    if (!rename(filename, previous)) cli::cli_abort("Cannot preserve the previous figure.")
+    backup <- previous
+  }
+  if (!rename(stage, filename)) cli::cli_abort("Cannot publish the figure output.")
+  complete <- TRUE
   invisible(filename)
 }
 

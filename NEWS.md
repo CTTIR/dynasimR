@@ -1,5 +1,9 @@
 # dynasimR 0.1.1 (unreleased)
 
+* Verify staged figure output before reporting success or replacing an existing
+  file. Preserve prior exports on device failure, and enable the shared macOS
+  XQuartz setup for SVG checks. Refuse failed SVG initialization before drawing
+  on the caller's device or opening a default output file.
 * Validate each input file and preserve caller-supplied scenario metadata.
   Report zero-demand ratios as undefined, correct stage completion counts,
   and distinguish descriptive percentiles from confidence intervals.
