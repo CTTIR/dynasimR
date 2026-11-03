@@ -145,6 +145,13 @@ preamble.</p>
 <span>  width_mm  <span class="op">=</span> <span class="fl">174</span>,          <span class="co"># double column (88 mm for a single column)</span></span>
 <span>  height_mm <span class="op">=</span> <span class="fl">110</span></span>
 <span><span class="op">)</span></span></code></pre></div>
+<p>SVG output requires working Cairo runtime libraries. Some macOS R
+builds, including CRAN binaries, need <a href="https://www.xquartz.org/" class="external-link">XQuartz</a>; restart R after installing
+it. A positive <code>capabilities("cairo")</code> alone does not prove
+that the libraries can load. <code><a href="../reference/export_figure.html">export_figure()</a></code> checks staged
+output before replacing a previous file and reporting success. See the
+<a href="https://stat.ethz.ch/R-manual/R-devel/library/grDevices/html/cairo.html" class="external-link">R
+graphics-device documentation</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="placeholder-substitution-in-the--tex-body">3. Placeholder substitution in the .tex body<a class="anchor" aria-label="anchor" href="#placeholder-substitution-in-the--tex-body"></a>

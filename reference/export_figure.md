@@ -49,6 +49,15 @@ export_figure(
 
 Invisibly, the filename.
 
+## Details
+
+SVG uses R's Cairo graphics device. Its runtime libraries must be
+available; macOS builds of R linked to X11, including CRAN binaries, may
+require XQuartz. Install it and restart R if SVG reports missing
+X11/Cairo libraries. Exports are staged and checked for nonempty output
+before an existing file is replaced. Device errors and warnings remain
+visible.
+
 ## Examples
 
 ``` r

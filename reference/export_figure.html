@@ -102,6 +102,14 @@ unless <code>format</code> is supplied).</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Invisibly, the filename.</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>SVG uses R's Cairo graphics device. Its runtime libraries must be
+available; macOS builds of R linked to X11, including CRAN binaries, may
+require XQuartz. Install it and restart R if SVG reports missing X11/Cairo
+libraries. Exports are staged and checked for nonempty output before an
+existing file is replaced. Device errors and warnings remain visible.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

@@ -29,6 +29,13 @@ with
 `remotes::install_local("/path/to/dynasimR", dependencies = NA, upgrade = "never")`.
 This installs required imports without upgrading existing dependencies.
 
+SVG export uses R’s Cairo graphics device. With macOS R builds linked to
+X11 (including CRAN binaries), install
+[XQuartz](https://www.xquartz.org/) and restart R if its Cairo/X11
+libraries are missing. `capabilities("cairo")` describes the build and
+does not guarantee that these runtime libraries can load. Failed exports
+report an error and preserve the previous output file.
+
 ## Quick start
 
 ``` r

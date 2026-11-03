@@ -1,5 +1,48 @@
 # Maintenance audit — 31 October to 2 November 2026
 
+## Hosted graphics follow-up — 3 November 2026
+
+Published commit `68f01fb` failed the macOS job of run `41604932875`:
+R’s SVG device could not load the X11 library used by Cairo, and no SVG
+file was created. The existing shared workflow’s `macos-xquartz` input
+is now enabled; the test is retained and the native prerequisite is
+documented in the README and export help.
+
+An independent failure probe also confirmed that the exporter printed
+“Figure saved” even when the device wrote nothing. Exports now render to
+a temporary file in the target directory and require nonempty output
+before publication. A previous output is preserved before replacement
+and restored after a failed move. If restoration itself fails, the
+backup remains and its location is reported. Device warnings remain
+visible.
+
+A warning-only SVG initialization failure could additionally let ggplot2
+draw on the caller’s current device or open a default PDF. The SVG
+device wrapper now checks that initialization actually opened a new
+device before drawing starts. An actual-ggsave regression preserves an
+owned caller device; an independent fresh-R probe confirms that the
+default device is not opened and no unintended PDF is created. Guarded
+SVG dimensions match the original native device exactly; on this R build
+Cairo expresses dimensions as integer points.
+
+All 581 local assertions pass without warnings or skips, including 48
+new assertions for missing/empty/partial output, rollback and retained
+backups, device ownership and real PDF/PNG/SVG/TIFF/EPS file signatures.
+Workflow syntax validation passes. House lint remains report-only: 62
+findings versus 59 on the base, with the three additions deliberately
+signaling native-style warnings and an error in failure fixtures. No
+lint policy or test coverage was weakened. Exact archive checks and
+subsequent hosted results are recorded separately.
+
+The original Ubuntu oldrel-3 job did not reach package tests: its
+optional survminer dependency chain ended at Deriv requiring R \>= 4.5.
+That pre-existing informational row and its dependency-resolution
+evidence remain visible. This follow-up does not claim that oldrel-3 or
+a CRAN release is qualified, and it does not resolve the separately
+documented maintainer-contact or publication gates.
+
+------------------------------------------------------------------------
+
 Repository: CTTIR/dynasimR. Base:
 `076a99c0281cb199670c40759b514956bb005ef7`. Work is isolated from the
 clean original checkout. No publication or submission is authorized by

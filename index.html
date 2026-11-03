@@ -94,6 +94,7 @@
 <span>                   <span class="st">"shinyWidgets"</span>, <span class="st">"plotly"</span>, <span class="st">"DT"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"cttir/dynasimR"</span><span class="op">)</span></span></code></pre></div>
 <p>To install an unpublished local checkout instead, replace the last line with <code>remotes::install_local("/path/to/dynasimR", dependencies = NA, upgrade = "never")</code>. This installs required imports without upgrading existing dependencies.</p>
+<p>SVG export uses R’s Cairo graphics device. With macOS R builds linked to X11 (including CRAN binaries), install <a href="https://www.xquartz.org/" class="external-link">XQuartz</a> and restart R if its Cairo/X11 libraries are missing. <code>capabilities("cairo")</code> describes the build and does not guarantee that these runtime libraries can load. Failed exports report an error and preserve the previous output file.</p>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
