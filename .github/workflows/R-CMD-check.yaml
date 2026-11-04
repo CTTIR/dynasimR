@@ -14,4 +14,6 @@ jobs:
   R-CMD-check:
     uses: CTTIR/.github/.github/workflows/R-CMD-check.yaml@main
     with:
+      # Current Deriv requires R >= 4.5; retain the last compatible release.
+      old-r-extra-packages: "Deriv@4.1.6"
       macos-xquartz: true
