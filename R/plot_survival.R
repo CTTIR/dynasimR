@@ -21,6 +21,10 @@
 #'
 #' @return A ggplot2 object, or a patchwork composition when
 #'   `show_risktable = TRUE`.
+#' @examples
+#' sim <- load_example_data()
+#' km <- km_estimate(sim, endpoint = "stage2", stratify_by = "scenario")
+#' plot_km(km)
 #' @export
 plot_km <- function(km_result,
                     show_ci          = TRUE,
@@ -177,6 +181,10 @@ plot_km <- function(km_result,
 #'   Default `"No effect (HR = 1)"`.
 #' @param ... Unused.
 #' @return A ggplot2 object.
+#' @examples
+#' sim <- load_example_data()
+#' cx <- cox_model(sim, endpoint = "stage2")
+#' plot_forest(cx)
 #' @export
 plot_forest <- function(cox_result,
                         reference_label = "No effect (HR = 1)",

@@ -24,6 +24,20 @@
 #' @return An S3 object of class `dynasimR_group_effect` with slots
 #'   `completion`, `cost`, `delta_completion`, `delta_cost`,
 #'   `params`.
+#' @examples
+#' set.seed(1)
+#' runs <- data.frame(
+#'   scenario        = rep(c("B-S00", "B-S01"), each = 20),
+#'   replication     = rep(1:20, 2),
+#'   completion_rate = c(stats::runif(20, 0.5, 0.7), stats::runif(20, 0.6, 0.8)),
+#'   cost            = c(stats::runif(20, 900, 1100), stats::runif(20, 1000, 1300)),
+#'   region          = rep(c("North", "South", "East", "West"), 10),
+#'   supply          = stats::runif(40, 80, 120),
+#'   demand          = stats::runif(40, 80, 120)
+#' )
+#' ge <- group_effect(runs, group_a_scenario = "B-S01",
+#'                    group_b_scenario = "B-S00", n_bootstrap = 200)
+#' ge$delta_completion
 #' @export
 group_effect <- function(data,
                          group_a_scenario,
@@ -159,9 +173,23 @@ group_effect <- function(data,
 #' @return An S3 object of class `dynasimR_completion` with slots
 #'   `fit`, `tidy`, `proportions`, `params`. Coefficient rows name the
 #'   actual non-reference outcome classes; `params$reference_outcome` is
-#'   the first factor level and `params$n_obs` is the analyzed sample size.
+#'   the first factor level and `params$n_obs` is the analysed sample size.
 #'   When the optional package `nnet` is unavailable, only proportions
 #'   are returned with a warning.
+#' @examples
+#' set.seed(1)
+#' entities <- data.frame(
+#'   scenario           = rep(c("B-S00", "B-S01"), each = 40),
+#'   cohort             = rep(c("early", "late"), times = 40),
+#'   progress_start     = stats::runif(80, 40, 60),
+#'   progress_end       = stats::runif(80, 60, 90),
+#'   wait_days          = stats::rexp(80, 1 / 10),
+#'   severity           = stats::runif(80),
+#'   completion_outcome = factor(sample(c("full", "partial", "none"), 80,
+#'                                      replace = TRUE))
+#' )
+#' ca <- compute_completion_analysis(entities)
+#' ca$proportions
 #' @export
 compute_completion_analysis <- function(data,
                                         covariates = c("scenario",

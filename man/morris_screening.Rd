@@ -31,3 +31,8 @@ a variance decomposition. It can miss nonlinear effects and cannot
 separate correlated inputs or establish causality. For a Morris design
 use \code{sensitivity::morris()} on an appropriate simulation design.
 }
+\examples{
+sim <- load_example_data()
+morris_screening(sim, outcome = "event_rate",
+                 inputs = c("al", "event_base"))
+}

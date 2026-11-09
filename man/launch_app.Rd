@@ -29,8 +29,9 @@ directories must be separated for dashboard use; the R loading API can
 still read them together.
 }
 \examples{
-\dontrun{
-launch_app()
-launch_app(data_dir = "~/my-simulation/data/raw/")
+# Starts an interactive Shiny session; run it from an interactive R
+# session.
+if (interactive() && all(check_app_dependencies()$installed)) {
+  launch_app()
 }
 }

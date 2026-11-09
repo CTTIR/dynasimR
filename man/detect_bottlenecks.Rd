@@ -22,3 +22,7 @@ time exceeds a percentile threshold relative to the grand
 distribution. This descriptive ranking does not establish a capacity
 bottleneck, especially when input times are cumulative or censored.
 }
+\examples{
+sim <- load_example_data()
+detect_bottlenecks(stage_throughput(sim))
+}

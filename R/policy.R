@@ -33,13 +33,11 @@
 #'   `wilcoxon_tests`, `narrative`, and `params`.
 #' @export
 #' @examples
-#' \dontrun{
 #' sim <- load_example_data()
 #' pol <- policy_effect(sim,
 #'   policy_a_scenario = "A-S08", policy_b_scenario = "A-S07")
 #' print(pol)
 #' cat(pol$narrative)
-#' }
 policy_effect <- function(data,
                           policy_a_scenario,
                           policy_b_scenario,

@@ -19,6 +19,10 @@
 #'   slope, equal to absolute Pearson correlation), legacy `sigma`
 #'   (standardized regression residual SD), `r2`, `n_observed`, `status`
 #'   and `rank`. Missing pairs are omitted independently for each input.
+#' @examples
+#' sim <- load_example_data()
+#' morris_screening(sim, outcome = "event_rate",
+#'                  inputs = c("al", "event_base"))
 #' @export
 morris_screening <- function(data,
                              outcome = "event_rate",
@@ -80,6 +84,10 @@ morris_screening <- function(data,
 #'   `scenario`, `delta`, `lo`, `hi`, sorted by absolute delta. `lo` and
 #'   `hi` are the perturbation's observed percentile range minus the fixed
 #'   baseline median, not a confidence interval for their difference.
+#' @examples
+#' sim <- load_example_data()
+#' tornado_data(sim, baseline = "A-S00",
+#'              perturbations = c("A-S07", "A-S08"))
 #' @export
 tornado_data <- function(data,
                          baseline,

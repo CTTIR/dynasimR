@@ -29,10 +29,8 @@
 #'   `n_total`, `n_in_window`, `compliance_critical`, `window_min`.
 #' @export
 #' @examples
-#' \dontrun{
 #' sim <- load_example_data()
 #' ci  <- compute_compliance_index(sim)
-#' }
 compute_compliance_index <- function(entities,
                                      window_min  = 60,
                                      window_unit = c("min", "hours",

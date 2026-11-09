@@ -34,3 +34,8 @@ An S3 object of class \code{dynasimR_cox} with slots \code{fit},
 \description{
 Cox proportional-hazards model for simulation data
 }
+\examples{
+sim <- load_example_data()
+cx <- cox_model(sim, endpoint = "stage2")
+cx
+}

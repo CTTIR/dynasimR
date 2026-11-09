@@ -23,3 +23,7 @@ A ggplot2 object.
 Scatter plot of entity positions (requires \code{x} and \code{y} columns in
 the entity table) coloured by group or status.
 }
+\examples{
+sim <- load_example_data()
+plot_map(sim, scenarios = "A-S00")
+}

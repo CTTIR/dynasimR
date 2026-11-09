@@ -10,6 +10,9 @@
 #' @param scenarios Character vector. Scenario IDs to include.
 #'   Default `NULL` = all.
 #' @return A ggplot2 object.
+#' @examples
+#' sim <- load_example_data()
+#' plot_map(sim, scenarios = "A-S00")
 #' @export
 plot_map <- function(data,
                      color_by  = c("group", "status"),

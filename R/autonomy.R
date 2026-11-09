@@ -31,11 +31,9 @@
 #'   `params`.
 #' @export
 #' @examples
-#' \dontrun{
 #' sim <- load_example_data()
 #' al  <- al_efficiency(sim)
 #' plot_al_tradeoff(al)
-#' }
 al_efficiency <- function(data,
                           al_scenarios  = c(
                             "0" = "A-S00", "1" = "A-S05",

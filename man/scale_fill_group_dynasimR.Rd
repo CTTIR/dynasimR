@@ -15,3 +15,10 @@ A ggplot2 scale object.
 \description{
 As \code{\link[=scale_color_group_dynasimR]{scale_color_group_dynasimR()}} but for the \code{fill} aesthetic.
 }
+\examples{
+library(ggplot2)
+d <- data.frame(group = c("A", "B", "C"), n = c(4, 6, 2))
+ggplot(d, aes(group, n, fill = group)) +
+  geom_col() +
+  scale_fill_group_dynasimR()
+}

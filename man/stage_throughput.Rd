@@ -26,3 +26,7 @@ for unreached entities if supplied; they are descriptive quantiles, not
 censoring-adjusted estimates. A \code{time_to_stageN} column may contain
 cumulative elapsed time rather than time spent in that stage.
 }
+\examples{
+sim <- load_example_data()
+stage_throughput(sim)
+}

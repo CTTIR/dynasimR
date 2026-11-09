@@ -16,9 +16,10 @@
 #' @return Does not return (blocks until the app is closed).
 #' @export
 #' @examples
-#' \dontrun{
-#' launch_app()
-#' launch_app(data_dir = "~/my-simulation/data/raw/")
+#' # Starts an interactive Shiny session; run it from an interactive R
+#' # session.
+#' if (interactive() && all(check_app_dependencies()$installed)) {
+#'   launch_app()
 #' }
 launch_app <- function(data_dir       = NULL,
                        port           = 3838,
@@ -73,6 +74,8 @@ launch_app <- function(data_dir       = NULL,
 #'
 #' @return A tibble with columns `package`, `installed`, `version`,
 #'   invisibly.
+#' @examples
+#' check_app_dependencies()
 #' @export
 check_app_dependencies <- function() {
   pkgs <- .app_dependencies()

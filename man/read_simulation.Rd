@@ -44,10 +44,10 @@ Each row retains its scenario's \code{profile_type}; \code{load_info$profile_typ
 is \code{"mixed"} when the loaded scenarios use different profiles.
 }
 \examples{
-\dontrun{
-sim <- read_simulation("data/raw/")
-sim <- read_simulation("data/raw/",
-                       scenarios = c("A-S00", "A-S07", "A-S08"))
-sim <- read_simulation(system.file("extdata", package = "dynasimR"))
-}
+example_dir <- system.file("extdata", package = "dynasimR")
+sim <- read_simulation(example_dir)
+sim
+sim_sub <- read_simulation(example_dir,
+                           scenarios = c("A-S00", "A-S07", "A-S08"),
+                           verbose = FALSE)
 }

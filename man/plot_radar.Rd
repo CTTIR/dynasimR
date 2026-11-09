@@ -20,3 +20,7 @@ A ggplot2 object.
 Quick visual summary of several outcome metrics by scenario using
 a radial (polar) coordinate system.
 }
+\examples{
+sim <- load_example_data()
+plot_radar(sim, scenarios = c("A-S00", "A-S08"))
+}

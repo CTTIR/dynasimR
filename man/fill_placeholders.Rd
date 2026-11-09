@@ -55,3 +55,13 @@ signed A-minus-B convention, in percentage points. A write is refused
 if the manuscript requests unknown placeholders or unavailable/non-finite
 statistics. \code{dry_run = TRUE} reports these without writing a file.
 }
+\examples{
+sim <- load_example_data()
+tex <- tempfile(fileext = ".tex")
+writeLines(c("Baseline event rate: [XX_EVENT_BASELINE]\\\\\%.",
+             "Compliance under policy A: [XX_COMPLIANCE_A]."), tex)
+fill_placeholders(sim, tex, dry_run = TRUE)
+out <- fill_placeholders(sim, tex)
+readLines(sub("\\\\.tex$", "_filled.tex", tex))
+unlink(c(tex, sub("\\\\.tex$", "_filled.tex", tex)))
+}

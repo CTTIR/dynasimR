@@ -51,8 +51,6 @@ For Profile B wait times, see \code{\link[=compute_wait_gap_index]{compute_wait_
 Bootstrap intervals treat entities as independent observations.
 }
 \examples{
-\dontrun{
 sim <- load_example_data()
 ci  <- compute_compliance_index(sim)
-}
 }

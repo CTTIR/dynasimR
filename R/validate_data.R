@@ -13,6 +13,10 @@
 #'   still returns `x`.
 #' @return The input `x`, invisibly, with current issues in the
 #'   `validation_issues` attribute, or no such attribute when valid.
+#' @examples
+#' sim <- load_example_data()
+#' checked <- validate_dynasimR_data(sim)
+#' attr(checked, "validation_issues")
 #' @export
 validate_dynasimR_data <- function(x, strict = FALSE) {
   if (!is.list(x)) cli::cli_abort("{.arg x} must be a list of tables.")

@@ -18,3 +18,9 @@ A ggplot2 theme object.
 A minimalist ggplot2 theme tuned for publication-quality single
 and double-column output at 11 pt base size.
 }
+\examples{
+library(ggplot2)
+ggplot(mtcars, aes(wt, mpg)) +
+  geom_point() +
+  theme_dynasimR()
+}

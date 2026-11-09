@@ -9,6 +9,9 @@
 #' @param group Character. Additional grouping variable, e.g.
 #'   `"group"`. Default `NULL`.
 #' @return A ggplot2 object.
+#' @examples
+#' sim <- load_example_data()
+#' plot_timeline(sim, metric = "capacity_utilisation")
 #' @export
 plot_timeline <- function(data,
                           metric,

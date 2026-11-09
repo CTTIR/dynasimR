@@ -23,6 +23,19 @@
 #' @return A tibble with columns `scenario` (if stratified),
 #'   `cohort` (if stratified), `wgi`, `wgi_ci_lo`, `wgi_ci_hi`,
 #'   `n_total`, `n_in_window`, `wgi_critical`, `window_days`.
+#' @examples
+#' set.seed(1)
+#' entities <- data.frame(
+#'   scenario           = rep(c("B-S00", "B-S01"), each = 40),
+#'   cohort             = rep(c("early", "late"), times = 40),
+#'   progress_start     = stats::runif(80, 40, 60),
+#'   progress_end       = stats::runif(80, 60, 90),
+#'   wait_days          = stats::rexp(80, 1 / 10),
+#'   severity           = stats::runif(80),
+#'   completion_outcome = factor(sample(c("full", "partial", "none"), 80,
+#'                                      replace = TRUE))
+#' )
+#' compute_wait_gap_index(entities, n_bootstrap = 200)
 #' @export
 compute_wait_gap_index <- function(data,
                                    window_days  = 14,

@@ -54,3 +54,8 @@ A ggplot2 object, or a patchwork composition when
 \description{
 Plots a \code{dynasimR_km} object.
 }
+\examples{
+sim <- load_example_data()
+km <- km_estimate(sim, endpoint = "stage2", stratify_by = "scenario")
+plot_km(km)
+}

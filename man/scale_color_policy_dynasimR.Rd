@@ -15,3 +15,11 @@ A ggplot2 scale object.
 \description{
 Colour scale for policy
 }
+\examples{
+library(ggplot2)
+d <- data.frame(x = 1:4, y = c(1, 2, 2, 3),
+                policy = rep(c("policy_a", "policy_b"), 2))
+ggplot(d, aes(x, y, color = policy)) +
+  geom_point(size = 3) +
+  scale_color_policy_dynasimR()
+}

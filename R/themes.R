@@ -29,6 +29,11 @@ dynasimR_colors <- function() {
 #' @param base_size Numeric. Base font size. Default `11`.
 #' @param legend_pos Character. Legend position. Default `"bottom"`.
 #' @return A ggplot2 theme object.
+#' @examples
+#' library(ggplot2)
+#' ggplot(mtcars, aes(wt, mpg)) +
+#'   geom_point() +
+#'   theme_dynasimR()
 #' @export
 theme_dynasimR <- function(base_size = 11, legend_pos = "bottom") {
   ggplot2::theme_minimal(base_size = base_size) +
@@ -55,6 +60,12 @@ theme_dynasimR <- function(base_size = 11, legend_pos = "bottom") {
 #'
 #' @param ... Arguments passed to [ggplot2::scale_color_manual()].
 #' @return A ggplot2 scale object.
+#' @examples
+#' library(ggplot2)
+#' d <- data.frame(x = 1:3, y = 3:1, group = c("A", "B", "C"))
+#' ggplot(d, aes(x, y, color = group)) +
+#'   geom_point(size = 3) +
+#'   scale_color_group_dynasimR()
 #' @export
 scale_color_group_dynasimR <- function(...) {
   ggplot2::scale_color_manual(
@@ -72,6 +83,12 @@ scale_color_group_dynasimR <- function(...) {
 #'
 #' @param ... Arguments passed to [ggplot2::scale_fill_manual()].
 #' @return A ggplot2 scale object.
+#' @examples
+#' library(ggplot2)
+#' d <- data.frame(group = c("A", "B", "C"), n = c(4, 6, 2))
+#' ggplot(d, aes(group, n, fill = group)) +
+#'   geom_col() +
+#'   scale_fill_group_dynasimR()
 #' @export
 scale_fill_group_dynasimR <- function(...) {
   ggplot2::scale_fill_manual(
@@ -87,6 +104,13 @@ scale_fill_group_dynasimR <- function(...) {
 #'
 #' @param ... Arguments passed to [ggplot2::scale_color_manual()].
 #' @return A ggplot2 scale object.
+#' @examples
+#' library(ggplot2)
+#' d <- data.frame(x = 1:4, y = c(1, 2, 2, 3),
+#'                 policy = rep(c("policy_a", "policy_b"), 2))
+#' ggplot(d, aes(x, y, color = policy)) +
+#'   geom_point(size = 3) +
+#'   scale_color_policy_dynasimR()
 #' @export
 scale_color_policy_dynasimR <- function(...) {
   ggplot2::scale_color_manual(

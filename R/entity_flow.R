@@ -15,6 +15,9 @@
 #'
 #' @return A tibble with columns `scenario`, `stage`, `n`,
 #'   `median_time`, `q25`, `q75`, `completed_frac`.
+#' @examples
+#' sim <- load_example_data()
+#' stage_throughput(sim)
 #' @export
 stage_throughput <- function(data,
                              stages = c("Stage1", "Stage2",
@@ -72,6 +75,9 @@ stage_throughput <- function(data,
 #' @param threshold Numeric. Quantile above which a stage is flagged
 #'   as a bottleneck (0-1). Default `0.75` (top quartile).
 #' @return A tibble with only the bottleneck rows.
+#' @examples
+#' sim <- load_example_data()
+#' detect_bottlenecks(stage_throughput(sim))
 #' @export
 detect_bottlenecks <- function(data, threshold = 0.75) {
 

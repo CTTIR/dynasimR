@@ -23,3 +23,7 @@ A ggplot2 object.
 Plots a metric column from the \code{timeseries} table over \code{time_step},
 stratified by scenario (and optionally another variable).
 }
+\examples{
+sim <- load_example_data()
+plot_timeline(sim, metric = "capacity_utilisation")
+}

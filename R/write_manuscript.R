@@ -20,11 +20,12 @@
 #'   existing file is replaced. Device errors and warnings remain visible.
 #' @export
 #' @examples
-#' \dontrun{
 #' p <- ggplot2::ggplot(mtcars, ggplot2::aes(mpg, hp)) +
 #'   ggplot2::geom_point()
-#' export_figure(p, "mtcars.pdf", width_mm = 120, height_mm = 90)
-#' }
+#' out <- tempfile(fileext = ".pdf")
+#' export_figure(p, out, width_mm = 120, height_mm = 90)
+#' file.exists(out)
+#' unlink(out)
 export_figure <- function(plot,
                           filename,
                           width_mm  = 174,
@@ -119,10 +120,13 @@ export_figure <- function(plot,
 #' @return The LaTeX source, invisibly.
 #' @export
 #' @examples
-#' \dontrun{
-#' export_latex_table(head(iris), "iris.tex",
-#'                    caption = "First rows of iris.",
-#'                    label   = "iris")
+#' if (requireNamespace("xtable", quietly = TRUE)) {
+#'   out <- tempfile(fileext = ".tex")
+#'   export_latex_table(head(iris), out,
+#'                      caption = "First rows of iris.",
+#'                      label   = "iris")
+#'   cat(readLines(out), sep = "\n")
+#'   unlink(out)
 #' }
 export_latex_table <- function(data,
                                filename,
@@ -216,6 +220,15 @@ export_latex_table <- function(data,
 #'   if the manuscript requests unknown placeholders or unavailable/non-finite
 #'   statistics. `dry_run = TRUE` reports these without writing a file.
 #' @return Named character vector of the replacements (invisibly).
+#' @examples
+#' sim <- load_example_data()
+#' tex <- tempfile(fileext = ".tex")
+#' writeLines(c("Baseline event rate: [XX_EVENT_BASELINE]\\%.",
+#'              "Compliance under policy A: [XX_COMPLIANCE_A]."), tex)
+#' fill_placeholders(sim, tex, dry_run = TRUE)
+#' out <- fill_placeholders(sim, tex)
+#' readLines(sub("\\.tex$", "_filled.tex", tex))
+#' unlink(c(tex, sub("\\.tex$", "_filled.tex", tex)))
 #' @export
 fill_placeholders <- function(sim_data,
                               tex_file,

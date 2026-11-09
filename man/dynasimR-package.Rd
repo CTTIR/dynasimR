@@ -40,18 +40,18 @@ single API.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/cttir/dynasimR}
+  \item \url{https://github.com/CTTIR/dynasimR}
   \item \url{https://cttir.github.io/dynasimR/}
-  \item Report bugs at \url{https://github.com/cttir/dynasimR/issues}
+  \item Report bugs at \url{https://github.com/CTTIR/dynasimR/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: R. Heller \email{r-heller@example.org}
+\strong{Maintainer}: R. Heller \email{raban.heller@uni-ulm.de} (\href{https://orcid.org/0000-0001-8006-9742}{ORCID})
 
 Authors:
 \itemize{
-  \item R. Heller \email{r-heller@example.org}
+  \item R. Heller \email{raban.heller@uni-ulm.de} (\href{https://orcid.org/0000-0001-8006-9742}{ORCID})
 }
 
 }

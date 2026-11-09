@@ -15,3 +15,6 @@ Inspects the \verb{Suggests:} packages required by the embedded Shiny
 dashboard, including table export, and prints which ones are installed.
 This function reports an installation command; it does not install packages.
 }
+\examples{
+check_app_dependencies()
+}

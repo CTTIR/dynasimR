@@ -16,3 +16,10 @@ A ggplot2 scale object.
 Applies dynasimR group colours (\code{A}/\code{B}/\code{C}) to a ggplot2
 \code{color} aesthetic.
 }
+\examples{
+library(ggplot2)
+d <- data.frame(x = 1:3, y = 3:1, group = c("A", "B", "C"))
+ggplot(d, aes(x, y, color = group)) +
+  geom_point(size = 3) +
+  scale_color_group_dynasimR()
+}

@@ -5,6 +5,11 @@
 #'
 #' @param policy_result A `dynasimR_policy` object.
 #' @return A ggplot2 object.
+#' @examples
+#' sim <- load_example_data()
+#' pol <- policy_effect(sim, policy_a_scenario = "A-S08",
+#'                      policy_b_scenario = "A-S07")
+#' plot_policy(pol)
 #' @export
 plot_policy <- function(policy_result) {
 

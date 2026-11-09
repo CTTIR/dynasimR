@@ -27,3 +27,7 @@ Heatmap of metric values (median across replications) for each
 scenario-metric combination. Useful as an at-a-glance summary
 across all scenarios.
 }
+\examples{
+sim <- load_example_data()
+plot_scenario_heatmap(sim)
+}

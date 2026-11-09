@@ -34,13 +34,11 @@
 #'   `tidy` retains the analytic intervals selected by `ci_method`.
 #' @export
 #' @examples
-#' \dontrun{
 #' sim <- load_example_data()
 #' km <- km_estimate(sim, endpoint = "stage2",
 #'                   stratify_by = "scenario")
 #' print(km)
 #' plot_km(km)
-#' }
 km_estimate <- function(data,
                         scenarios   = NULL,
                         endpoint    = c("stage2", "overall", "service",
@@ -158,6 +156,10 @@ plot.dynasimR_km <- function(x, ...) plot_km(x, ...)
 #'   `scenario` factor. Default `"A-S00"`. Use `"B-S00"` for Profile B.
 #' @return An S3 object of class `dynasimR_cox` with slots `fit`,
 #'   `tidy`, `ph_test`, `forest_data` and `params`.
+#' @examples
+#' sim <- load_example_data()
+#' cx <- cox_model(sim, endpoint = "stage2")
+#' cx
 #' @export
 cox_model <- function(data,
                       endpoint           = c("stage2", "overall",

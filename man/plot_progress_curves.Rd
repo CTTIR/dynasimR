@@ -21,3 +21,17 @@ A ggplot2 object.
 Plots longitudinal progress-score trajectories from the output of
 \code{\link[=progress_trajectory]{progress_trajectory()}} (with \code{longitudinal = TRUE}).
 }
+\examples{
+set.seed(1)
+entities <- data.frame(
+  scenario           = rep(c("B-S00", "B-S01"), each = 40),
+  cohort             = rep(c("early", "late"), times = 40),
+  progress_start     = stats::runif(80, 40, 60),
+  progress_end       = stats::runif(80, 60, 90),
+  wait_days          = stats::rexp(80, 1 / 10),
+  severity           = stats::runif(80),
+  completion_outcome = factor(sample(c("full", "partial", "none"), 80,
+                                     replace = TRUE))
+)
+plot_progress_curves(progress_trajectory(entities))
+}

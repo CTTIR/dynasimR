@@ -15,10 +15,8 @@
 #'   metric the median and 2.5%/97.5% quantile.
 #' @export
 #' @examples
-#' \dontrun{
 #' sim <- load_example_data()
 #' resource_comparison(sim)
-#' }
 resource_comparison <- function(data,
                                 scenarios = NULL,
                                 metrics   = c("event_rate",

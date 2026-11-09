@@ -57,11 +57,9 @@ Estimates survival functions from simulated entity outcomes.
 Supports several endpoints for both output profiles.
 }
 \examples{
-\dontrun{
 sim <- load_example_data()
 km <- km_estimate(sim, endpoint = "stage2",
                   stratify_by = "scenario")
 print(km)
 plot_km(km)
-}
 }

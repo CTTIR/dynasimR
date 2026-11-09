@@ -6,6 +6,10 @@
 #' @param highlight_optimal Logical. Circle the optimal AL.
 #'   Default `TRUE`.
 #' @return A ggplot2 object.
+#' @examples
+#' sim <- load_example_data()
+#' al <- al_efficiency(sim)
+#' plot_al_tradeoff(al)
 #' @export
 plot_al_tradeoff <- function(al_result,
                              label_points      = TRUE,
@@ -97,6 +101,9 @@ plot_al_tradeoff <- function(al_result,
 #' @param scenarios Character vector. Scenario IDs to show.
 #' @param metrics Character vector. Numeric columns to plot.
 #' @return A ggplot2 object.
+#' @examples
+#' sim <- load_example_data()
+#' plot_radar(sim, scenarios = c("A-S00", "A-S08"))
 #' @export
 plot_radar <- function(data,
                        scenarios,

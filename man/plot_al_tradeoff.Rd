@@ -21,3 +21,8 @@ A ggplot2 object.
 \description{
 Autonomy-level trade-off plot: event reduction vs. compliance
 }
+\examples{
+sim <- load_example_data()
+al <- al_efficiency(sim)
+plot_al_tradeoff(al)
+}

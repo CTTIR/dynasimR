@@ -10,6 +10,9 @@
 #' @param metrics Character vector. Numeric outcome columns.
 #'   Default `c("event_rate", "compliance_index")`.
 #' @return A ggplot2 object.
+#' @examples
+#' sim <- load_example_data()
+#' plot_scenario_heatmap(sim)
 #' @export
 plot_scenario_heatmap <- function(data,
                                   scenarios = NULL,

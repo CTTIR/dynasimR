@@ -51,9 +51,7 @@ The reference compared with itself has zero difference and, when an
 interval is requested with at least two observed rates, bounds of zero.
 }
 \examples{
-\dontrun{
 sim <- load_example_data()
 al  <- al_efficiency(sim)
 plot_al_tradeoff(al)
-}
 }

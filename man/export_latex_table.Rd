@@ -45,9 +45,12 @@ a publisher class defining \verb{\\\\botrule}, add
 \verb{\\\\providecommand\{\\\\botrule\}\{\\\\bottomrule\}} to the preamble.
 }
 \examples{
-\dontrun{
-export_latex_table(head(iris), "iris.tex",
-                   caption = "First rows of iris.",
-                   label   = "iris")
+if (requireNamespace("xtable", quietly = TRUE)) {
+  out <- tempfile(fileext = ".tex")
+  export_latex_table(head(iris), out,
+                     caption = "First rows of iris.",
+                     label   = "iris")
+  cat(readLines(out), sep = "\n")
+  unlink(out)
 }
 }

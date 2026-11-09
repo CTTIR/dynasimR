@@ -25,3 +25,8 @@ time-series scenario/replication pairs must occur in the summary table.
 Missing measurements are allowed; analysis functions document their
 treatment. Data values are not modified.
 }
+\examples{
+sim <- load_example_data()
+checked <- validate_dynasimR_data(sim)
+attr(checked, "validation_issues")
+}

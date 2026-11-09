@@ -30,8 +30,6 @@ and - if present - median time-to-first-service) by the
 \code{resource} column of the joined scenario metadata.
 }
 \examples{
-\dontrun{
 sim <- load_example_data()
 resource_comparison(sim)
-}
 }

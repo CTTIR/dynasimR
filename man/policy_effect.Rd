@@ -53,11 +53,9 @@ IDs explicitly, so that the same function works for Profile A
 \code{"B-S00"}).
 }
 \examples{
-\dontrun{
 sim <- load_example_data()
 pol <- policy_effect(sim,
   policy_a_scenario = "A-S08", policy_b_scenario = "A-S07")
 print(pol)
 cat(pol$narrative)
-}
 }

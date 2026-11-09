@@ -21,7 +21,7 @@ exist; predictors are interpreted as column names, not R expressions.}
 An S3 object of class \code{dynasimR_completion} with slots
 \code{fit}, \code{tidy}, \code{proportions}, \code{params}. Coefficient rows name the
 actual non-reference outcome classes; \code{params$reference_outcome} is
-the first factor level and \code{params$n_obs} is the analyzed sample size.
+the first factor level and \code{params$n_obs} is the analysed sample size.
 When the optional package \code{nnet} is unavailable, only proportions
 are returned with a warning.
 }
@@ -29,4 +29,19 @@ are returned with a warning.
 Fits a multinomial logistic regression of completion outcome
 (categorical) on scenario + covariates. Returns the model, tidied
 coefficients, and class-level proportions.
+}
+\examples{
+set.seed(1)
+entities <- data.frame(
+  scenario           = rep(c("B-S00", "B-S01"), each = 40),
+  cohort             = rep(c("early", "late"), times = 40),
+  progress_start     = stats::runif(80, 40, 60),
+  progress_end       = stats::runif(80, 60, 90),
+  wait_days          = stats::rexp(80, 1 / 10),
+  severity           = stats::runif(80),
+  completion_outcome = factor(sample(c("full", "partial", "none"), 80,
+                                     replace = TRUE))
+)
+ca <- compute_completion_analysis(entities)
+ca$proportions
 }

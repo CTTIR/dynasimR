@@ -28,3 +28,8 @@ Given a baseline scenario and perturbation scenarios, computes the
 change in the outcome metric for each perturbation relative to the
 baseline.
 }
+\examples{
+sim <- load_example_data()
+tornado_data(sim, baseline = "A-S00",
+             perturbations = c("A-S07", "A-S08"))
+}

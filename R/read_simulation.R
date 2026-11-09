@@ -30,12 +30,12 @@
 #'   `summary`, `entities`, `timeseries`, `metadata` and `load_info`.
 #' @export
 #' @examples
-#' \dontrun{
-#' sim <- read_simulation("data/raw/")
-#' sim <- read_simulation("data/raw/",
-#'                        scenarios = c("A-S00", "A-S07", "A-S08"))
-#' sim <- read_simulation(system.file("extdata", package = "dynasimR"))
-#' }
+#' example_dir <- system.file("extdata", package = "dynasimR")
+#' sim <- read_simulation(example_dir)
+#' sim
+#' sim_sub <- read_simulation(example_dir,
+#'                            scenarios = c("A-S00", "A-S07", "A-S08"),
+#'                            verbose = FALSE)
 read_simulation <- function(data_dir,
                             scenarios = NULL,
                             validate  = TRUE,

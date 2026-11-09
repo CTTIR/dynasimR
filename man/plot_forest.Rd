@@ -20,3 +20,8 @@ A ggplot2 object.
 \description{
 Forest plot of Cox hazard ratios
 }
+\examples{
+sim <- load_example_data()
+cx <- cox_model(sim, endpoint = "stage2")
+plot_forest(cx)
+}

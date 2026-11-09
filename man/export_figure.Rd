@@ -44,9 +44,10 @@ libraries. Exports are staged and checked for nonempty output before an
 existing file is replaced. Device errors and warnings remain visible.
 }
 \examples{
-\dontrun{
 p <- ggplot2::ggplot(mtcars, ggplot2::aes(mpg, hp)) +
   ggplot2::geom_point()
-export_figure(p, "mtcars.pdf", width_mm = 120, height_mm = 90)
-}
+out <- tempfile(fileext = ".pdf")
+export_figure(p, out, width_mm = 120, height_mm = 90)
+file.exists(out)
+unlink(out)
 }
