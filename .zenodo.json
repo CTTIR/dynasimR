@@ -1,7 +1,7 @@
 {
   "upload_type": "software",
   "title": "dynasimR: Analysis and visualisation of agent-based and discrete-event simulation output",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "<p>dynasimR is a domain-neutral framework for analysing and visualising the output of discrete-event, agent-based and node-actor simulations. It targets systems in which entities move through states and interact within a spatial or network environment, regardless of the field the simulation comes from. Two interchangeable output schemas are supported and can be analysed through a single common interface, so that simulations written against different conventions do not require separate analysis code. The package includes an interactive dashboard and helpers for exporting publication-ready figures. It is intended for modellers who want a consistent post-processing layer independent of the simulation engine.</p>",
   "creators": [
     {

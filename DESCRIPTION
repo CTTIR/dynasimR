@@ -1,23 +1,26 @@
 Package: dynasimR
 Type: Package
 Title: Dynamic Agent-Node Simulation Analysis
-Version: 0.1.1
+Version: 0.2.0
 Authors@R: c(
     person(
       given   = "R.",
       family  = "Heller",
       role    = c("aut", "cre"),
-      email   = "raban.heller@uni-ulm.de"
+      email   = "raban.heller@uni-ulm.de",
+      comment = c(ORCID = "0000-0001-8006-9742")
     )
   )
-Description:
-    A domain-neutral framework for analysis and visualisation of
-    discrete-event, agent-based and node-actor simulation outputs.
-    Designed as a general-purpose toolkit for systems in which entities
+Description: A domain-neutral framework for the analysis and visualisation
+    of discrete-event, agent-based and node-actor simulation outputs. It
+    serves as a general-purpose toolkit for systems in which entities
     (actors, nodes, agents) move through states and interact within
-    spatial or network environments. Supports two output schemas (Profile A and Profile B) through
-    a common loader and profile-specific analysis functions. Includes an interactive Shiny dashboard and
-    publication-ready export helpers.
+    spatial or network environments. Two output schemas (Profile A and
+    Profile B) are supported through a common loader and profile-specific
+    analysis functions, covering time-to-event analysis, policy and group
+    comparisons, compliance and wait-gap indices, supply-demand ratios and
+    sensitivity screening. An interactive 'shiny' dashboard and helpers for
+    publication-ready figures and 'LaTeX' tables are included.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -63,9 +66,9 @@ Suggests:
     covr,
     withr
 VignetteBuilder: knitr
-URL: https://github.com/cttir/dynasimR, https://cttir.github.io/dynasimR/
-BugReports: https://github.com/cttir/dynasimR/issues
+URL: https://github.com/CTTIR/dynasimR, https://cttir.github.io/dynasimR/
+BugReports: https://github.com/CTTIR/dynasimR/issues
 Config/testthat/edition: 3
 Language: en-GB
 Config/Needs/website: CTTIR/themakR
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.1

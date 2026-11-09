@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: Cite the version or commit used. This is an unreleased development candidate.
 type: software
 title: 'dynasimR: Analysis and visualisation of agent-based and discrete-event simulation output'
-version: 0.1.1
+version: 0.2.0
 authors:
 - family-names: Heller
   given-names: Raban

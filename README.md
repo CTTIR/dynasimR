@@ -172,7 +172,7 @@ MIT (c) R. Heller
 
 Cite the version or commit actually used and the repository URL, for example:
 
-> Heller, R. (2026). *dynasimR: Analysis and visualisation of agent-based and discrete-event simulation output* (Version 0.1.1, development candidate) [Computer software]. https://github.com/CTTIR/dynasimR
+> Heller, R. (2026). *dynasimR: Analysis and visualisation of agent-based and discrete-event simulation output* (Version 0.2.0) [Computer software]. https://github.com/CTTIR/dynasimR
 
 The earlier draft metadata named DOI `10.5281/zenodo.21889932`. It is retained
 in the maintenance record for provenance; the public Zenodo and DataCite APIs
