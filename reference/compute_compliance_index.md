@@ -67,8 +67,6 @@ Bootstrap intervals treat entities as independent observations.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 sim <- load_example_data()
 ci  <- compute_compliance_index(sim)
-} # }
 ```

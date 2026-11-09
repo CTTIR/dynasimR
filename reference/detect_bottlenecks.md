@@ -26,3 +26,14 @@ detect_bottlenecks(data, threshold = 0.75)
 ## Value
 
 A tibble with only the bottleneck rows.
+
+## Examples
+
+``` r
+sim <- load_example_data()
+detect_bottlenecks(stage_throughput(sim))
+#> # A tibble: 1 × 8
+#>   scenario stage      n median_time   q25   q75 completed_frac is_bottleneck
+#>   <chr>    <chr>  <int>       <dbl> <dbl> <dbl>          <dbl> <lgl>        
+#> 1 A-S00    Stage2  4000         153    77   258          0.735 TRUE         
+```

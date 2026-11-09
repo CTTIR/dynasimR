@@ -38,8 +38,14 @@ quantile.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 sim <- load_example_data()
 resource_comparison(sim)
-} # }
+#> # A tibble: 3 × 9
+#>   resource  n_scenarios n_reps event_rate_median event_rate_q025 event_rate_q975
+#>   <chr>           <int>  <int>             <dbl>           <dbl>           <dbl>
+#> 1 mixed               2    100             0.258           0.170           0.346
+#> 2 none                1     50             0.341           0.266           0.414
+#> 3 observat…           1     50             0.272           0.219           0.374
+#> # ℹ 3 more variables: compliance_index_median <dbl>,
+#> #   compliance_index_q025 <dbl>, compliance_index_q975 <dbl>
 ```

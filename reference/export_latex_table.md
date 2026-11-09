@@ -62,9 +62,31 @@ The LaTeX source, invisibly.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-export_latex_table(head(iris), "iris.tex",
-                   caption = "First rows of iris.",
-                   label   = "iris")
-} # }
+if (requireNamespace("xtable", quietly = TRUE)) {
+  out <- tempfile(fileext = ".tex")
+  export_latex_table(head(iris), out,
+                     caption = "First rows of iris.",
+                     label   = "iris")
+  cat(readLines(out), sep = "\n")
+  unlink(out)
+}
+#> ✔ LaTeX table: /tmp/RtmpqAQwFg/file186e7b5f777f.tex
+#> \begin{table}[ht]
+#> \centering
+#> \begin{tabular}{lrrrr}
+#>   \toprule
+#> Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & Species \\ 
+#>   \midrule
+#> 5.100 & 3.500 & 1.400 & 0.200 & setosa \\ 
+#>   4.900 & 3.000 & 1.400 & 0.200 & setosa \\ 
+#>   4.700 & 3.200 & 1.300 & 0.200 & setosa \\ 
+#>   4.600 & 3.100 & 1.500 & 0.200 & setosa \\ 
+#>   5.000 & 3.600 & 1.400 & 0.200 & setosa \\ 
+#>   5.400 & 3.900 & 1.700 & 0.400 & setosa \\ 
+#>    \botrule
+#> \end{tabular}
+#> \caption{First rows of iris.}
+#> \label{tab:iris}
+#> \end{table}
+#> 
 ```

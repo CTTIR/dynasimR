@@ -15,7 +15,7 @@
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">dynasimR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/cttir/dynasimR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/CTTIR/dynasimR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -44,7 +44,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Cox proportional-hazards model for simulation data</h1>
-      <small class="dont-index">Source: <a href="https://github.com/cttir/dynasimR/blob/main/R/survival.R" class="external-link"><code>R/survival.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/CTTIR/dynasimR/blob/main/R/survival.R" class="external-link"><code>R/survival.R</code></a></small>
       <div class="d-none name"><code>cox_model.Rd</code></div>
     </div>
 
@@ -95,6 +95,28 @@ Explicitly requested unavailable covariates are an error.</p></dd>
 <code>tidy</code>, <code>ph_test</code>, <code>forest_data</code> and <code>params</code>.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="load_example_data.html">load_example_data</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cx</span> <span class="op">&lt;-</span> <span class="fu">cox_model</span><span class="op">(</span><span class="va">sim</span>, endpoint <span class="op">=</span> <span class="st">"stage2"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cx</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">dynasimR_cox</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Endpoint: <span style="color: #0000BB;">"stage2"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Covariates: <span style="color: #0000BB;">"scenario"</span>, <span style="color: #0000BB;">"severity"</span>, and <span style="color: #0000BB;">"group"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Reference: <span style="color: #0000BB;">"A-S00"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> N: <span style="color: #0000BB;">16000</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   term             HR std.error statistic    p.value CI_low CI_high sig  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> scenarioA-S01 1.04     0.026<span style="text-decoration: underline;">0</span>    1.53   0.125       0.989   1.10  ns   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> scenarioA-S07 0.999    0.026<span style="text-decoration: underline;">0</span>   -<span style="color: #BB0000;">0.042</span><span style="color: #BB0000; text-decoration: underline;">3</span> 0.966       0.949   1.05  ns   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> scenarioA-S08 1.08     0.025<span style="text-decoration: underline;">7</span>    2.97   0.003<span style="text-decoration: underline;">03</span>     1.03    1.13  **   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> severity      0.840    0.037<span style="text-decoration: underline;">1</span>   -<span style="color: #BB0000;">4.70</span>   0.000<span style="text-decoration: underline;">002</span>62  0.781   0.903 ***  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> groupB        0.982    0.020<span style="text-decoration: underline;">6</span>   -<span style="color: #BB0000;">0.893</span>  0.372       0.943   1.02  ns   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> groupC        1.01     0.024<span style="text-decoration: underline;">3</span>    0.548  0.584       0.966   1.06  ns   </span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

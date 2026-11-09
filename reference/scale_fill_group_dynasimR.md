@@ -20,3 +20,13 @@ scale_fill_group_dynasimR(...)
 ## Value
 
 A ggplot2 scale object.
+
+## Examples
+
+``` r
+library(ggplot2)
+d <- data.frame(group = c("A", "B", "C"), n = c(4, 6, 2))
+ggplot(d, aes(group, n, fill = group)) +
+  geom_col() +
+  scale_fill_group_dynasimR()
+```

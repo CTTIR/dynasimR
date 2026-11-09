@@ -80,16 +80,18 @@ and Profile B) can be analysed with a single API.
 
 Useful links:
 
-- <https://github.com/cttir/dynasimR>
+- <https://github.com/CTTIR/dynasimR>
 
 - <https://cttir.github.io/dynasimR/>
 
-- Report bugs at <https://github.com/cttir/dynasimR/issues>
+- Report bugs at <https://github.com/CTTIR/dynasimR/issues>
 
 ## Author
 
-**Maintainer**: R. Heller <r-heller@example.org>
+**Maintainer**: R. Heller <raban.heller@uni-ulm.de>
+([ORCID](https://orcid.org/0000-0001-8006-9742))
 
 Authors:
 
-- R. Heller <r-heller@example.org>
+- R. Heller <raban.heller@uni-ulm.de>
+  ([ORCID](https://orcid.org/0000-0001-8006-9742))

@@ -14,3 +14,10 @@ check_app_dependencies()
 ## Value
 
 A tibble with columns `package`, `installed`, `version`, invisibly.
+
+## Examples
+
+``` r
+check_app_dependencies()
+#> ✔ All Shiny-app dependencies available.
+```

@@ -30,3 +30,17 @@ stage_throughput(data, stages = c("Stage1", "Stage2", "Stage3", "Stage4"))
 
 A tibble with columns `scenario`, `stage`, `n`, `median_time`, `q25`,
 `q75`, `completed_frac`.
+
+## Examples
+
+``` r
+sim <- load_example_data()
+stage_throughput(sim)
+#> # A tibble: 4 × 7
+#>   scenario stage      n median_time   q25   q75 completed_frac
+#>   <chr>    <chr>  <int>       <dbl> <dbl> <dbl>          <dbl>
+#> 1 A-S00    Stage2  4000         153    77  258           0.735
+#> 2 A-S01    Stage2  4000         145    74  253           0.746
+#> 3 A-S07    Stage2  4000         151    80  259           0.744
+#> 4 A-S08    Stage2  4000         151    77  259.          0.782
+```

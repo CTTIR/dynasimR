@@ -28,3 +28,12 @@ validate_dynasimR_data(x, strict = FALSE)
 
 The input `x`, invisibly, with current issues in the `validation_issues`
 attribute, or no such attribute when valid.
+
+## Examples
+
+``` r
+sim <- load_example_data()
+checked <- validate_dynasimR_data(sim)
+attr(checked, "validation_issues")
+#> NULL
+```

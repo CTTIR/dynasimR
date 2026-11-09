@@ -26,3 +26,10 @@ plot_map(data, color_by = c("group", "status"), scenarios = NULL)
 ## Value
 
 A ggplot2 object.
+
+## Examples
+
+``` r
+sim <- load_example_data()
+plot_map(sim, scenarios = "A-S00")
+```

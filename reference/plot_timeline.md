@@ -31,3 +31,10 @@ plot_timeline(data, metric, scenarios = NULL, group = NULL)
 ## Value
 
 A ggplot2 object.
+
+## Examples
+
+``` r
+sim <- load_example_data()
+plot_timeline(sim, metric = "capacity_utilisation")
+```

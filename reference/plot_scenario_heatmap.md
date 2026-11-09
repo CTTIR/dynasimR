@@ -32,3 +32,10 @@ plot_scenario_heatmap(
 ## Value
 
 A ggplot2 object.
+
+## Examples
+
+``` r
+sim <- load_example_data()
+plot_scenario_heatmap(sim)
+```

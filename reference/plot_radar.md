@@ -26,3 +26,10 @@ plot_radar(data, scenarios, metrics = c("event_rate", "compliance_index"))
 ## Value
 
 A ggplot2 object.
+
+## Examples
+
+``` r
+sim <- load_example_data()
+plot_radar(sim, scenarios = c("A-S00", "A-S08"))
+```

@@ -71,3 +71,41 @@ Policy event differences and their confidence limits use the signed
 A-minus-B convention, in percentage points. A write is refused if the
 manuscript requests unknown placeholders or unavailable/non-finite
 statistics. `dry_run = TRUE` reports these without writing a file.
+
+## Examples
+
+``` r
+sim <- load_example_data()
+tex <- tempfile(fileext = ".tex")
+writeLines(c("Baseline event rate: [XX_EVENT_BASELINE]\\%.",
+             "Compliance under policy A: [XX_COMPLIANCE_A]."), tex)
+fill_placeholders(sim, tex, dry_run = TRUE)
+#> 
+#> ── Placeholder substitutions ──
+#> 
+#> • `[XX_POLICY_DELTA_EVENT]` -> "-7.4"
+#> • `[XX_POLICY_DELTA_CI_LO]` -> "-9.1"
+#> • `[XX_POLICY_DELTA_CI_HI]` -> "-5.5"
+#> • `[XX_COMPLIANCE_A]` -> "0.542"
+#> • `[XX_COMPLIANCE_B]` -> "0.276"
+#> • `[XX_OPTIMAL_AL]` -> NA
+#> • `[XX_EVENT_BASELINE]` -> "34.1"
+#> • `[XX_EVENT_BEST]` -> "22.3"
+#> ℹ Dry run: no file written.
+out <- fill_placeholders(sim, tex)
+#> 
+#> ── Placeholder substitutions ──
+#> 
+#> • `[XX_POLICY_DELTA_EVENT]` -> "-7.4"
+#> • `[XX_POLICY_DELTA_CI_LO]` -> "-9"
+#> • `[XX_POLICY_DELTA_CI_HI]` -> "-5.5"
+#> • `[XX_COMPLIANCE_A]` -> "0.542"
+#> • `[XX_COMPLIANCE_B]` -> "0.276"
+#> • `[XX_OPTIMAL_AL]` -> NA
+#> • `[XX_EVENT_BASELINE]` -> "34.1"
+#> • `[XX_EVENT_BEST]` -> "22.3"
+#> ✔ Filled: /tmp/RtmpqAQwFg/file186e56f70896_filled.tex
+readLines(sub("\\.tex$", "_filled.tex", tex))
+#> [1] "Baseline event rate: 34.1\\%."     "Compliance under policy A: 0.542."
+unlink(c(tex, sub("\\.tex$", "_filled.tex", tex)))
+```

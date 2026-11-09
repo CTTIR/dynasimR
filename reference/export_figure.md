@@ -61,9 +61,12 @@ visible.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 p <- ggplot2::ggplot(mtcars, ggplot2::aes(mpg, hp)) +
   ggplot2::geom_point()
-export_figure(p, "mtcars.pdf", width_mm = 120, height_mm = 90)
-} # }
+out <- tempfile(fileext = ".pdf")
+export_figure(p, out, width_mm = 120, height_mm = 90)
+#> ✔ Figure saved: /tmp/RtmpqAQwFg/file186e6f20d6ff.pdf (120x90 mm)
+file.exists(out)
+#> [1] TRUE
+unlink(out)
 ```

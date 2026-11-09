@@ -76,11 +76,16 @@ by `ci_method`.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 sim <- load_example_data()
 km <- km_estimate(sim, endpoint = "stage2",
                   stratify_by = "scenario")
 print(km)
+#> 
+#> ── dynasimR_km ─────────────────────────────────────────────────────────────────
+#> • Endpoint: "stage2"
+#> • Stratify by: "scenario"
+#> • N scenarios: 4
+#> • N observations: 16000
+#> • Log-rank p: 0.00514
 plot_km(km)
-} # }
 ```

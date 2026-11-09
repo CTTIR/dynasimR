@@ -63,9 +63,7 @@ An S3 object of class `dynasimR_al_analysis` with slots
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 sim <- load_example_data()
 al  <- al_efficiency(sim)
 plot_al_tradeoff(al)
-} # }
 ```

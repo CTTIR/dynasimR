@@ -26,3 +26,11 @@ plot_forest(cox_result, reference_label = "No effect (HR = 1)", ...)
 ## Value
 
 A ggplot2 object.
+
+## Examples
+
+``` r
+sim <- load_example_data()
+cx <- cox_model(sim, endpoint = "stage2")
+plot_forest(cx)
+```

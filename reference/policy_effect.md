@@ -65,11 +65,28 @@ explicitly, so that the same function works for Profile A (e.g.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 sim <- load_example_data()
 pol <- policy_effect(sim,
   policy_a_scenario = "A-S08", policy_b_scenario = "A-S07")
 print(pol)
+#> 
+#> ── dynasimR_policy ─────────────────────────────────────────────────────────────
+#> • Policy A: "A-S08"
+#> • Policy B: "A-S07"
+#> • n (reps): 50
+#> 
+#> ── Delta event rate ──
+#> 
+#> # A tibble: 4 × 4
+#>   group median_pct_points  ci_lo ci_hi
+#>   <chr>             <dbl>  <dbl> <dbl>
+#> 1 all               -7.37  -9.05 -5.50
+#> 2 A                -10.6  -14.2  -6.84
+#> 3 B                -11.3  -15.3  -7.65
+#> 4 C                 -9.39 -15.8  -3.71
+#> ── Narrative ──
+#> 
+#> The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was -7.4 percentage points (95% CI: -9.1 to -5.5); the event rate was lower under policy A (Wilcoxon test: W = 215, adjusted p < 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658). 
 cat(pol$narrative)
-} # }
+#> The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was -7.4 percentage points (95% CI: -9.1 to -5.5); the event rate was lower under policy A (Wilcoxon test: W = 215, adjusted p < 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658).
 ```

@@ -58,3 +58,25 @@ group_effect(
 
 An S3 object of class `dynasimR_group_effect` with slots `completion`,
 `cost`, `delta_completion`, `delta_cost`, `params`.
+
+## Examples
+
+``` r
+set.seed(1)
+runs <- data.frame(
+  scenario        = rep(c("B-S00", "B-S01"), each = 20),
+  replication     = rep(1:20, 2),
+  completion_rate = c(stats::runif(20, 0.5, 0.7), stats::runif(20, 0.6, 0.8)),
+  cost            = c(stats::runif(20, 900, 1100), stats::runif(20, 1000, 1300)),
+  region          = rep(c("North", "South", "East", "West"), 10),
+  supply          = stats::runif(40, 80, 120),
+  demand          = stats::runif(40, 80, 120)
+)
+ge <- group_effect(runs, group_a_scenario = "B-S01",
+                   group_b_scenario = "B-S00", n_bootstrap = 200)
+ge$delta_completion
+#> # A tibble: 1 × 3
+#>   delta_median  ci_lo ci_hi
+#>          <dbl>  <dbl> <dbl>
+#> 1       0.0691 0.0291 0.137
+```

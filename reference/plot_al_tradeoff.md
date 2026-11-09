@@ -25,3 +25,11 @@ plot_al_tradeoff(al_result, label_points = TRUE, highlight_optimal = TRUE)
 ## Value
 
 A ggplot2 object.
+
+## Examples
+
+``` r
+sim <- load_example_data()
+al <- al_efficiency(sim)
+plot_al_tradeoff(al)
+```

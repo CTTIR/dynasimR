@@ -35,3 +35,16 @@ A tibble suitable for a tornado plot with columns `scenario`, `delta`,
 `lo`, `hi`, sorted by absolute delta. `lo` and `hi` are the
 perturbation's observed percentile range minus the fixed baseline
 median, not a confidence interval for their difference.
+
+## Examples
+
+``` r
+sim <- load_example_data()
+tornado_data(sim, baseline = "A-S00",
+             perturbations = c("A-S07", "A-S08"))
+#> # A tibble: 2 × 4
+#>   scenario   delta     lo      hi
+#>   <chr>      <dbl>  <dbl>   <dbl>
+#> 1 A-S08    -0.118  -0.180 -0.0369
+#> 2 A-S07    -0.0447 -0.108  0.0108
+```

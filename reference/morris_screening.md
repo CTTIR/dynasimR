@@ -37,3 +37,16 @@ A tibble with `input`, legacy `mu_star` (absolute standardized slope,
 equal to absolute Pearson correlation), legacy `sigma` (standardized
 regression residual SD), `r2`, `n_observed`, `status` and `rank`.
 Missing pairs are omitted independently for each input.
+
+## Examples
+
+``` r
+sim <- load_example_data()
+morris_screening(sim, outcome = "event_rate",
+                 inputs = c("al", "event_base"))
+#> # A tibble: 2 × 7
+#>   input      mu_star sigma    r2 n_observed status  rank
+#>   <chr>        <dbl> <dbl> <dbl>      <int> <chr>  <int>
+#> 1 event_base   0.722 0.693 0.522        200 ok         1
+#> 2 al           0.560 0.831 0.313        200 ok         2
+```

@@ -34,3 +34,31 @@ progress_trajectory(data, group_by = c("scenario"), longitudinal = FALSE)
 
 An S3 object of class `dynasimR_progress` with slots `summary`,
 `longitudinal` (if available) and `params`.
+
+## Examples
+
+``` r
+set.seed(1)
+entities <- data.frame(
+  scenario           = rep(c("B-S00", "B-S01"), each = 40),
+  cohort             = rep(c("early", "late"), times = 40),
+  progress_start     = stats::runif(80, 40, 60),
+  progress_end       = stats::runif(80, 60, 90),
+  wait_days          = stats::rexp(80, 1 / 10),
+  severity           = stats::runif(80),
+  completion_outcome = factor(sample(c("full", "partial", "none"), 80,
+                                     replace = TRUE))
+)
+progress_trajectory(entities, group_by = c("scenario", "cohort"))
+#> 
+#> ── dynasimR_progress ───────────────────────────────────────────────────────────
+#> # A tibble: 4 × 8
+#>   scenario cohort     n progress_start_median progress_end_median
+#>   <chr>    <chr>  <int>                 <dbl>               <dbl>
+#> 1 B-S00    early     20                  52.8                76.3
+#> 2 B-S00    late      20                  47.7                72.6
+#> 3 B-S01    early     20                  49.6                75.6
+#> 4 B-S01    late      20                  50.7                74.2
+#> # ℹ 3 more variables: progress_gain_median <dbl>, progress_gain_q025 <dbl>,
+#> #   progress_gain_q975 <dbl>
+```

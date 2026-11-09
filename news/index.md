@@ -1,6 +1,16 @@
 # Changelog
 
-## dynasimR 0.1.1 (unreleased)
+## dynasimR 0.2.0
+
+### CRAN preparation
+
+- Every exported function now has a runnable example. Examples write
+  only to temporary files, and the dashboard example runs only in
+  interactive sessions.
+- Expand the `Description` field, declare the maintainer ORCID and
+  rewrite `cran-comments.md`.
+
+### Changes since 0.1.0 (prepared as 0.1.1, never released)
 
 - Verify staged figure output before reporting success or replacing an
   existing file. Preserve prior exports on device failure, and enable

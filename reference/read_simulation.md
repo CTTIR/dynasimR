@@ -57,10 +57,20 @@ the loaded scenarios use different profiles.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-sim <- read_simulation("data/raw/")
-sim <- read_simulation("data/raw/",
-                       scenarios = c("A-S00", "A-S07", "A-S08"))
-sim <- read_simulation(system.file("extdata", package = "dynasimR"))
-} # }
+example_dir <- system.file("extdata", package = "dynasimR")
+sim <- read_simulation(example_dir)
+#> ℹ Loading 4 scenarios from /home/runner/work/_temp/Library/dynasimR/extdata
+#> ✔ Loaded 200 summary rows, 
+sim
+#> 
+#> ── dynasimR_data ───────────────────────────────────────────────────────────────
+#> • Scenarios: 4
+#> • Profile: "Profile_A"
+#> • Summary rows: 200
+#> • Entity events: 16000
+#> • Loaded: "2026-11-09 23:49"
+#> • Path: /home/runner/work/_temp/Library/dynasimR/extdata
+sim_sub <- read_simulation(example_dir,
+                           scenarios = c("A-S00", "A-S07", "A-S08"),
+                           verbose = FALSE)
 ```

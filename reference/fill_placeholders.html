@@ -23,7 +23,7 @@ compute_compliance_index()."><meta property="og:image" content="https://cttir.gi
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">dynasimR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,7 +43,7 @@ compute_compliance_index()."><meta property="og:image" content="https://cttir.gi
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/cttir/dynasimR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/CTTIR/dynasimR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -52,7 +52,7 @@ compute_compliance_index()."><meta property="og:image" content="https://cttir.gi
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Fill <code>[XX_*]</code> placeholders in a LaTeX manuscript</h1>
-      <small class="dont-index">Source: <a href="https://github.com/cttir/dynasimR/blob/main/R/write_manuscript.R" class="external-link"><code>R/write_manuscript.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/CTTIR/dynasimR/blob/main/R/write_manuscript.R" class="external-link"><code>R/write_manuscript.R</code></a></small>
       <div class="d-none name"><code>fill_placeholders.Rd</code></div>
     </div>
 
@@ -133,6 +133,43 @@ if the manuscript requests unknown placeholders or unavailable/non-finite
 statistics. <code>dry_run = TRUE</code> reports these without writing a file.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="load_example_data.html">load_example_data</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".tex"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Baseline event rate: [XX_EVENT_BASELINE]\\%."</span>,</span></span>
+<span class="r-in"><span>             <span class="st">"Compliance under policy A: [XX_COMPLIANCE_A]."</span><span class="op">)</span>, <span class="va">tex</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">fill_placeholders</span><span class="op">(</span><span class="va">sim</span>, <span class="va">tex</span>, dry_run <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Placeholder substitutions</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `[XX_POLICY_DELTA_EVENT]` -&gt; <span style="color: #0000BB;">"-7.4"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `[XX_POLICY_DELTA_CI_LO]` -&gt; <span style="color: #0000BB;">"-9.1"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `[XX_POLICY_DELTA_CI_HI]` -&gt; <span style="color: #0000BB;">"-5.5"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `[XX_COMPLIANCE_A]` -&gt; <span style="color: #0000BB;">"0.542"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `[XX_COMPLIANCE_B]` -&gt; <span style="color: #0000BB;">"0.276"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `[XX_OPTIMAL_AL]` -&gt; <span style="color: #0000BB;">NA</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `[XX_EVENT_BASELINE]` -&gt; <span style="color: #0000BB;">"34.1"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `[XX_EVENT_BEST]` -&gt; <span style="color: #0000BB;">"22.3"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Dry run: no file written.</span>
+<span class="r-in"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu">fill_placeholders</span><span class="op">(</span><span class="va">sim</span>, <span class="va">tex</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Placeholder substitutions</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `[XX_POLICY_DELTA_EVENT]` -&gt; <span style="color: #0000BB;">"-7.4"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `[XX_POLICY_DELTA_CI_LO]` -&gt; <span style="color: #0000BB;">"-9"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `[XX_POLICY_DELTA_CI_HI]` -&gt; <span style="color: #0000BB;">"-5.5"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `[XX_COMPLIANCE_A]` -&gt; <span style="color: #0000BB;">"0.542"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `[XX_COMPLIANCE_B]` -&gt; <span style="color: #0000BB;">"0.276"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `[XX_OPTIMAL_AL]` -&gt; <span style="color: #0000BB;">NA</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `[XX_EVENT_BASELINE]` -&gt; <span style="color: #0000BB;">"34.1"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `[XX_EVENT_BEST]` -&gt; <span style="color: #0000BB;">"22.3"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Filled: <span style="color: #0000BB;">/tmp/RtmpqAQwFg/file186e56f70896_filled.tex</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">sub</a></span><span class="op">(</span><span class="st">"\\.tex$"</span>, <span class="st">"_filled.tex"</span>, <span class="va">tex</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Baseline event rate: 34.1\\%."     "Compliance under policy A: 0.542."</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tex</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">sub</a></span><span class="op">(</span><span class="st">"\\.tex$"</span>, <span class="st">"_filled.tex"</span>, <span class="va">tex</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
