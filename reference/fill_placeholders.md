@@ -104,7 +104,7 @@ out <- fill_placeholders(sim, tex)
 #> • `[XX_OPTIMAL_AL]` -> NA
 #> • `[XX_EVENT_BASELINE]` -> "34.1"
 #> • `[XX_EVENT_BEST]` -> "22.3"
-#> ✔ Filled: /tmp/RtmplR7HTu/file18b569167f43_filled.tex
+#> ✔ Filled: /tmp/RtmpXQI4Xk/file18c012855a_filled.tex
 readLines(sub("\\.tex$", "_filled.tex", tex))
 #> [1] "Baseline event rate: 34.1\\%."     "Compliance under policy A: 0.542."
 unlink(c(tex, sub("\\.tex$", "_filled.tex", tex)))
