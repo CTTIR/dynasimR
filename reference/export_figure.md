@@ -65,7 +65,7 @@ p <- ggplot2::ggplot(mtcars, ggplot2::aes(mpg, hp)) +
   ggplot2::geom_point()
 out <- tempfile(fileext = ".pdf")
 export_figure(p, out, width_mm = 120, height_mm = 90)
-#> ✔ Figure saved: /tmp/RtmpXQI4Xk/file18c01e4da8c4.pdf (120x90 mm)
+#> ✔ Figure saved: /tmp/RtmpObUZkt/file18c74f357da9.pdf (120x90 mm)
 file.exists(out)
 #> [1] TRUE
 unlink(out)
