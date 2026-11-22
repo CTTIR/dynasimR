@@ -3,9 +3,14 @@ message: Cite the version or commit used. This is an unreleased development cand
 type: software
 title: 'dynasimR: Analysis and visualisation of agent-based and discrete-event simulation output'
 version: 0.2.0
+doi: 10.5281/zenodo.21889932
 authors:
 - family-names: Heller
   given-names: Raban
   orcid: https://orcid.org/0000-0001-8006-9742
 repository-code: https://github.com/CTTIR/dynasimR
 license: MIT
+identifiers:
+- type: doi
+  value: 10.5281/zenodo.21889932
+  description: Zenodo DOI (reserved; resolves once the record is published)
