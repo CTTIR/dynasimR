@@ -160,9 +160,7 @@ Rscript /path/to/dynasimR/dev/doc_and_check.R
 
 The smoke script exercises both profiles and renders real export files. The
 check script regenerates documentation without deleting unrelated files, builds
-a source archive, and fails on errors, warnings or notes. See
-[MAINTENANCE.md](MAINTENANCE.md) for the audit, validation evidence and remaining
-release gates.
+a source archive, and fails on errors, warnings or notes.
 
 ## Licence
 

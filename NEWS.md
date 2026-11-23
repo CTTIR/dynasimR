@@ -70,6 +70,8 @@
   `cran-comments.md`.
 * The documentation uses British English spelling throughout.
 * `CITATION.cff` and `.zenodo.json` name the author as R. Heller.
+* The README no longer links to the maintenance notes, which are not part of
+  the package source.
 
 ## Changes since 0.1.0 (prepared as 0.1.1, never released)
 
