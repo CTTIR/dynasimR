@@ -14,8 +14,9 @@
   under- and oversupply stay distinguishable with colour-vision deficiency,
   and reports a missing `region` or `sdi_median` column by name.
 * `plot_al_tradeoff()` draws the AL labels above the optimum ring in a
-  neutral colour, keeps the threshold label inside the panel, and no longer
-  prints "ALNA" when no autonomy level meets the threshold.
+  neutral colour, keeps the threshold label inside the panel, and says so
+  when no autonomy level meets the threshold instead of printing a missing
+  optimum.
 * `plot_km()` and the policy narrative print p-values with their relation
   ("p = 0.005", "p < 0.001"). With one stratifying variable the legend and
   the risk table show the levels only, with the variable as legend title.
@@ -30,11 +31,11 @@
   state unchanged. The vignettes and examples now set it.
 * `print()` for `policy_effect()` results wraps the narrative to the console
   width instead of printing one long line.
-* Dashboard: static plots are rendered at 96 ppi, so their text matches the
-  size of the surrounding interface; effect-size, test and trade-off tables
-  show four significant digits (sorting and export keep full precision); the
-  autonomy tab names the scenarios of the default sweep that a dataset lacks,
-  and its legend no longer overlaps the axis title.
+* Dashboard: static plots are rendered at 96 pixels per inch, so their text
+  matches the size of the surrounding interface; effect-size, test and
+  trade-off tables show four significant digits (sorting and export keep full
+  precision); the autonomy tab names the scenarios of the default sweep that a
+  dataset lacks, and its legend no longer overlaps the axis title.
 * The examples of `al_efficiency()` and `plot_al_tradeoff()` map the two
   autonomy levels of the bundled data instead of the full default sweep, which
   produced a single-point plot.
