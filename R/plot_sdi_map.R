@@ -23,26 +23,44 @@
 #' @export
 plot_sdi_map <- function(sdi) {
 
+  if (!is.data.frame(sdi))
+    cli::cli_abort("{.arg sdi} must be a data frame from spatial_supply_demand().")
+  .require_cols(sdi, c("region", "sdi_median"), where = "sdi")
   has_xy <- all(c("x", "y") %in% names(sdi))
+  # Diverging red-blue scale around SDI = 1 (supply equals demand); unlike
+  # red-green it stays distinguishable with colour-vision deficiency.
+  fill_scale <- ggplot2::scale_fill_gradient2(
+    low = dynasimR_colors()$GROUP_B,
+    mid = "#F7F7F7",
+    high = dynasimR_colors()$GROUP_A,
+    midpoint = 1
+  )
 
   if (has_xy) {
+    # Tiles far from the midpoint are dark, tiles near it almost white:
+    # choose the label colour accordingly.
+    distance <- abs(sdi$sdi_median - 1)
+    furthest <- suppressWarnings(max(distance, na.rm = TRUE))
+    dark_tile <- is.finite(distance) & is.finite(furthest) & furthest > 0 &
+      distance / furthest > 0.5
     ggplot2::ggplot(sdi,
       ggplot2::aes(x = .data$x, y = .data$y,
                    fill = .data$sdi_median)
     ) +
       ggplot2::geom_tile(color = "white", linewidth = 0.3) +
       ggplot2::geom_text(
+        data = sdi[!dark_tile, , drop = FALSE],
         ggplot2::aes(label = .data$region),
-        size = 2.5, color = "white"
+        size = 3, color = "#1A1A1A"
       ) +
-      ggplot2::scale_fill_gradient2(
-        low = dynasimR_colors()$GROUP_B,
-        mid = "white",
-        high = dynasimR_colors()$POSITIVE,
-        midpoint = 1
+      ggplot2::geom_text(
+        data = sdi[dark_tile, , drop = FALSE],
+        ggplot2::aes(label = .data$region),
+        size = 3, color = "white"
       ) +
+      fill_scale +
       ggplot2::coord_fixed() +
-      ggplot2::labs(fill = "SDI") +
+      ggplot2::labs(x = "X", y = "Y", fill = "SDI (median)") +
       theme_dynasimR()
   } else {
     ggplot2::ggplot(sdi,
@@ -51,18 +69,14 @@ plot_sdi_map <- function(sdi) {
                    y = .data$sdi_median,
                    fill = .data$sdi_median)
     ) +
-      ggplot2::geom_col() +
+      ggplot2::geom_col(color = "gray70", linewidth = 0.2) +
       ggplot2::geom_hline(yintercept = 1, linetype = "dashed",
                           color = "gray40") +
-      ggplot2::scale_fill_gradient2(
-        low = dynasimR_colors()$GROUP_B,
-        mid = "white",
-        high = dynasimR_colors()$POSITIVE,
-        midpoint = 1
-      ) +
+      fill_scale +
       ggplot2::coord_flip() +
-      ggplot2::labs(x = NULL, y = "Supply/Demand",
-                    fill = "SDI") +
+      ggplot2::labs(x = NULL, y = "Supply-Demand Index (median)",
+                    fill = "SDI (median)",
+                    caption = "Dashed line: supply equals demand (SDI = 1).") +
       theme_dynasimR()
   }
 }

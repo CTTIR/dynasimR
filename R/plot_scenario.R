@@ -39,17 +39,41 @@ plot_scenario_heatmap <- function(data,
                         names_to = "metric",
                         values_to = "value")
 
+  # The reversed palette is dark for high values: label those tiles in
+  # white and the light ones in near-black so every value stays legible.
+  long$label <- ifelse(is.na(long$value), "",
+                       formatC(long$value, digits = 2, format = "f"))
+  dark_tile <- .contrast_position(long$value) > 0.45
+
   ggplot2::ggplot(long,
     ggplot2::aes(x = .data$metric, y = .data$scenario,
                  fill = .data$value)
   ) +
     ggplot2::geom_tile(color = "white", linewidth = 0.3) +
     ggplot2::geom_text(
-      ggplot2::aes(label = formatC(.data$value, digits = 2,
-                                   format = "f")),
-      size = 3
+      data = long[!dark_tile, , drop = FALSE],
+      ggplot2::aes(label = .data$label),
+      size = 3, color = "#1A1A1A"
+    ) +
+    ggplot2::geom_text(
+      data = long[dark_tile, , drop = FALSE],
+      ggplot2::aes(label = .data$label),
+      size = 3, color = "white"
     ) +
     ggplot2::scale_fill_viridis_c(option = "B", direction = -1) +
     ggplot2::labs(x = NULL, y = NULL, fill = "Median value") +
     theme_dynasimR()
+}
+
+# Position of each value within the observed range (0 = minimum,
+# 1 = maximum); missing or constant input maps to 0. Used to choose a label
+# colour that contrasts with a sequential fill.
+#' @keywords internal
+#' @noRd
+.contrast_position <- function(x) {
+  rng <- suppressWarnings(range(x[is.finite(x)]))
+  if (!all(is.finite(rng)) || rng[2] == rng[1]) return(rep(0, length(x)))
+  pos <- (x - rng[1]) / (rng[2] - rng[1])
+  pos[!is.finite(pos)] <- 0
+  pos
 }
