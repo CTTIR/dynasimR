@@ -64,7 +64,7 @@ Compliance Index, throughput, bottlenecks.
 ## Sensitivity analysis
 
 - [`morris_screening()`](https://cttir.github.io/dynasimR/reference/morris_screening.md)
-  : Standardized univariate sensitivity screening
+  : Standardised univariate sensitivity screening
 - [`tornado_data()`](https://cttir.github.io/dynasimR/reference/tornado_data.md)
   : Tornado-diagram data from one-at-a-time perturbation
 

@@ -142,7 +142,7 @@ Supply-demand ratios use `supply / demand`; zero-demand cells are
 undefined (`NA`) and counted separately. The deprecated `eps` argument
 no longer changes that ratio. The legacy
 [`morris_screening()`](https://cttir.github.io/dynasimR/reference/morris_screening.md)
-function is a descriptive univariate standardized-slope screen, not a
+function is a descriptive univariate standardised-slope screen, not a
 replacement for a designed Morris trajectory experiment.
 
 `plot_cost_effectiveness(..., show_ceac = TRUE)` retains its legacy
@@ -179,7 +179,7 @@ files, builds a source archive, and fails on errors, warnings or notes.
 See [MAINTENANCE.md](https://cttir.github.io/dynasimR/MAINTENANCE.md)
 for the audit, validation evidence and remaining release gates.
 
-## License
+## Licence
 
 MIT (c) R. Heller
 

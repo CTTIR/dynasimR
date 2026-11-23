@@ -11,7 +11,7 @@ simulation replications, not paired runs. `NNT_surrogate` is the
 reciprocal absolute mean rate difference; its direction is supplied by
 `Risk_Difference_event`. Missing replicate rates are omitted and
 effective counts are recorded. Each scenario needs an observed rate;
-intervals and standardized effects need at least two observations per
+intervals and standardised effects need at least two observations per
 scenario. Subgroup rates use the binary `event` flag, or
 `status == "TERMINATED"` only when the flag column is absent.
 

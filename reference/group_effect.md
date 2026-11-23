@@ -3,7 +3,7 @@
 Compares two Profile B scenarios that differ only in inclusion rules for
 which groups are prioritised, and returns completion rates, the supplied
 cost metric and their differences (A minus B) with bootstrap CIs. Cost
-is summarized as supplied, not divided by completion rates. Replications
+is summarised as supplied, not divided by completion rates. Replications
 are assumed independent and unpaired. Missing values are omitted; each
 scenario needs at least one observed completion rate. Intervals are
 unavailable with fewer than two observations per group.

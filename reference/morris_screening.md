@@ -1,7 +1,7 @@
-# Standardized univariate sensitivity screening
+# Standardised univariate sensitivity screening
 
 Fits a separate linear association between each input and the outcome,
-after standardizing paired complete observations. Despite its legacy
+after standardising paired complete observations. Despite its legacy
 name, this function does not implement Morris elementary effects or a
 variance decomposition. It can miss nonlinear effects and cannot
 separate correlated inputs or establish causality. For a Morris design
@@ -33,8 +33,8 @@ morris_screening(data, outcome = "event_rate", inputs)
 
 ## Value
 
-A tibble with `input`, legacy `mu_star` (absolute standardized slope,
-equal to absolute Pearson correlation), legacy `sigma` (standardized
+A tibble with `input`, legacy `mu_star` (absolute standardised slope,
+equal to absolute Pearson correlation), legacy `sigma` (standardised
 regression residual SD), `r2`, `n_observed`, `status` and `rank`.
 Missing pairs are omitted independently for each input.
 
