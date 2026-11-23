@@ -414,8 +414,7 @@ print.dynasimR_cox <- function(x, ...) {
   if (show_pval && !is.null(km_result$logrank) &&
       is.finite(km_result$logrank$p_value)) {
     pv <- km_result$logrank$p_value
-    pvt <- .format_p(pv)
-    base <- paste0(base, "; log-rank p ", pvt)
+    base <- paste0(base, "; ", .format_p_text(pv, "log-rank p"))
   }
   base
 }

@@ -70,6 +70,16 @@ plot_km <- function(km_result,
   else
     .safe_viridis(max(1, n_strata))
 
+  # survfit() labels strata as "variable=level". With one stratifying
+  # variable the prefix repeats in every key, so it moves to the legend title.
+  strat_var <- km_result$params$stratify_by
+  strip_prefix <- length(strat_var) == 1L &&
+    all(startsWith(as.character(d$strata), paste0(strat_var, "=")))
+  strata_label <- function(x) {
+    if (strip_prefix) substring(x, nchar(strat_var) + 2L) else x
+  }
+  legend_title <- if (strip_prefix) strat_var else NULL
+
   sizes <- table(d$strata)
   single <- d$strata %in% names(sizes)[sizes == 1L]
 
@@ -112,8 +122,8 @@ plot_km <- function(km_result,
     p <- p + ggplot2::coord_cartesian(xlim = xlim)
 
   p <- p +
-    ggplot2::scale_color_manual(values = palette) +
-    ggplot2::scale_fill_manual(values  = palette) +
+    ggplot2::scale_color_manual(values = palette, labels = strata_label) +
+    ggplot2::scale_fill_manual(values  = palette, labels = strata_label) +
     ggplot2::scale_y_continuous(
       limits = c(0, 1),
       labels = function(x) paste0(round(x * 100), "%")
@@ -123,8 +133,8 @@ plot_km <- function(km_result,
       subtitle = subtitle,
       x        = xlab,
       y        = ylab,
-      color    = NULL,
-      fill     = NULL,
+      color    = legend_title,
+      fill     = legend_title,
       caption  = .km_caption(km_result, show_pval)
     ) +
     theme_dynasimR()
@@ -132,7 +142,7 @@ plot_km <- function(km_result,
   if (show_pval && !is.null(km_result$logrank) &&
       is.finite(km_result$logrank$p_value)) {
     pv  <- km_result$logrank$p_value
-    pvt <- paste0("Log-rank p ", .format_p(pv))
+    pvt <- .format_p_text(pv, "Log-rank p")
     p <- p +
       ggplot2::annotate(
         "text",
@@ -156,6 +166,7 @@ plot_km <- function(km_result,
     )) +
       ggplot2::geom_text(show.legend = FALSE, size = 3) +
       ggplot2::scale_x_continuous(breaks = times) +
+      ggplot2::scale_y_discrete(labels = strata_label) +
       ggplot2::coord_cartesian(xlim = limits) +
       ggplot2::labs(x = xlab, y = NULL, title = "Number at risk") +
       theme_dynasimR()

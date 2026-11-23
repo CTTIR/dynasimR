@@ -40,6 +40,14 @@
 .format_p <- function(p) {
   if (is.na(p)) return("NA")
   if (p < 0.001) return("< 0.001")
-  if (p < 0.01)  return(formatC(p, digits = 3, format = "f"))
   formatC(p, digits = 3, format = "f")
+}
+
+# "p < 0.001" or "p = 0.012": the relation is part of the statement, so a
+# formatted value is never printed as a bare "p 0.012".
+#' @keywords internal
+#' @noRd
+.format_p_text <- function(p, prefix = "p") {
+  value <- .format_p(p)
+  paste(prefix, if (startsWith(value, "<")) value else paste("=", value))
 }

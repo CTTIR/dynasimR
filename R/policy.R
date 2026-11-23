@@ -335,7 +335,7 @@ print.dynasimR_policy <- function(x, ...) {
       glue::glue("The Compliance Index was {comp_direction} under policy A ({round(c_a, 3)} vs. {round(c_b, 3)}).")
     }
   test <- if (is.finite(w_p))
-    glue::glue("Wilcoxon test: W = {round(w_w, 0)}, adjusted p {.format_p(w_p)}") else
+    glue::glue("Wilcoxon test: W = {round(w_w, 0)}, {.format_p_text(w_p, 'adjusted p')}") else
       "Wilcoxon test unavailable"
   as.character(glue::glue(
     "The policy A-minus-B event-rate difference (scenario {a_id} vs. {b_id}) ",
