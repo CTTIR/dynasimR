@@ -56,5 +56,5 @@ utils::globalVariables(c(
   # plot-internal vars
   "n_reps",
   # group_effect vars
-  "mil_count", "civ_count", "cost", "completion_rate"
+  "cost", "completion_rate"
 ))
