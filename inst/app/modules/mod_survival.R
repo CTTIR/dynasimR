@@ -58,7 +58,7 @@ mod_survival_server <- function(id, sim_data) {
       dynasimR::plot_km(km_result(),
         show_ci = input$show_ci,
         show_pval = input$show_pval)
-    })
+    }, res = 96)
 
     cox_result <- reactive({
       req(input$scenarios)
@@ -85,6 +85,6 @@ mod_survival_server <- function(id, sim_data) {
       } else {
         dynasimR::plot_forest(cr)
       }
-    })
+    }, res = 96)
   })
 }

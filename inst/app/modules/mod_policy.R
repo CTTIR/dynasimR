@@ -80,7 +80,7 @@ mod_policy_server <- function(id, sim_data,
       } else {
         dynasimR::plot_policy(p)
       }
-    })
+    }, res = 96)
 
     output$narrative <- renderUI({
       p <- pol_res()
@@ -91,13 +91,13 @@ mod_policy_server <- function(id, sim_data,
     output$effects_tbl <- DT::renderDT({
       p <- pol_res()
       if (is.null(p)) return(NULL)
-      DT::datatable(p$effect_sizes, options = list(dom = "t"))
+      utils::getFromNamespace(".app_rounded_table", "dynasimR")(p$effect_sizes, options = list(dom = "t"))
     })
 
     output$wilcox_tbl <- DT::renderDT({
       p <- pol_res()
       if (is.null(p)) return(NULL)
-      DT::datatable(p$wilcoxon_tests, options = list(dom = "t"))
+      utils::getFromNamespace(".app_rounded_table", "dynasimR")(p$wilcoxon_tests, options = list(dom = "t"))
     })
   })
 }

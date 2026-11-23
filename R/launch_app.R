@@ -110,6 +110,18 @@ check_app_dependencies <- function() {
   c("shiny", "shinydashboard", "shinyWidgets", "plotly", "DT", "xtable")
 }
 
+# Dashboard table with double columns shown to `digits` significant digits.
+# Only the display changes: sorting, search and the data stay at full
+# precision. Integer and text columns are left as they are.
+.app_rounded_table <- function(data, ..., digits = 4) {
+  widget <- DT::datatable(data, ...)
+  numeric_cols <- names(data)[vapply(data, is.double, logical(1))]
+  if (length(numeric_cols))
+    widget <- DT::formatSignif(widget, columns = numeric_cols,
+                               digits = digits)
+  widget
+}
+
 .dashboard_profile <- function(data) {
   profile <- data$load_info$profile_type
   if (identical(profile, "mixed"))

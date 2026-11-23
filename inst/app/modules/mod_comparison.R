@@ -50,6 +50,6 @@ mod_comparison_server <- function(id, sim_data) {
         scenarios = input$scenarios,
         metrics   = input$metrics
       )
-    })
+    }, res = 96)
   })
 }

@@ -114,3 +114,36 @@ test_that("Profile B table export retains progress units and completion fraction
   expect_match(ui, "not available for Profile B", fixed = TRUE)
   expect_false(grepl("Download figure", ui, fixed = TRUE))
 })
+
+test_that("dashboard tables show rounded doubles without changing the data", {
+  skip_if_not_installed("DT")
+  data <- tibble::tibble(metric = c("a", "b"), n = 1:2,
+                         value = c(-1.954445886128565, 9.9e-13))
+  widget <- dynasimR:::.app_rounded_table(data, options = list(dom = "t"))
+  expect_s3_class(widget, "datatables")
+  expect_identical(widget$x$data$value, data$value)
+  expect_identical(widget$x$options$dom, "t")
+  renderers <- function(w) unlist(lapply(w$x$options$columnDefs,
+                                         function(def) def$render))
+  formatter <- renderers(widget)
+  # Only the double column is formatted, and only for display.
+  expect_length(formatter, 1L)
+  expect_match(formatter, "DTWidget.formatSignif", fixed = TRUE)
+  expect_match(formatter, "type !== 'display' ? data", fixed = TRUE)
+  expect_null(renderers(dynasimR:::.app_rounded_table(data["metric"])))
+})
+
+test_that("the autonomy tab names the sweep scenarios a dataset lacks", {
+  skip_if_not_installed("shiny")
+  skip_if_not_installed("plotly")
+  skip_if_not_installed("DT")
+  env <- app_module("mod_autonomy")
+  sim <- load_example_data()
+  shiny::testServer(env$mod_autonomy_server, args = list(sim_data = sim), {
+    session$setInputs(compliance_threshold = 0.8, highlight = TRUE)
+    expect_match(output$availability, "not in this dataset")
+    expect_match(output$availability, "A-S05", fixed = TRUE)
+    expect_no_error(output$tradeoff_plot)
+    expect_no_error(output$tradeoff_tbl)
+  })
+})

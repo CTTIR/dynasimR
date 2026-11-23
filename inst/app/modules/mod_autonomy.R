@@ -42,23 +42,38 @@ mod_autonomy_server <- function(id, sim_data) {
     })
 
     output$availability <- renderText({
-      if (is.null(al_res()))
-        "Autonomy analysis is unavailable for this dataset. It requires autonomy levels and compliance/event outcomes." else ""
+      al <- al_res()
+      if (is.null(al))
+        return("Autonomy analysis is unavailable for this dataset. It requires autonomy levels and compliance/event outcomes.")
+      omitted <- al$params$omitted_scenarios
+      if (length(omitted))
+        paste0("Scenarios of the default autonomy sweep that are not in this dataset: ",
+               paste(omitted, collapse = ", "),
+               ". Use al_efficiency(al_scenarios = ...) in R to map other scenarios.")
+      else ""
     })
 
     output$tradeoff_plot <- plotly::renderPlotly({
       al <- al_res()
       if (is.null(al)) return(plotly::plotly_empty())
+      # Static label offsets and the bottom legend do not survive the
+      # conversion: rely on hover text and place the legend above the plot.
       p <- dynasimR::plot_al_tradeoff(al,
+        label_points      = FALSE,
         highlight_optimal = input$highlight)
-      plotly::ggplotly(p)
+      plotly::ggplotly(p) |>
+        plotly::layout(
+          legend = list(orientation = "h", x = 0, y = 1.02,
+                         xanchor = "left", yanchor = "bottom"),
+          margin = list(t = 70, b = 55)
+        )
     })
 
     output$tradeoff_tbl <- DT::renderDT({
       al <- al_res()
       if (is.null(al)) return(NULL)
-      DT::datatable(al$tradeoff_table,
-        options = list(pageLength = 10))
+      utils::getFromNamespace(".app_rounded_table", "dynasimR")(al$tradeoff_table,
+        options = list(pageLength = 10, scrollX = TRUE))
     })
   })
 }
