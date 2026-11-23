@@ -97,14 +97,14 @@ out <- fill_placeholders(sim, tex)
 #> ── Placeholder substitutions ──
 #> 
 #> • `[XX_POLICY_DELTA_EVENT]` -> "-7.4"
-#> • `[XX_POLICY_DELTA_CI_LO]` -> "-9"
+#> • `[XX_POLICY_DELTA_CI_LO]` -> "-9.1"
 #> • `[XX_POLICY_DELTA_CI_HI]` -> "-5.5"
 #> • `[XX_COMPLIANCE_A]` -> "0.542"
 #> • `[XX_COMPLIANCE_B]` -> "0.276"
 #> • `[XX_OPTIMAL_AL]` -> NA
 #> • `[XX_EVENT_BASELINE]` -> "34.1"
 #> • `[XX_EVENT_BEST]` -> "22.3"
-#> ✔ Filled: /tmp/RtmpzvNaq4/file1991223304bb_filled.tex
+#> ✔ Filled: /tmp/RtmpKX2Xnp/file19ce6fbaacea_filled.tex
 readLines(sub("\\.tex$", "_filled.tex", tex))
 #> [1] "Baseline event rate: 34.1\\%."     "Compliance under policy A: 0.542."
 unlink(c(tex, sub("\\.tex$", "_filled.tex", tex)))

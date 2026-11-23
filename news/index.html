@@ -87,6 +87,11 @@
 <li>The documentation uses British English spelling throughout.</li>
 <li>
 <code>CITATION.cff</code> and <code>.zenodo.json</code> name the author as R. Heller.</li>
+<li>
+<code><a href="../reference/read_simulation.html">read_simulation()</a></code> reads simulation files smaller than 8 MiB on one thread. readr otherwise starts a thread per core for every file, which took longer than reading the bundled example files themselves.</li>
+<li>
+<code><a href="../reference/fill_placeholders.html">fill_placeholders()</a></code> no longer computes bootstrap intervals for the compliance index, of which it substitutes only the point estimate. The substituted values are unchanged, and the function runs about twice as fast.</li>
+<li>The README no longer links to the maintenance notes, which are not part of the package source.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-since-prepared-as-never-released-0-2-0">Changes since 0.1.0 (prepared as 0.1.1, never released)<a class="anchor" aria-label="anchor" href="#changes-since-prepared-as-never-released-0-2-0"></a></h3>
