@@ -59,3 +59,22 @@ test_that("print.dynasimR_data is invisible", {
 test_that("load_example_data round-trips through read_simulation", {
   expect_s3_class(load_example_data(), "dynasimR_data")
 })
+
+test_that("small simulation files are read on one thread", {
+  small <- withr::local_tempfile(fileext = ".csv")
+  writeLines(c("a,b", "1,2"), small)
+  expect_identical(.csv_threads(small), 1L)
+  withr::local_options(readr.num_threads = 3L)
+  expect_equal(.csv_threads(small, small = 1), 3)
+
+  threads <- integer()
+  real <- readr::read_csv
+  local_mocked_bindings(read_csv = function(file, ..., num_threads) {
+    threads <<- c(threads, num_threads)
+    real(file, ..., num_threads = num_threads)
+  }, .package = "readr")
+  read_simulation(system.file("extdata", package = "dynasimR"),
+                  verbose = FALSE)
+  expect_gt(length(threads), 0L)
+  expect_true(all(threads == 1L))
+})

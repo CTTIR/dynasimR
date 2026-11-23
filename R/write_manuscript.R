@@ -283,7 +283,9 @@ fill_placeholders <- function(sim_data,
     policy_b_scenario = policy_b_scenario
   ), silent = TRUE)
   al  <- try(al_efficiency(sim_data), silent = TRUE)
-  ci  <- try(compute_compliance_index(sim_data, by_group = FALSE),
+  # Only the point estimate is substituted, so no bootstrap intervals.
+  ci  <- try(compute_compliance_index(sim_data, by_group = FALSE,
+                                      n_bootstrap = 0),
              silent = TRUE)
 
   get_num <- function(tbl, scenario_id, column) {

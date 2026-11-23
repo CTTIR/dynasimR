@@ -72,7 +72,8 @@ read_simulation <- function(data_dir,
 
   read_csv <- function(path) {
     tbl <- readr::read_csv(path, show_col_types = FALSE, progress = FALSE,
-                          name_repair = "minimal")
+                          name_repair = "minimal",
+                          num_threads = .csv_threads(path))
     if (validate && (anyDuplicated(names(tbl)) || any(!nzchar(names(tbl)))))
       cli::cli_abort("CSV {.path {path}} has empty or duplicate column names.")
     if (validate && nrow(readr::problems(tbl)) > 0)
@@ -227,4 +228,17 @@ load_example_data <- function() {
     validate = TRUE,
     verbose  = FALSE
   )
+}
+
+#' Number of reader threads for one simulation CSV
+#'
+#' Starting a reader thread per core costs more than it saves on small
+#' files, and a simulation directory holds several of them per scenario.
+#' Files below `small` bytes are read on one thread; larger files use
+#' [readr::readr_threads()].
+#' @keywords internal
+#' @noRd
+.csv_threads <- function(path, small = 8 * 1024^2) {
+  size <- file.size(path)
+  if (!is.na(size) && size < small) 1L else readr::readr_threads()
 }

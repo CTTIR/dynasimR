@@ -28,3 +28,25 @@ test_that("fill_placeholders writes a filled file", {
   filled <- paste(readLines(out_tex), collapse = "\n")
   expect_false(grepl("[XX_EVENT_BASELINE]", filled, fixed = TRUE))
 })
+
+test_that("fill_placeholders skips the unused compliance bootstrap", {
+  sim <- load_example_data()
+  real <- compute_compliance_index
+  calls <- list()
+  local_mocked_bindings(compute_compliance_index = function(...) {
+    calls[[length(calls) + 1L]] <<- list(...)
+    real(...)
+  })
+  tex <- withr::local_tempfile(fileext = ".tex")
+  writeLines("Compliance: [XX_COMPLIANCE_A] and [XX_COMPLIANCE_B].", tex)
+
+  reps <- fill_placeholders(sim, tex, dry_run = TRUE)
+
+  expect_length(calls, 1L)
+  expect_identical(calls[[1]]$n_bootstrap, 0)
+  ci <- real(sim, by_group = FALSE)
+  expect_identical(unname(reps["[XX_COMPLIANCE_A]"]),
+                   as.character(round(ci$ci[ci$scenario == "A-S08"], 3)))
+  expect_identical(unname(reps["[XX_COMPLIANCE_B]"]),
+                   as.character(round(ci$ci[ci$scenario == "A-S07"], 3)))
+})

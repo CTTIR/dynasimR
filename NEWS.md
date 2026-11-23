@@ -70,6 +70,12 @@
   `cran-comments.md`.
 * The documentation uses British English spelling throughout.
 * `CITATION.cff` and `.zenodo.json` name the author as R. Heller.
+* `read_simulation()` reads simulation files smaller than 8 MiB on one thread.
+  readr otherwise starts a thread per core for every file, which took longer
+  than reading the bundled example files themselves.
+* `fill_placeholders()` no longer computes bootstrap intervals for the
+  compliance index, of which it substitutes only the point estimate. The
+  substituted values are unchanged, and the function runs about twice as fast.
 * The README no longer links to the maintenance notes, which are not part of
   the package source.
 
