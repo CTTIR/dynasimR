@@ -74,7 +74,7 @@ pol <- policy_effect(sim,
   policy_b_scenario = "A-S07",
   n_bootstrap       = 200,
   seed              = 1)
-cat(pol$narrative)
+cat(strwrap(pol$narrative, width = 72), sep = "\n")
 ```
 
 ## Autonomy trade-off

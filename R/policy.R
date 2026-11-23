@@ -127,7 +127,8 @@ print.dynasimR_policy <- function(x, ...) {
   cli::cli_h2("Delta event rate")
   print(x$delta_event)
   cli::cli_h2("Narrative")
-  cat(x$narrative, "\n")
+  cat(strwrap(x$narrative, width = max(20L, getOption("width", 80L) - 2L)),
+      sep = "\n")
   invisible(x)
 }
 

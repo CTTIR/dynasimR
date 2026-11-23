@@ -81,7 +81,7 @@ your simulation design before using it in a report. It is not escaped LaTeX;
 escape special characters before inserting it into a `.tex` document:
 
 ```{r}
-cat(pol$narrative)
+cat(strwrap(pol$narrative, width = 72), sep = "\n")
 ```
 
 ## Effect sizes
