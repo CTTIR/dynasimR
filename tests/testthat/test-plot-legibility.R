@@ -159,7 +159,7 @@ test_that("print.dynasimR_policy wraps the narrative to the console width", {
   pol <- policy_effect(sim, policy_a_scenario = "A-S08",
                        policy_b_scenario = "A-S07", n_bootstrap = 50)
   withr::local_options(width = 60)
-  lines <- utils::capture.output(print(pol), type = "output")
+  lines <- utils::capture.output(suppressMessages(print(pol)), type = "output")
   expect_true(all(nchar(lines) <= 60))
   narrative <- paste(lines[seq(grep("^The policy", lines)[1], length(lines))],
                      collapse = " ")
