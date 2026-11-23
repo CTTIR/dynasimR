@@ -45,8 +45,11 @@ plot_progress_curves <- function(progress_result, show_ci = TRUE) {
           width = 0.3, color = dynasimR_colors()$NEUTRAL
         )
     return(p +
-        ggplot2::labs(x = "Scenario",
-                      y = "Median progress gain") +
+        ggplot2::labs(
+          x = "Scenario", y = "Median progress gain",
+          caption = if (show_ci)
+            "Bar: median gain; whiskers: 2.5th to 97.5th percentile of the observed gains."
+        ) +
         theme_dynasimR()
     )
   }
@@ -55,8 +58,9 @@ plot_progress_curves <- function(progress_result, show_ci = TRUE) {
     ggplot2::aes(x = .data$time_step, y = .data$progress_median,
                  color = .data$scenario, fill = .data$scenario)
   )
-  if (show_ci &&
-      all(c("progress_q025", "progress_q975") %in% names(long)))
+  has_band <- show_ci &&
+    all(c("progress_q025", "progress_q975") %in% names(long))
+  if (has_band)
     p <- p +
       ggplot2::geom_ribbon(
         ggplot2::aes(ymin = .data$progress_q025,
@@ -69,6 +73,12 @@ plot_progress_curves <- function(progress_result, show_ci = TRUE) {
                                    begin = 0.1, end = 0.9) +
     ggplot2::scale_fill_viridis_d(option = "D",
                                   begin = 0.1, end = 0.9) +
-    ggplot2::labs(x = "Time step", y = "Progress score") +
+    ggplot2::labs(
+      x = "Time step", y = "Progress score",
+      color = "Scenario", fill = "Scenario",
+      caption = if (has_band)
+        "Line: median; band: 2.5th to 97.5th percentile of the observed scores."
+      else "Line: median progress score."
+    ) +
     theme_dynasimR()
 }

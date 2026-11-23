@@ -166,3 +166,67 @@ test_that("print.dynasimR_policy wraps the narrative to the console width", {
   expect_identical(gsub("\\s+", " ", trimws(narrative)),
                    gsub("\\s+", " ", trimws(pol$narrative)))
 })
+
+test_that("entity maps title their legend", {
+  sim <- load_example_data()
+  expect_identical(plot_map(sim, scenarios = "A-S00")$labels$colour, "Group")
+  expect_identical(
+    plot_map(sim, color_by = "status", scenarios = "A-S00")$labels$colour,
+    "Status"
+  )
+})
+
+test_that("plot_policy states what its points and whiskers show", {
+  sim <- load_example_data()
+  pol <- policy_effect(sim, policy_a_scenario = "A-S08",
+                       policy_b_scenario = "A-S07", n_bootstrap = 50,
+                       alpha = 0.1, seed = 1)
+  p <- plot_policy(pol)
+  expect_identical(p$labels$y, "Group")
+  expect_match(p$labels$caption, "90% percentile bootstrap interval",
+               fixed = TRUE)
+  pol0 <- policy_effect(sim, policy_a_scenario = "A-S08",
+                        policy_b_scenario = "A-S07", n_bootstrap = 0)
+  expect_identical(plot_policy(pol0)$labels$caption,
+                   "Point: difference of medians.")
+})
+
+test_that("progress plots explain their bars, bands and whiskers", {
+  set.seed(1)
+  entities <- data.frame(
+    scenario       = rep(c("B-S00", "B-S01"), each = 20),
+    progress_start = stats::runif(40, 40, 60),
+    progress_end   = stats::runif(40, 60, 90)
+  )
+  pr <- progress_trajectory(entities)
+  expect_match(plot_progress_curves(pr)$labels$caption, "whiskers")
+  expect_null(plot_progress_curves(pr, show_ci = FALSE)$labels$caption)
+
+  long <- tibble::tibble(
+    scenario = rep(c("B-S00", "B-S01"), each = 3), time_step = rep(1:3, 2),
+    progress_median = 1:6, progress_q025 = 0:5, progress_q975 = 2:7
+  )
+  pr_long <- structure(
+    list(summary = tibble::tibble(), longitudinal = long, params = list()),
+    class = c("dynasimR_progress", "list")
+  )
+  shown <- plot_progress_curves(pr_long)
+  expect_match(shown$labels$caption, "band")
+  expect_identical(shown$labels$colour, "Scenario")
+  expect_no_match(plot_progress_curves(pr_long, show_ci = FALSE)$labels$caption,
+                  "band")
+})
+
+test_that("plot_radar leaves the innermost ring unlabelled", {
+  sim <- load_example_data()
+  raw <- ggplot2::ggplot_build(plot_radar(sim, c("A-S00", "A-S08")))
+  expect_false(any(as.numeric(raw$data[[1]]$label) == 0))
+  scaled <- ggplot2::ggplot_build(plot_radar(
+    sim, c("A-S00", "A-S08"),
+    metrics = c("event_rate", "compliance_index",
+                "median_time_to_first_service"),
+    rescale = TRUE
+  ))
+  expect_false(any(as.numeric(scaled$data[[1]]$label) <= 0))
+  expect_true(any(as.numeric(scaled$data[[1]]$label) == 1))
+})

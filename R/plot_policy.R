@@ -19,6 +19,13 @@ plot_policy <- function(policy_result) {
     )
 
   d <- policy_result$delta_event
+  alpha <- policy_result$params$alpha
+  level <- if (is.numeric(alpha) && length(alpha) == 1L && is.finite(alpha))
+    paste0(format(100 * (1 - alpha)), "% ") else ""
+  caption <- if (any(is.finite(d$ci_lo) & is.finite(d$ci_hi)))
+    paste0("Point: difference of medians; whiskers: ", level,
+           "percentile bootstrap interval.")
+  else "Point: difference of medians."
 
   ggplot2::ggplot(d,
     ggplot2::aes(x = .data$median_pct_points,
@@ -35,12 +42,13 @@ plot_policy <- function(policy_result) {
                         color = dynasimR_colors()$GROUP_A) +
     ggplot2::labs(
       x = "Delta event rate (policy A - policy B) [pp]",
-      y = NULL,
+      y = "Group",
       title = "Policy effect",
       subtitle = glue::glue(
         "{policy_result$params$policy_a_scenario} vs. ",
         "{policy_result$params$policy_b_scenario}"
-      )
+      ),
+      caption = caption
     ) +
     theme_dynasimR()
 }

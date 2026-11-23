@@ -195,8 +195,12 @@ plot_radar <- function(data,
     hjust = ifelse(side > 0.1, 0, ifelse(side < -0.1, 1, 0.5)),
     vjust = ifelse(height > 0.5, -0.6, ifelse(height < -0.5, 1.6, 0.5))
   )
-  ring_labels <- data.frame(spoke = 0.5, value = rings,
-                            label = format(rings, trim = TRUE))
+  # The innermost ring sits under the converging outlines, so it carries no
+  # label; the caption states the scale.
+  labelled <- rings[rings > max(lower, 0)]
+  ring_labels <- data.frame(spoke = rep(0.5, length(labelled)),
+                            value = labelled,
+                            label = format(labelled, trim = TRUE))
 
   ggplot2::ggplot(long,
     ggplot2::aes(x = .data$spoke, y = .data$value)

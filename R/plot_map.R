@@ -32,7 +32,8 @@ plot_map <- function(data,
   ) +
     ggplot2::geom_point(alpha = 0.6, size = 1.2) +
     ggplot2::coord_fixed() +
-    ggplot2::labs(x = "X", y = "Y", color = NULL) +
+    ggplot2::labs(x = "X", y = "Y",
+                  color = if (color_by == "group") "Group" else "Status") +
     theme_dynasimR()
 
   if (color_by == "group") {
