@@ -45,6 +45,9 @@
   underneath their point, so the label no longer sits on the threshold line.
   `print()` for `al_efficiency()` results names the mapped scenarios that are
   missing from the data.
+* `plot_al_tradeoff()` draws its interval whiskers opaque enough to see, stops
+  the palette before the pale yellow that vanished on white, and states in the
+  caption that the whiskers are 95% percentile bootstrap intervals.
 * `plot_policy()` titles its group axis and states in a caption that points
   are differences of medians and whiskers percentile bootstrap intervals at
   the chosen level. `plot_progress_curves()` explains its bars, whiskers,

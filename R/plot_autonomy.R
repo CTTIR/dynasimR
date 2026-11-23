@@ -27,6 +27,9 @@ plot_al_tradeoff <- function(al_result,
   thr <- al_result$compliance_threshold
   opt <- al_result$optimal_al
 
+  has_ci <- is.finite(d$event_reduction_ci_lo) &
+    is.finite(d$event_reduction_ci_hi)
+
   p <- ggplot2::ggplot(
     d,
     ggplot2::aes(x = .data$event_reduction_pct,
@@ -49,13 +52,12 @@ plot_al_tradeoff <- function(al_result,
     ggplot2::geom_hline(yintercept = thr, linetype = "dashed",
                         color = "#2E7D32", linewidth = 0.5) +
     ggplot2::geom_errorbar(
-      data = d[is.finite(d$event_reduction_ci_lo) &
-                 is.finite(d$event_reduction_ci_hi), , drop = FALSE],
+      data = d[has_ci, , drop = FALSE],
       ggplot2::aes(
         xmin = .data$event_reduction_ci_lo,
         xmax = .data$event_reduction_ci_hi
       ),
-      orientation = "y", width = 0.005, alpha = 0.4
+      orientation = "y", width = 0.005, alpha = 0.8, linewidth = 0.6
     ) +
     ggplot2::geom_point(size = 4)
 
@@ -90,12 +92,18 @@ plot_al_tradeoff <- function(al_result,
 
   optimum <- if (is.na(opt)) "No autonomy level meets the threshold."
              else glue::glue("Optimum (circle): AL{opt}.")
+  # al_efficiency() computes 95% percentile bootstrap intervals of the
+  # difference of medians against the reference level.
+  whiskers <- if (any(has_ci))
+    "\nWhiskers: 95% percentile bootstrap interval of the event reduction."
+  else ""
 
   p +
     ggplot2::scale_color_viridis_d(
       name   = "Autonomy level",
       option = "plasma",
-      begin  = 0.1, end = 0.9
+      # The pale yellow end of plasma has too little contrast on white.
+      begin  = 0.1, end = 0.8
     ) +
     ggplot2::scale_y_continuous(
       expand = ggplot2::expansion(mult = 0.12)
@@ -106,7 +114,7 @@ plot_al_tradeoff <- function(al_result,
       title    = "Autonomy level trade-off",
       subtitle = "Event reduction vs. Compliance Index",
       caption  = glue::glue(
-        "Green band: compliance >= {thr} (compliant). {optimum}"
+        "Green band: compliance >= {thr} (compliant). {optimum}{whiskers}"
       )
     ) +
     theme_dynasimR()

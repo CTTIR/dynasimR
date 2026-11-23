@@ -250,3 +250,17 @@ test_that("colour-bar legends are wide enough for their break labels", {
   sdi <- tibble::tibble(region = c("Low", "High"), sdi_median = c(0.5, 1.5))
   expect_equal(as.numeric(plot_sdi_map(sdi)$theme$legend.key.width), 2.5)
 })
+
+test_that("AL trade-off whiskers are visible and explained in the caption", {
+  sim <- load_example_data()
+  al <- al_efficiency(sim, al_scenarios = c("0" = "A-S00", "1" = "A-S01"),
+                      n_bootstrap = 50, seed = 1)
+  p <- plot_al_tradeoff(al)
+  bars <- Filter(function(l) inherits(l$geom, "GeomErrorbar"), p$layers)[[1]]
+  expect_gte(bars$aes_params$alpha, 0.8)
+  expect_match(p$labels$caption, "95% percentile bootstrap interval",
+               fixed = TRUE)
+  no_ci <- al_efficiency(sim, al_scenarios = c("0" = "A-S00", "1" = "A-S01"),
+                         n_bootstrap = 0)
+  expect_no_match(plot_al_tradeoff(no_ci)$labels$caption, "Whiskers")
+})
