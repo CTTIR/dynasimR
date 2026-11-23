@@ -62,7 +62,8 @@ al <- al_efficiency(
   sim,
   al_scenarios         = c("0" = "A-S00", "1" = "A-S01"),
   compliance_threshold = 0.80,
-  n_bootstrap          = 200
+  n_bootstrap          = 200,
+  seed                 = 1
 )
 al$tradeoff_table
 ```

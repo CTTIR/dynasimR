@@ -1,5 +1,37 @@
 # dynasimR 0.2.0
 
+## Plots and reproducibility
+
+* `plot_radar()` now joins the metrics of a scenario with straight lines on
+  evenly spaced spokes. Before, the outline was bent into spirals and the
+  metric names were clipped. Metric names are written outside the rim, ring
+  values replace the overlapping radial axis, and the new argument `rescale`
+  (default `FALSE`) puts metrics with different units on a common 0-1 axis.
+* `plot_scenario_heatmap()` and the tile variant of `plot_sdi_map()` choose a
+  light or dark label colour per tile; values on dark tiles and region names
+  on near-white tiles were unreadable.
+* `plot_sdi_map()` uses a red-blue instead of a red-green diverging scale, so
+  under- and oversupply stay distinguishable with colour-vision deficiency,
+  and reports a missing `region` or `sdi_median` column by name.
+* `plot_al_tradeoff()` draws the AL labels above the optimum ring in a
+  neutral colour, keeps the threshold label inside the panel, and no longer
+  prints "ALNA" when no autonomy level meets the threshold.
+* `plot_km()` and the policy narrative print p-values with their relation
+  ("p = 0.005", "p < 0.001"). With one stratifying variable the legend and
+  the risk table show the levels only, with the variable as legend title.
+* `plot_cost_effectiveness()` places scenario labels above their points and
+  inside the panel; it, `plot_map(color_by = "status")` and `plot_timeline()`
+  use the package palette and titled legends. `plot_timeline()` explains its
+  line and band in the caption.
+* `policy_effect()`, `al_efficiency()`, `compute_compliance_index()`,
+  `compute_wait_gap_index()` and `group_effect()` gain a `seed` argument
+  (default `NULL`, the previous behaviour). A supplied seed makes the
+  bootstrap intervals reproducible and leaves the caller's random-number
+  state unchanged. The vignettes and examples now set it.
+* The examples of `al_efficiency()` and `plot_al_tradeoff()` map the two
+  autonomy levels of the bundled data instead of the full default sweep, which
+  produced a single-point plot.
+
 ## CRAN preparation
 
 * Every exported function now has a runnable example. Examples write only to

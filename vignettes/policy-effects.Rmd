@@ -61,7 +61,8 @@ pol <- policy_effect(
   sim,
   policy_a_scenario = "A-S08",
   policy_b_scenario = "A-S07",
-  n_bootstrap       = 500
+  n_bootstrap       = 500,
+  seed              = 1
 )
 print(pol)
 ```

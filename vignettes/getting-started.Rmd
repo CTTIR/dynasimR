@@ -72,7 +72,8 @@ plot_km(km, title = "Time-to-stage-2")
 pol <- policy_effect(sim,
   policy_a_scenario = "A-S08",
   policy_b_scenario = "A-S07",
-  n_bootstrap       = 200)
+  n_bootstrap       = 200,
+  seed              = 1)
 cat(pol$narrative)
 ```
 
@@ -86,7 +87,8 @@ al <- al_efficiency(
   sim,
   al_scenarios         = c("0" = "A-S00", "1" = "A-S01"),
   compliance_threshold = 0.80,
-  n_bootstrap          = 200
+  n_bootstrap          = 200,
+  seed                 = 1
 )
 plot_al_tradeoff(al)
 ```
