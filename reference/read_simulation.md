@@ -68,7 +68,7 @@ sim
 #> • Profile: "Profile_A"
 #> • Summary rows: 200
 #> • Entity events: 16000
-#> • Loaded: "2026-11-22 05:22"
+#> • Loaded: "2026-11-23 06:18"
 #> • Path: /home/runner/work/_temp/Library/dynasimR/extdata
 sim_sub <- read_simulation(example_dir,
                            scenarios = c("A-S00", "A-S07", "A-S08"),

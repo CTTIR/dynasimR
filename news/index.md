@@ -2,6 +2,101 @@
 
 ## dynasimR 0.2.0
 
+### Plots and reproducibility
+
+- [`plot_radar()`](https://cttir.github.io/dynasimR/reference/plot_radar.md)
+  now joins the metrics of a scenario with straight lines on evenly
+  spaced spokes. Before, the outline was bent into spirals and the
+  metric names were clipped. Metric names are written outside the rim,
+  ring values replace the overlapping radial axis, and the new argument
+  `rescale` (default `FALSE`) puts metrics with different units on a
+  common 0-1 axis.
+- [`plot_scenario_heatmap()`](https://cttir.github.io/dynasimR/reference/plot_scenario_heatmap.md)
+  and the tile variant of
+  [`plot_sdi_map()`](https://cttir.github.io/dynasimR/reference/plot_sdi_map.md)
+  choose a light or dark label colour per tile; values on dark tiles and
+  region names on near-white tiles were unreadable.
+- [`plot_sdi_map()`](https://cttir.github.io/dynasimR/reference/plot_sdi_map.md)
+  uses a red-blue instead of a red-green diverging scale, so under- and
+  oversupply stay distinguishable with colour-vision deficiency, and
+  reports a missing `region` or `sdi_median` column by name.
+- [`plot_al_tradeoff()`](https://cttir.github.io/dynasimR/reference/plot_al_tradeoff.md)
+  draws the AL labels above the optimum ring in a neutral colour, keeps
+  the threshold label inside the panel, and says so when no autonomy
+  level meets the threshold instead of printing a missing optimum.
+- [`plot_km()`](https://cttir.github.io/dynasimR/reference/plot_km.md)
+  and the policy narrative print p-values with their relation (“p =
+  0.005”, “p \< 0.001”). With one stratifying variable the legend and
+  the risk table show the levels only, with the variable as legend
+  title.
+- [`plot_cost_effectiveness()`](https://cttir.github.io/dynasimR/reference/plot_cost_effectiveness.md)
+  places scenario labels above their points and inside the panel; it,
+  `plot_map(color_by = "status")` and
+  [`plot_timeline()`](https://cttir.github.io/dynasimR/reference/plot_timeline.md)
+  use the package palette and titled legends.
+  [`plot_timeline()`](https://cttir.github.io/dynasimR/reference/plot_timeline.md)
+  explains its line and band in the caption.
+- [`policy_effect()`](https://cttir.github.io/dynasimR/reference/policy_effect.md),
+  [`al_efficiency()`](https://cttir.github.io/dynasimR/reference/al_efficiency.md),
+  [`compute_compliance_index()`](https://cttir.github.io/dynasimR/reference/compute_compliance_index.md),
+  [`compute_wait_gap_index()`](https://cttir.github.io/dynasimR/reference/compute_wait_gap_index.md)
+  and
+  [`group_effect()`](https://cttir.github.io/dynasimR/reference/group_effect.md)
+  gain a `seed` argument (default `NULL`, the previous behaviour). A
+  supplied seed makes the bootstrap intervals reproducible and leaves
+  the caller’s random-number state unchanged. The vignettes and examples
+  now set it.
+- [`print()`](https://rdrr.io/r/base/print.html) for
+  [`policy_effect()`](https://cttir.github.io/dynasimR/reference/policy_effect.md)
+  results wraps the narrative to the console width instead of printing
+  one long line.
+- Dashboard: static plots are rendered at 96 pixels per inch, so their
+  text matches the size of the surrounding interface; effect-size, test
+  and trade-off tables show four significant digits (sorting and export
+  keep full precision); the autonomy tab names the scenarios of the
+  default sweep that a dataset lacks, and its legend no longer overlaps
+  the axis title. Its trade-off plot keeps the shaded compliant band and
+  the threshold label, which the conversion to an interactive plot used
+  to drop.
+- The examples of
+  [`al_efficiency()`](https://cttir.github.io/dynasimR/reference/al_efficiency.md)
+  and
+  [`plot_al_tradeoff()`](https://cttir.github.io/dynasimR/reference/plot_al_tradeoff.md)
+  map the two autonomy levels of the bundled data instead of the full
+  default sweep, which produced a single-point plot.
+- [`plot_al_tradeoff()`](https://cttir.github.io/dynasimR/reference/plot_al_tradeoff.md)
+  labels autonomy levels below the compliance threshold underneath their
+  point, so the label no longer sits on the threshold line.
+  [`print()`](https://rdrr.io/r/base/print.html) for
+  [`al_efficiency()`](https://cttir.github.io/dynasimR/reference/al_efficiency.md)
+  results names the mapped scenarios that are missing from the data.
+- [`plot_al_tradeoff()`](https://cttir.github.io/dynasimR/reference/plot_al_tradeoff.md)
+  draws its interval whiskers opaque enough to see, stops the palette
+  before the pale yellow that vanished on white, and states in the
+  caption that the whiskers are 95% percentile bootstrap intervals.
+- The tile variant of
+  [`plot_sdi_map()`](https://cttir.github.io/dynasimR/reference/plot_sdi_map.md)
+  picks white or near-black region names from the luminance of each
+  tile, so mid-red tiles no longer carry white text with too little
+  contrast.
+- [`plot_policy()`](https://cttir.github.io/dynasimR/reference/plot_policy.md)
+  titles its group axis and states in a caption that points are
+  differences of medians and whiskers percentile bootstrap intervals at
+  the chosen level.
+  [`plot_progress_curves()`](https://cttir.github.io/dynasimR/reference/plot_progress_curves.md)
+  explains its bars, whiskers, lines and bands in a caption and titles
+  its legend.
+- [`plot_map()`](https://cttir.github.io/dynasimR/reference/plot_map.md)
+  titles its legend (“Group” or “Status”), and
+  [`plot_scenario_heatmap()`](https://cttir.github.io/dynasimR/reference/plot_scenario_heatmap.md)
+  and
+  [`plot_sdi_map()`](https://cttir.github.io/dynasimR/reference/plot_sdi_map.md)
+  draw a wider colour bar so that their break labels no longer run
+  together. The innermost ring of
+  [`plot_radar()`](https://cttir.github.io/dynasimR/reference/plot_radar.md)
+  is no longer labelled, where the outlines covered it.
+- The vignette figures carry alternative text.
+
 ### CRAN preparation
 
 - Every exported function now has a runnable example. Examples write

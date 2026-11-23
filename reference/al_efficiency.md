@@ -25,7 +25,8 @@ al_efficiency(
     "A-S11", `5` = "A-S12"),
   compliance_threshold = 0.8,
   reference_al = 0,
-  n_bootstrap = 1000
+  n_bootstrap = 1000,
+  seed = NULL
 )
 ```
 
@@ -55,6 +56,12 @@ al_efficiency(
   Integer. Bootstrap replicates for CIs. Default `1000`; `0` omits
   intervals.
 
+- seed:
+
+  Integer or `NULL`. RNG seed for the bootstrap. A supplied seed makes
+  the intervals reproducible and leaves the caller's RNG state
+  unchanged. Default `NULL` uses the current RNG state.
+
 ## Value
 
 An S3 object of class `dynasimR_al_analysis` with slots
@@ -64,6 +71,23 @@ An S3 object of class `dynasimR_al_analysis` with slots
 
 ``` r
 sim <- load_example_data()
-al  <- al_efficiency(sim)
+# The default mapping expects the full AL0-AL5 sweep; the bundled
+# example data hold two autonomy levels.
+al  <- al_efficiency(sim,
+                     al_scenarios = c("0" = "A-S00", "1" = "A-S01"),
+                     n_bootstrap  = 200, seed = 1)
+al
+#> 
+#> ── dynasimR_al_analysis ────────────────────────────────────────────────────────
+#> • Compliance threshold: 0.8
+#> • Optimal AL: 1
+#> • Compliance violations: 1
+#> # A tibble: 2 × 12
+#>      al scenario event_median event_ci_lo event_ci_hi event_reduction_pct
+#>   <int> <chr>           <dbl>       <dbl>       <dbl>               <dbl>
+#> 1     0 A-S00           0.341       0.328       0.352                0   
+#> 2     1 A-S01           0.272       0.260       0.289                6.91
+#> # ℹ 6 more variables: event_reduction_ci_lo <dbl>, event_reduction_ci_hi <dbl>,
+#> #   compliance <dbl>, above_threshold <lgl>, al_ratio <dbl>, n_reps <int>
 plot_al_tradeoff(al)
 ```

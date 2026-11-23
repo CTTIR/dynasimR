@@ -120,14 +120,15 @@ with the two AL points in the shipped example data.</p>
 <span>  <span class="va">sim</span>,</span>
 <span>  al_scenarios         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0"</span> <span class="op">=</span> <span class="st">"A-S00"</span>, <span class="st">"1"</span> <span class="op">=</span> <span class="st">"A-S01"</span><span class="op">)</span>,</span>
 <span>  compliance_threshold <span class="op">=</span> <span class="fl">0.80</span>,</span>
-<span>  n_bootstrap          <span class="op">=</span> <span class="fl">200</span></span>
+<span>  n_bootstrap          <span class="op">=</span> <span class="fl">200</span>,</span>
+<span>  seed                 <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">al</span><span class="op">$</span><span class="va">tradeoff_table</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 12</span></span></span>
 <span><span class="co">#&gt;      al scenario event_median event_ci_lo event_ci_hi event_reduction_pct</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     0 A-S00           0.341       0.328       0.353                0   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 A-S01           0.272       0.260       0.290                6.91</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     0 A-S00           0.341       0.328       0.352                0   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 A-S01           0.272       0.260       0.289                6.91</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: event_reduction_ci_lo &lt;dbl&gt;, event_reduction_ci_hi &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   compliance &lt;dbl&gt;, above_threshold &lt;lgl&gt;, al_ratio &lt;dbl&gt;, n_reps &lt;int&gt;</span></span></span></code></pre></div>
 </div>
@@ -136,7 +137,7 @@ with the two AL points in the shipped example data.</p>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_al_tradeoff.html">plot_al_tradeoff</a></span><span class="op">(</span><span class="va">al</span><span class="op">)</span></span></code></pre></div>
-<p><img src="autonomy-tradeoff_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="576"></p>
+<p><img src="autonomy-tradeoff_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="Scatter plot of compliance index against event reduction for autonomy levels 0 and 1, with the compliant band above the 0.8 threshold shaded and the optimum level circled." width="576"></p>
 </div>
 <div class="section level2">
 <h2 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a>
@@ -152,7 +153,7 @@ event-rate reduction while staying above the compliance threshold:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 13</span></span></span>
 <span><span class="co">#&gt;      al scenario event_median event_ci_lo event_ci_hi event_reduction_pct</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     0 A-S00           0.341       0.328       0.353                   0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     0 A-S00           0.341       0.328       0.352                   0</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 7 more variables: event_reduction_ci_lo &lt;dbl&gt;, event_reduction_ci_hi &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   compliance &lt;dbl&gt;, above_threshold &lt;lgl&gt;, al_ratio &lt;dbl&gt;, n_reps &lt;int&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   compliance_deficit &lt;dbl&gt;</span></span></span></code></pre></div>

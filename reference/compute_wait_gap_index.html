@@ -80,7 +80,8 @@ time. This index does not estimate a censoring-adjusted probability.</p>
 <span>  window_days <span class="op">=</span> <span class="fl">14</span>,</span>
 <span>  by_scenario <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  by_cohort <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  n_bootstrap <span class="op">=</span> <span class="fl">1000</span></span>
+<span>  n_bootstrap <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  seed <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -111,6 +112,12 @@ Default <code>TRUE</code>.</p></dd>
 <dd><p>Integer. Bootstrap replicates for CIs.
 Default <code>1000</code>; <code>0</code> omits intervals. Bootstrap intervals treat
 entities as independent observations, without replication clustering.</p></dd>
+
+
+<dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
+<dd><p>Integer or <code>NULL</code>. RNG seed for the bootstrap. A supplied
+seed makes the intervals reproducible and leaves the caller's RNG
+state unchanged. Default <code>NULL</code> uses the current RNG state.</p></dd>
 
 </dl></div>
     <div class="section level2">

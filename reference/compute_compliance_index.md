@@ -13,7 +13,8 @@ compute_compliance_index(
   window_unit = c("min", "hours", "days"),
   by_scenario = TRUE,
   by_group = TRUE,
-  n_bootstrap = 1000
+  n_bootstrap = 1000,
+  seed = NULL
 )
 ```
 
@@ -47,6 +48,12 @@ compute_compliance_index(
 
   Integer. Bootstrap replicates for CIs. Default `1000`; `0` omits
   intervals.
+
+- seed:
+
+  Integer or `NULL`. RNG seed for the bootstrap. A supplied seed makes
+  the intervals reproducible and leaves the caller's RNG state
+  unchanged. Default `NULL` uses the current RNG state.
 
 ## Value
 

@@ -99,7 +99,8 @@ interval is requested with at least two observed rates, bounds of zero.</p>
 <span>    <span class="st">"A-S11"</span>, `5` <span class="op">=</span> <span class="st">"A-S12"</span><span class="op">)</span>,</span>
 <span>  compliance_threshold <span class="op">=</span> <span class="fl">0.8</span>,</span>
 <span>  reference_al <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  n_bootstrap <span class="op">=</span> <span class="fl">1000</span></span>
+<span>  n_bootstrap <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  seed <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -131,6 +132,12 @@ calculation. Default <code>0</code>.</p></dd>
 <dd><p>Integer. Bootstrap replicates for CIs.
 Default <code>1000</code>; <code>0</code> omits intervals.</p></dd>
 
+
+<dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
+<dd><p>Integer or <code>NULL</code>. RNG seed for the bootstrap. A supplied
+seed makes the intervals reproducible and leaves the caller's RNG
+state unchanged. Default <code>NULL</code> uses the current RNG state.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -142,7 +149,24 @@ Default <code>1000</code>; <code>0</code> omits intervals.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="load_example_data.html">load_example_data</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">al</span>  <span class="op">&lt;-</span> <span class="fu">al_efficiency</span><span class="op">(</span><span class="va">sim</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># The default mapping expects the full AL0-AL5 sweep; the bundled</span></span></span>
+<span class="r-in"><span><span class="co"># example data hold two autonomy levels.</span></span></span>
+<span class="r-in"><span><span class="va">al</span>  <span class="op">&lt;-</span> <span class="fu">al_efficiency</span><span class="op">(</span><span class="va">sim</span>,</span></span>
+<span class="r-in"><span>                     al_scenarios <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0"</span> <span class="op">=</span> <span class="st">"A-S00"</span>, <span class="st">"1"</span> <span class="op">=</span> <span class="st">"A-S01"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                     n_bootstrap  <span class="op">=</span> <span class="fl">200</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">al</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">dynasimR_al_analysis</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Compliance threshold: <span style="color: #0000BB;">0.8</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Optimal AL: <span style="color: #0000BB;">1</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Compliance violations: <span style="color: #0000BB;">1</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 12</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      al scenario event_median event_ci_lo event_ci_hi event_reduction_pct</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     0 A-S00           0.341       0.328       0.352                0   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     1 A-S01           0.272       0.260       0.289                6.91</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: event_reduction_ci_lo &lt;dbl&gt;, event_reduction_ci_hi &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   compliance &lt;dbl&gt;, above_threshold &lt;lgl&gt;, al_ratio &lt;dbl&gt;, n_reps &lt;int&gt;</span></span>
 <span class="r-in"><span><span class="fu"><a href="plot_al_tradeoff.html">plot_al_tradeoff</a></span><span class="op">(</span><span class="va">al</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="al_efficiency-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>

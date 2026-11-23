@@ -63,4 +63,6 @@ plot_scenario_heatmap(
 )
 ```
 
-![](entity-flow-analysis_files/figure-html/unnamed-chunk-4-1.png)
+![Heat map of median time to first service and median time to stage 2
+for four scenarios, with each tile labelled by its
+value.](entity-flow-analysis_files/figure-html/unnamed-chunk-4-1.png)

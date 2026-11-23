@@ -29,7 +29,8 @@ pol <- policy_effect(
   sim,
   policy_a_scenario = "A-S08",
   policy_b_scenario = "A-S07",
-  n_bootstrap       = 500
+  n_bootstrap       = 500,
+  seed              = 1
 )
 print(pol)
 #> 
@@ -43,12 +44,15 @@ print(pol)
 #> # A tibble: 4 × 4
 #>   group median_pct_points  ci_lo ci_hi
 #>   <chr>             <dbl>  <dbl> <dbl>
-#> 1 all               -7.37  -9.10 -5.53
-#> 2 A                -10.6  -14.4  -7.00
-#> 3 B                -11.3  -14.9  -7.65
-#> 4 C                 -9.39 -16.1  -4.13
+#> 1 all               -7.37  -8.98 -5.75
+#> 2 A                -10.6  -14.3  -6.59
+#> 3 B                -11.3  -16.0  -7.25
+#> 4 C                 -9.39 -15.8  -3.92
 #> ── Narrative ──
-#> The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was -7.4 percentage points (95% CI: -9.1 to -5.5); the event rate was lower under policy A (Wilcoxon test: W = 215, adjusted p < 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658).
+#> The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was
+#> -7.4 percentage points (95% CI: -9 to -5.7); the event rate was lower under
+#> policy A (Wilcoxon test: W = 215, adjusted p < 0.001). The Compliance Index
+#> was higher under policy A (0.919 vs. 0.658).
 ```
 
 ## Delta event-rate visualisation
@@ -58,7 +62,10 @@ print(pol)
 plot_policy(pol)
 ```
 
-![](policy-effects_files/figure-html/unnamed-chunk-3-1.png)
+![Dot plot of the policy A minus policy B event-rate difference in
+percentage points, overall and by group, with bootstrap interval
+whiskers left of
+zero.](policy-effects_files/figure-html/unnamed-chunk-3-1.png)
 
 ## Auto-generated narrative
 
@@ -70,8 +77,11 @@ escaped LaTeX; escape special characters before inserting it into a
 
 ``` r
 
-cat(pol$narrative)
-#> The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was -7.4 percentage points (95% CI: -9.1 to -5.5); the event rate was lower under policy A (Wilcoxon test: W = 215, adjusted p < 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658).
+cat(strwrap(pol$narrative, width = 72), sep = "\n")
+#> The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07)
+#> was -7.4 percentage points (95% CI: -9 to -5.7); the event rate was
+#> lower under policy A (Wilcoxon test: W = 215, adjusted p < 0.001). The
+#> Compliance Index was higher under policy A (0.919 vs. 0.658).
 ```
 
 ## Effect sizes

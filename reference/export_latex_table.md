@@ -70,7 +70,7 @@ if (requireNamespace("xtable", quietly = TRUE)) {
   cat(readLines(out), sep = "\n")
   unlink(out)
 }
-#> ✔ LaTeX table: /tmp/Rtmp5lMojv/file18d253927e6f.tex
+#> ✔ LaTeX table: /tmp/Rtmp74XByn/file199c3e23ffc0.tex
 #> \begin{table}[ht]
 #> \centering
 #> \begin{tabular}{lrrrr}

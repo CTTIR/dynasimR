@@ -30,14 +30,15 @@ al <- al_efficiency(
   sim,
   al_scenarios         = c("0" = "A-S00", "1" = "A-S01"),
   compliance_threshold = 0.80,
-  n_bootstrap          = 200
+  n_bootstrap          = 200,
+  seed                 = 1
 )
 al$tradeoff_table
 #> # A tibble: 2 × 12
 #>      al scenario event_median event_ci_lo event_ci_hi event_reduction_pct
 #>   <int> <chr>           <dbl>       <dbl>       <dbl>               <dbl>
-#> 1     0 A-S00           0.341       0.328       0.353                0   
-#> 2     1 A-S01           0.272       0.260       0.290                6.91
+#> 1     0 A-S00           0.341       0.328       0.352                0   
+#> 2     1 A-S01           0.272       0.260       0.289                6.91
 #> # ℹ 6 more variables: event_reduction_ci_lo <dbl>, event_reduction_ci_hi <dbl>,
 #> #   compliance <dbl>, above_threshold <lgl>, al_ratio <dbl>, n_reps <int>
 ```
@@ -49,7 +50,10 @@ al$tradeoff_table
 plot_al_tradeoff(al)
 ```
 
-![](autonomy-tradeoff_files/figure-html/unnamed-chunk-3-1.png)
+![Scatter plot of compliance index against event reduction for autonomy
+levels 0 and 1, with the compliant band above the 0.8 threshold shaded
+and the optimum level
+circled.](autonomy-tradeoff_files/figure-html/unnamed-chunk-3-1.png)
 
 ## Interpretation
 
@@ -70,7 +74,7 @@ al$compliance_violations
 #> # A tibble: 1 × 13
 #>      al scenario event_median event_ci_lo event_ci_hi event_reduction_pct
 #>   <int> <chr>           <dbl>       <dbl>       <dbl>               <dbl>
-#> 1     0 A-S00           0.341       0.328       0.353                   0
+#> 1     0 A-S00           0.341       0.328       0.352                   0
 #> # ℹ 7 more variables: event_reduction_ci_lo <dbl>, event_reduction_ci_hi <dbl>,
 #> #   compliance <dbl>, above_threshold <lgl>, al_ratio <dbl>, n_reps <int>,
 #> #   compliance_deficit <dbl>

@@ -120,7 +120,7 @@
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Profile: <span style="color: #0000BB;">"Profile_A"</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Summary rows: <span style="color: #0000BB;">200</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Entity events: <span style="color: #0000BB;">16000</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Loaded: <span style="color: #0000BB;">"2026-11-22 05:23"</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Loaded: <span style="color: #0000BB;">"2026-11-23 06:18"</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Path: <span style="color: #0000BB;">/home/runner/work/_temp/Library/dynasimR/extdata</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -130,7 +130,7 @@
 <code class="sourceCode R"><span><span class="va">km</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/km_estimate.html">km_estimate</a></span><span class="op">(</span><span class="va">sim</span>, endpoint <span class="op">=</span> <span class="st">"stage2"</span>,</span>
 <span>                  stratify_by <span class="op">=</span> <span class="st">"scenario"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot_km.html">plot_km</a></span><span class="op">(</span><span class="va">km</span>, title <span class="op">=</span> <span class="st">"Time-to-stage-2"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="576"></p>
+<p><img src="getting-started_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="Kaplan-Meier curves of time to stage 2 for four scenarios, which largely overlap, with the log-rank p-value printed in the panel." width="576"></p>
 </div>
 <div class="section level2">
 <h2 id="policy-effect">Policy effect<a class="anchor" aria-label="anchor" href="#policy-effect"></a>
@@ -139,9 +139,13 @@
 <code class="sourceCode R"><span><span class="va">pol</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/policy_effect.html">policy_effect</a></span><span class="op">(</span><span class="va">sim</span>,</span>
 <span>  policy_a_scenario <span class="op">=</span> <span class="st">"A-S08"</span>,</span>
 <span>  policy_b_scenario <span class="op">=</span> <span class="st">"A-S07"</span>,</span>
-<span>  n_bootstrap       <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">pol</span><span class="op">$</span><span class="va">narrative</span><span class="op">)</span></span>
-<span><span class="co">#&gt; The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was -7.4 percentage points (95% CI: -9 to -5.6); the event rate was lower under policy A (Wilcoxon test: W = 215, adjusted p &lt; 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658).</span></span></code></pre></div>
+<span>  n_bootstrap       <span class="op">=</span> <span class="fl">200</span>,</span>
+<span>  seed              <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strwrap.html" class="external-link">strwrap</a></span><span class="op">(</span><span class="va">pol</span><span class="op">$</span><span class="va">narrative</span>, width <span class="op">=</span> <span class="fl">72</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07)</span></span>
+<span><span class="co">#&gt; was -7.4 percentage points (95% CI: -9.1 to -5.8); the event rate was</span></span>
+<span><span class="co">#&gt; lower under policy A (Wilcoxon test: W = 215, adjusted p &lt; 0.001). The</span></span>
+<span><span class="co">#&gt; Compliance Index was higher under policy A (0.919 vs. 0.658).</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="autonomy-trade-off">Autonomy trade-off<a class="anchor" aria-label="anchor" href="#autonomy-trade-off"></a>
@@ -153,10 +157,11 @@ machinery is the same for a full AL sweep.</p>
 <span>  <span class="va">sim</span>,</span>
 <span>  al_scenarios         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0"</span> <span class="op">=</span> <span class="st">"A-S00"</span>, <span class="st">"1"</span> <span class="op">=</span> <span class="st">"A-S01"</span><span class="op">)</span>,</span>
 <span>  compliance_threshold <span class="op">=</span> <span class="fl">0.80</span>,</span>
-<span>  n_bootstrap          <span class="op">=</span> <span class="fl">200</span></span>
+<span>  n_bootstrap          <span class="op">=</span> <span class="fl">200</span>,</span>
+<span>  seed                 <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot_al_tradeoff.html">plot_al_tradeoff</a></span><span class="op">(</span><span class="va">al</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="576"></p>
+<p><img src="getting-started_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="Scatter plot of compliance index against event reduction for autonomy levels 0 and 1, with the compliant band above the 0.8 threshold shaded and the optimum level circled." width="576"></p>
 </div>
 <div class="section level2">
 <h2 id="manuscript-ready-export">Manuscript-ready export<a class="anchor" aria-label="anchor" href="#manuscript-ready-export"></a>

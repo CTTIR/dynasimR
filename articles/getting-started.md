@@ -29,7 +29,7 @@ print(sim)
 #> • Profile: "Profile_A"
 #> • Summary rows: 200
 #> • Entity events: 16000
-#> • Loaded: "2026-11-22 05:23"
+#> • Loaded: "2026-11-23 06:18"
 #> • Path: /home/runner/work/_temp/Library/dynasimR/extdata
 ```
 
@@ -42,7 +42,9 @@ km <- km_estimate(sim, endpoint = "stage2",
 plot_km(km, title = "Time-to-stage-2")
 ```
 
-![](getting-started_files/figure-html/unnamed-chunk-3-1.png)
+![Kaplan-Meier curves of time to stage 2 for four scenarios, which
+largely overlap, with the log-rank p-value printed in the
+panel.](getting-started_files/figure-html/unnamed-chunk-3-1.png)
 
 ## Policy effect
 
@@ -51,9 +53,13 @@ plot_km(km, title = "Time-to-stage-2")
 pol <- policy_effect(sim,
   policy_a_scenario = "A-S08",
   policy_b_scenario = "A-S07",
-  n_bootstrap       = 200)
-cat(pol$narrative)
-#> The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was -7.4 percentage points (95% CI: -9 to -5.6); the event rate was lower under policy A (Wilcoxon test: W = 215, adjusted p < 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658).
+  n_bootstrap       = 200,
+  seed              = 1)
+cat(strwrap(pol$narrative, width = 72), sep = "\n")
+#> The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07)
+#> was -7.4 percentage points (95% CI: -9.1 to -5.8); the event rate was
+#> lower under policy A (Wilcoxon test: W = 215, adjusted p < 0.001). The
+#> Compliance Index was higher under policy A (0.919 vs. 0.658).
 ```
 
 ## Autonomy trade-off
@@ -67,12 +73,16 @@ al <- al_efficiency(
   sim,
   al_scenarios         = c("0" = "A-S00", "1" = "A-S01"),
   compliance_threshold = 0.80,
-  n_bootstrap          = 200
+  n_bootstrap          = 200,
+  seed                 = 1
 )
 plot_al_tradeoff(al)
 ```
 
-![](getting-started_files/figure-html/unnamed-chunk-5-1.png)
+![Scatter plot of compliance index against event reduction for autonomy
+levels 0 and 1, with the compliant band above the 0.8 threshold shaded
+and the optimum level
+circled.](getting-started_files/figure-html/unnamed-chunk-5-1.png)
 
 ## Manuscript-ready export
 

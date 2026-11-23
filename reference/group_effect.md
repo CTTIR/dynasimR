@@ -18,7 +18,8 @@ group_effect(
   outcome_col = "completion_rate",
   cost_col = "cost",
   alpha = 0.05,
-  n_bootstrap = 1000
+  n_bootstrap = 1000,
+  seed = NULL
 )
 ```
 
@@ -53,6 +54,12 @@ group_effect(
 
   Integer. Bootstrap replicates. Default `1000`; `0` omits confidence
   intervals.
+
+- seed:
+
+  Integer or `NULL`. RNG seed for the bootstrap. A supplied seed makes
+  the intervals reproducible and leaves the caller's RNG state
+  unchanged. Default `NULL` uses the current RNG state.
 
 ## Value
 

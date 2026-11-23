@@ -17,7 +17,8 @@ compute_wait_gap_index(
   window_days = 14,
   by_scenario = TRUE,
   by_cohort = TRUE,
-  n_bootstrap = 1000
+  n_bootstrap = 1000,
+  seed = NULL
 )
 ```
 
@@ -45,6 +46,12 @@ compute_wait_gap_index(
   Integer. Bootstrap replicates for CIs. Default `1000`; `0` omits
   intervals. Bootstrap intervals treat entities as independent
   observations, without replication clustering.
+
+- seed:
+
+  Integer or `NULL`. RNG seed for the bootstrap. A supplied seed makes
+  the intervals reproducible and leaves the caller's RNG state
+  unchanged. Default `NULL` uses the current RNG state.
 
 ## Value
 

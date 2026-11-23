@@ -30,6 +30,9 @@ A ggplot2 object.
 
 ``` r
 sim <- load_example_data()
-al <- al_efficiency(sim)
+# The bundled example data hold two autonomy levels.
+al <- al_efficiency(sim,
+                    al_scenarios = c("0" = "A-S00", "1" = "A-S01"),
+                    n_bootstrap  = 200)
 plot_al_tradeoff(al)
 ```

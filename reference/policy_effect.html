@@ -98,7 +98,8 @@ flag, or <code>status == "TERMINATED"</code> only when the flag column is absent
 <span>  <span class="va">policy_a_scenario</span>,</span>
 <span>  <span class="va">policy_b_scenario</span>,</span>
 <span>  alpha <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>  n_bootstrap <span class="op">=</span> <span class="fl">1000</span></span>
+<span>  n_bootstrap <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  seed <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -126,6 +127,12 @@ flag, or <code>status == "TERMINATED"</code> only when the flag column is absent
 <dt id="arg-n-bootstrap">n_bootstrap<a class="anchor" aria-label="anchor" href="#arg-n-bootstrap"></a></dt>
 <dd><p>Integer. Bootstrap replicates for CIs.
 Default <code>1000</code>; <code>0</code> omits intervals.</p></dd>
+
+
+<dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
+<dd><p>Integer or <code>NULL</code>. RNG seed for the bootstrap. A supplied
+seed makes the intervals reproducible and leaves the caller's RNG
+state unchanged. Default <code>NULL</code> uses the current RNG state.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -165,7 +172,10 @@ IDs explicitly, so that the same function works for Profile A
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> C                 -<span style="color: #BB0000;">9.39</span> -<span style="color: #BB0000;">15.8</span>  -<span style="color: #BB0000;">3.71</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Narrative</span> ──</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was -7.4 percentage points (95% CI: -9.1 to -5.5); the event rate was lower under policy A (Wilcoxon test: W = 215, adjusted p &lt; 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658). </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -7.4 percentage points (95% CI: -9.1 to -5.5); the event rate was lower under</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> policy A (Wilcoxon test: W = 215, adjusted p &lt; 0.001). The Compliance Index</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> was higher under policy A (0.919 vs. 0.658).</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">pol</span><span class="op">$</span><span class="va">narrative</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was -7.4 percentage points (95% CI: -9.1 to -5.5); the event rate was lower under policy A (Wilcoxon test: W = 215, adjusted p &lt; 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658).</span>
 </code></pre></div>

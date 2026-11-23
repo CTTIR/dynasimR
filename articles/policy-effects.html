@@ -120,7 +120,8 @@ allocation policy.</p>
 <span>  <span class="va">sim</span>,</span>
 <span>  policy_a_scenario <span class="op">=</span> <span class="st">"A-S08"</span>,</span>
 <span>  policy_b_scenario <span class="op">=</span> <span class="st">"A-S07"</span>,</span>
-<span>  n_bootstrap       <span class="op">=</span> <span class="fl">500</span></span>
+<span>  n_bootstrap       <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>  seed              <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pol</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -134,19 +135,22 @@ allocation policy.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 4</span></span></span>
 <span><span class="co">#&gt;   group median_pct_points  ci_lo ci_hi</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> all               -<span style="color: #BB0000;">7.37</span>  -<span style="color: #BB0000;">9.10</span> -<span style="color: #BB0000;">5.53</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> A                -<span style="color: #BB0000;">10.6</span>  -<span style="color: #BB0000;">14.4</span>  -<span style="color: #BB0000;">7.00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> B                -<span style="color: #BB0000;">11.3</span>  -<span style="color: #BB0000;">14.9</span>  -<span style="color: #BB0000;">7.65</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> C                 -<span style="color: #BB0000;">9.39</span> -<span style="color: #BB0000;">16.1</span>  -<span style="color: #BB0000;">4.13</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> all               -<span style="color: #BB0000;">7.37</span>  -<span style="color: #BB0000;">8.98</span> -<span style="color: #BB0000;">5.75</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> A                -<span style="color: #BB0000;">10.6</span>  -<span style="color: #BB0000;">14.3</span>  -<span style="color: #BB0000;">6.59</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> B                -<span style="color: #BB0000;">11.3</span>  -<span style="color: #BB0000;">16.0</span>  -<span style="color: #BB0000;">7.25</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> C                 -<span style="color: #BB0000;">9.39</span> -<span style="color: #BB0000;">15.8</span>  -<span style="color: #BB0000;">3.92</span></span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Narrative</span> ──</span></span>
-<span><span class="co">#&gt; The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was -7.4 percentage points (95% CI: -9.1 to -5.5); the event rate was lower under policy A (Wilcoxon test: W = 215, adjusted p &lt; 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658).</span></span></code></pre></div>
+<span><span class="co">#&gt; The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was</span></span>
+<span><span class="co">#&gt; -7.4 percentage points (95% CI: -9 to -5.7); the event rate was lower under</span></span>
+<span><span class="co">#&gt; policy A (Wilcoxon test: W = 215, adjusted p &lt; 0.001). The Compliance Index</span></span>
+<span><span class="co">#&gt; was higher under policy A (0.919 vs. 0.658).</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="delta-event-rate-visualisation">Delta event-rate visualisation<a class="anchor" aria-label="anchor" href="#delta-event-rate-visualisation"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_policy.html">plot_policy</a></span><span class="op">(</span><span class="va">pol</span><span class="op">)</span></span></code></pre></div>
-<p><img src="policy-effects_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="576"></p>
+<p><img src="policy-effects_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="Dot plot of the policy A minus policy B event-rate difference in percentage points, overall and by group, with bootstrap interval whiskers left of zero." width="576"></p>
 </div>
 <div class="section level2">
 <h2 id="auto-generated-narrative">Auto-generated narrative<a class="anchor" aria-label="anchor" href="#auto-generated-narrative"></a>
@@ -157,8 +161,11 @@ identifiers and a confidence label matching the requested
 before using it in a report. It is not escaped LaTeX; escape special
 characters before inserting it into a <code>.tex</code> document:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">pol</span><span class="op">$</span><span class="va">narrative</span><span class="op">)</span></span>
-<span><span class="co">#&gt; The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was -7.4 percentage points (95% CI: -9.1 to -5.5); the event rate was lower under policy A (Wilcoxon test: W = 215, adjusted p &lt; 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658).</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strwrap.html" class="external-link">strwrap</a></span><span class="op">(</span><span class="va">pol</span><span class="op">$</span><span class="va">narrative</span>, width <span class="op">=</span> <span class="fl">72</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07)</span></span>
+<span><span class="co">#&gt; was -7.4 percentage points (95% CI: -9 to -5.7); the event rate was</span></span>
+<span><span class="co">#&gt; lower under policy A (Wilcoxon test: W = 215, adjusted p &lt; 0.001). The</span></span>
+<span><span class="co">#&gt; Compliance Index was higher under policy A (0.919 vs. 0.658).</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="effect-sizes">Effect sizes<a class="anchor" aria-label="anchor" href="#effect-sizes"></a>

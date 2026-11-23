@@ -23,7 +23,8 @@ policy_effect(
   policy_a_scenario,
   policy_b_scenario,
   alpha = 0.05,
-  n_bootstrap = 1000
+  n_bootstrap = 1000,
+  seed = NULL
 )
 ```
 
@@ -49,6 +50,12 @@ policy_effect(
 
   Integer. Bootstrap replicates for CIs. Default `1000`; `0` omits
   intervals.
+
+- seed:
+
+  Integer or `NULL`. RNG seed for the bootstrap. A supplied seed makes
+  the intervals reproducible and leaves the caller's RNG state
+  unchanged. Default `NULL` uses the current RNG state.
 
 ## Value
 
@@ -86,7 +93,10 @@ print(pol)
 #> 4 C                 -9.39 -15.8  -3.71
 #> ── Narrative ──
 #> 
-#> The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was -7.4 percentage points (95% CI: -9.1 to -5.5); the event rate was lower under policy A (Wilcoxon test: W = 215, adjusted p < 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658). 
+#> The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was
+#> -7.4 percentage points (95% CI: -9.1 to -5.5); the event rate was lower under
+#> policy A (Wilcoxon test: W = 215, adjusted p < 0.001). The Compliance Index
+#> was higher under policy A (0.919 vs. 0.658).
 cat(pol$narrative)
 #> The policy A-minus-B event-rate difference (scenario A-S08 vs. A-S07) was -7.4 percentage points (95% CI: -9.1 to -5.5); the event rate was lower under policy A (Wilcoxon test: W = 215, adjusted p < 0.001). The Compliance Index was higher under policy A (0.919 vs. 0.658).
 ```
