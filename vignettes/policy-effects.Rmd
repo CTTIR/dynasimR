@@ -69,7 +69,7 @@ print(pol)
 
 ## Delta event-rate visualisation
 
-```{r}
+```{r, fig.alt = "Dot plot of the policy A minus policy B event-rate difference in percentage points, overall and by group, with bootstrap interval whiskers left of zero."}
 plot_policy(pol)
 ```
 

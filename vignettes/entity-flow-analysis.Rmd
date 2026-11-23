@@ -71,7 +71,7 @@ detect_bottlenecks(st, threshold = 0.75)
 
 ## Visualising first-service times
 
-```{r, fig.width = 6, fig.height = 4}
+```{r, fig.width = 6, fig.height = 4, fig.alt = "Heat map of median time to first service and median time to stage 2 for four scenarios, with each tile labelled by its value."}
 plot_scenario_heatmap(
   sim,
   metrics = c("median_time_to_first_service",

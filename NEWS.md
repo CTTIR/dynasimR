@@ -39,6 +39,19 @@
 * The examples of `al_efficiency()` and `plot_al_tradeoff()` map the two
   autonomy levels of the bundled data instead of the full default sweep, which
   produced a single-point plot.
+* `plot_al_tradeoff()` labels autonomy levels below the compliance threshold
+  underneath their point, so the label no longer sits on the threshold line.
+  `print()` for `al_efficiency()` results names the mapped scenarios that are
+  missing from the data.
+* `plot_policy()` titles its group axis and states in a caption that points
+  are differences of medians and whiskers percentile bootstrap intervals at
+  the chosen level. `plot_progress_curves()` explains its bars, whiskers,
+  lines and bands in a caption and titles its legend.
+* `plot_map()` titles its legend ("Group" or "Status"), and
+  `plot_scenario_heatmap()` and `plot_sdi_map()` draw a wider colour bar so
+  that their break labels no longer run together. The innermost ring of
+  `plot_radar()` is no longer labelled, where the outlines covered it.
+* The vignette figures carry alternative text.
 
 ## CRAN preparation
 

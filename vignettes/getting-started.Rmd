@@ -60,7 +60,7 @@ print(sim)
 
 ## Time-to-event analysis
 
-```{r}
+```{r, fig.alt = "Kaplan-Meier curves of time to stage 2 for four scenarios, which largely overlap, with the log-rank p-value printed in the panel."}
 km <- km_estimate(sim, endpoint = "stage2",
                   stratify_by = "scenario")
 plot_km(km, title = "Time-to-stage-2")
@@ -82,7 +82,7 @@ cat(strwrap(pol$narrative, width = 72), sep = "\n")
 Only two AL points are present in the shipped example data, but the
 machinery is the same for a full AL sweep.
 
-```{r}
+```{r, fig.alt = "Scatter plot of compliance index against event reduction for autonomy levels 0 and 1, with the compliant band above the 0.8 threshold shaded and the optimum level circled."}
 al <- al_efficiency(
   sim,
   al_scenarios         = c("0" = "A-S00", "1" = "A-S01"),

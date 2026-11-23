@@ -70,7 +70,7 @@ al$tradeoff_table
 
 ## Trade-off plot
 
-```{r}
+```{r, fig.alt = "Scatter plot of compliance index against event reduction for autonomy levels 0 and 1, with the compliant band above the 0.8 threshold shaded and the optimum level circled."}
 plot_al_tradeoff(al)
 ```
 
