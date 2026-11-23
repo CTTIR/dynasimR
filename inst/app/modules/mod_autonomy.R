@@ -61,12 +61,27 @@ mod_autonomy_server <- function(id, sim_data) {
       p <- dynasimR::plot_al_tradeoff(al,
         label_points      = FALSE,
         highlight_optimal = input$highlight)
-      plotly::ggplotly(p) |>
-        plotly::layout(
-          legend = list(orientation = "h", x = 0, y = 1.02,
-                         xanchor = "left", yanchor = "bottom"),
-          margin = list(t = 70, b = 55)
-        )
+      # The compliant band and its label span the panel with infinite
+      # limits, which ggplotly() drops: append them in panel coordinates,
+      # keeping any shapes and annotations the conversion created.
+      thr <- al$compliance_threshold
+      widget <- plotly::plotly_build(plotly::ggplotly(p))
+      widget$x$layout$shapes <- c(widget$x$layout$shapes, list(list(
+        type = "rect", xref = "paper", x0 = 0, x1 = 1,
+        yref = "y", y0 = thr, y1 = 1, layer = "below",
+        fillcolor = "#E8F5E9", opacity = 0.6, line = list(width = 0)
+      )))
+      widget$x$layout$annotations <- c(widget$x$layout$annotations, list(list(
+        xref = "paper", x = 1, xanchor = "right",
+        yref = "y", y = thr, yanchor = "bottom", showarrow = FALSE,
+        text = paste0("Compliance threshold (", thr, ")"),
+        font = list(color = "#2E7D32", size = 11)
+      )))
+      plotly::layout(widget,
+        legend = list(orientation = "h", x = 0, y = 1.02,
+                      xanchor = "left", yanchor = "bottom"),
+        margin = list(t = 70, b = 55)
+      )
     })
 
     output$tradeoff_tbl <- DT::renderDT({

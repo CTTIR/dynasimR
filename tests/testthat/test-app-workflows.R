@@ -144,6 +144,10 @@ test_that("the autonomy tab names the sweep scenarios a dataset lacks", {
     expect_match(output$availability, "not in this dataset")
     expect_match(output$availability, "A-S05", fixed = TRUE)
     expect_no_error(output$tradeoff_plot)
+    # The compliant band and threshold label survive the plotly conversion.
+    plot_json <- output$tradeoff_plot
+    expect_match(plot_json, "Compliance threshold (0.8)", fixed = TRUE)
+    expect_match(plot_json, "#E8F5E9", fixed = TRUE)
     expect_no_error(output$tradeoff_tbl)
   })
 })
