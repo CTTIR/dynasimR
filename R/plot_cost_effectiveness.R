@@ -103,7 +103,16 @@ plot_cost_effectiveness <- function(data,
         ggplot2::geom_hline(yintercept = 0, color = "gray60") +
         ggplot2::geom_vline(xintercept = 0, color = "gray60") +
         ggplot2::geom_point(size = 4) +
-        ggplot2::geom_text(nudge_y = 0.02 * max(abs(points$delta_cost))) +
+        # Offset in text heights and widened axes keep the labels clear of
+        # their points and inside the panel.
+        ggplot2::geom_text(vjust = -1.3, size = 3.5, color = "#333333",
+                           show.legend = FALSE) +
+        ggplot2::scale_x_continuous(
+          expand = ggplot2::expansion(mult = 0.12)) +
+        ggplot2::scale_y_continuous(
+          expand = ggplot2::expansion(mult = c(0.05, 0.15))) +
+        ggplot2::scale_color_manual(
+          values = .safe_viridis(nrow(points)), name = "Scenario") +
         ggplot2::labs(
           x = glue::glue("Median outcome difference ({outcome_col})"),
           y = glue::glue("Median cost difference ({cost_col})"),
@@ -132,6 +141,8 @@ plot_cost_effectiveness <- function(data,
   else p <- p + ggplot2::geom_point(size = 2)
   p +
     ggplot2::scale_y_continuous(limits = c(0, 1)) +
+    ggplot2::scale_color_manual(
+      values = .safe_viridis(length(scenarios)), name = "Scenario") +
     ggplot2::labs(
       x = "Willingness-to-pay per outcome unit",
       y = "Observed fraction with positive net benefit",

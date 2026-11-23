@@ -54,7 +54,10 @@ plot_timeline <- function(data,
                                    begin = 0.1, end = 0.9) +
     ggplot2::scale_fill_viridis_d(option = "D",
                                   begin = 0.1, end = 0.9) +
-    ggplot2::labs(x = "Time step", y = metric) +
+    ggplot2::labs(
+      x = "Time step", y = metric, color = "Scenario", fill = "Scenario",
+      caption = "Line: median; band: 2.5th to 97.5th percentile of the observed values."
+    ) +
     theme_dynasimR()
 
   if (!is.null(group) && group %in% names(d))

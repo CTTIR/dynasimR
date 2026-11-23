@@ -35,7 +35,12 @@ plot_map <- function(data,
     ggplot2::labs(x = "X", y = "Y", color = NULL) +
     theme_dynasimR()
 
-  if (color_by == "group")
+  if (color_by == "group") {
     p <- p + scale_color_group_dynasimR()
+  } else {
+    p <- p + ggplot2::scale_color_manual(
+      values = .safe_viridis(length(unique(d[[color_by]])), end = 0.8)
+    )
+  }
   p
 }
