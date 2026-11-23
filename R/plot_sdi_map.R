@@ -38,11 +38,11 @@ plot_sdi_map <- function(sdi) {
 
   if (has_xy) {
     # Tiles far from the midpoint are dark, tiles near it almost white:
-    # choose the label colour accordingly.
-    distance <- abs(sdi$sdi_median - 1)
-    furthest <- suppressWarnings(max(distance, na.rm = TRUE))
-    dark_tile <- is.finite(distance) & is.finite(furthest) & furthest > 0 &
-      distance / furthest > 0.5
+    # label each tile in the colour with the higher contrast to its fill.
+    dark_tile <- .sdi_dark_tile(sdi$sdi_median,
+                                low  = dynasimR_colors()$GROUP_B,
+                                mid  = "#F7F7F7",
+                                high = dynasimR_colors()$GROUP_A)
     ggplot2::ggplot(sdi,
       ggplot2::aes(x = .data$x, y = .data$y,
                    fill = .data$sdi_median)
@@ -81,4 +81,35 @@ plot_sdi_map <- function(sdi) {
       theme_dynasimR() +
       ggplot2::theme(legend.key.width = ggplot2::unit(2.5, "lines"))
   }
+}
+
+# TRUE where white text contrasts more with the tile fill than near-black
+# (#1A1A1A) text. The fill is interpolated in Lab space between the midpoint
+# colour and the end colour, as scale_fill_gradient2() does, with the larger
+# distance from the midpoint mapped to the full end colour.
+#' @keywords internal
+#' @noRd
+.sdi_dark_tile <- function(x, low, mid, high, midpoint = 1) {
+  dist <- x - midpoint
+  out <- rep(FALSE, length(x))
+  furthest <- suppressWarnings(max(abs(dist[is.finite(dist)])))
+  if (!is.finite(furthest) || furthest == 0) return(out)
+  for (i in which(is.finite(dist))) {
+    end <- if (dist[i] < 0) low else high
+    rgb <- grDevices::colorRamp(c(mid, end), space = "Lab")(
+      abs(dist[i]) / furthest
+    )
+    out[i] <- .relative_luminance(rgb) <= 0.2
+  }
+  out
+}
+
+# WCAG relative luminance of one colour given as 0-255 sRGB values. White
+# and #1A1A1A text have equal contrast at a luminance of about 0.2.
+#' @keywords internal
+#' @noRd
+.relative_luminance <- function(rgb) {
+  v <- as.numeric(rgb) / 255
+  v <- ifelse(v <= 0.04045, v / 12.92, ((v + 0.055) / 1.055)^2.4)
+  sum(c(0.2126, 0.7152, 0.0722) * v)
 }

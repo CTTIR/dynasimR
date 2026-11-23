@@ -48,6 +48,9 @@
 * `plot_al_tradeoff()` draws its interval whiskers opaque enough to see, stops
   the palette before the pale yellow that vanished on white, and states in the
   caption that the whiskers are 95% percentile bootstrap intervals.
+* The tile variant of `plot_sdi_map()` picks white or near-black region names
+  from the luminance of each tile, so mid-red tiles no longer carry white text
+  with too little contrast.
 * `plot_policy()` titles its group axis and states in a caption that points
   are differences of medians and whiskers percentile bootstrap intervals at
   the chosen level. `plot_progress_curves()` explains its bars, whiskers,

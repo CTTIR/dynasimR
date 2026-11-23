@@ -264,3 +264,18 @@ test_that("AL trade-off whiskers are visible and explained in the caption", {
                          n_bootstrap = 0)
   expect_no_match(plot_al_tradeoff(no_ci)$labels$caption, "Whiskers")
 })
+
+test_that("SDI tile labels follow the luminance of their fill", {
+  low <- dynasimR_colors()$GROUP_B
+  high <- dynasimR_colors()$GROUP_A
+  # A mid-red tile (about half-way to the end colour) takes dark text.
+  dark <- dynasimR:::.sdi_dark_tile(c(0.55, 1, 1.8), low, "#F7F7F7", high)
+  expect_identical(dark, c(FALSE, FALSE, TRUE))
+  expect_identical(
+    dynasimR:::.sdi_dark_tile(c(0.2, 1, 1.8, NA), low, "#F7F7F7", high),
+    c(TRUE, FALSE, TRUE, FALSE)
+  )
+  expect_false(any(dynasimR:::.sdi_dark_tile(c(1, 1), low, "#F7F7F7", high)))
+  expect_equal(dynasimR:::.relative_luminance(c(255, 255, 255)), 1)
+  expect_equal(dynasimR:::.relative_luminance(c(0, 0, 0)), 0)
+})
