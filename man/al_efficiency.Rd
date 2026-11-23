@@ -10,7 +10,8 @@ al_efficiency(
     "A-S11", `5` = "A-S12"),
   compliance_threshold = 0.8,
   reference_al = 0,
-  n_bootstrap = 1000
+  n_bootstrap = 1000,
+  seed = NULL
 )
 }
 \arguments{
@@ -28,6 +29,10 @@ calculation. Default \code{0}.}
 
 \item{n_bootstrap}{Integer. Bootstrap replicates for CIs.
 Default \code{1000}; \code{0} omits intervals.}
+
+\item{seed}{Integer or \code{NULL}. RNG seed for the bootstrap. A supplied
+seed makes the intervals reproducible and leaves the caller's RNG
+state unchanged. Default \code{NULL} uses the current RNG state.}
 }
 \value{
 An S3 object of class \code{dynasimR_al_analysis} with slots
@@ -52,6 +57,11 @@ interval is requested with at least two observed rates, bounds of zero.
 }
 \examples{
 sim <- load_example_data()
-al  <- al_efficiency(sim)
+# The default mapping expects the full AL0-AL5 sweep; the bundled
+# example data hold two autonomy levels.
+al  <- al_efficiency(sim,
+                     al_scenarios = c("0" = "A-S00", "1" = "A-S01"),
+                     n_bootstrap  = 200, seed = 1)
+al
 plot_al_tradeoff(al)
 }

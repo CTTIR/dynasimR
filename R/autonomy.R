@@ -25,6 +25,9 @@
 #'   calculation. Default `0`.
 #' @param n_bootstrap Integer. Bootstrap replicates for CIs.
 #'   Default `1000`; `0` omits intervals.
+#' @param seed Integer or `NULL`. RNG seed for the bootstrap. A supplied
+#'   seed makes the intervals reproducible and leaves the caller's RNG
+#'   state unchanged. Default `NULL` uses the current RNG state.
 #'
 #' @return An S3 object of class `dynasimR_al_analysis` with slots
 #'   `tradeoff_table`, `optimal_al`, `compliance_violations` and
@@ -32,7 +35,12 @@
 #' @export
 #' @examples
 #' sim <- load_example_data()
-#' al  <- al_efficiency(sim)
+#' # The default mapping expects the full AL0-AL5 sweep; the bundled
+#' # example data hold two autonomy levels.
+#' al  <- al_efficiency(sim,
+#'                      al_scenarios = c("0" = "A-S00", "1" = "A-S01"),
+#'                      n_bootstrap  = 200, seed = 1)
+#' al
 #' plot_al_tradeoff(al)
 al_efficiency <- function(data,
                           al_scenarios  = c(
@@ -42,11 +50,13 @@ al_efficiency <- function(data,
                           ),
                           compliance_threshold = 0.80,
                           reference_al         = 0,
-                          n_bootstrap          = 1000) {
+                          n_bootstrap          = 1000,
+                          seed                 = NULL) {
 
   d <- if (inherits(data, "dynasimR_data")) data$summary else data
 
   .validate_n_boot(n_bootstrap)
+  .validate_boot_seed(seed)
   .require_cols(d, c("scenario", "event_rate"), where = "summary")
   .validate_rate(d$event_rate, "event_rate")
   if ("compliance_index" %in% names(d))
@@ -76,6 +86,7 @@ al_efficiency <- function(data,
   if (!is.finite(ref_event))
     cli::cli_abort("The reference scenario needs an observed event rate.")
 
+  .local_boot_seed(seed)
   tradeoff <- purrr::map_dfr(names(al_scenarios), function(al_str) {
     sc <- al_scenarios[[al_str]]
     sc_data <- dplyr::filter(d, .data$scenario == sc)
@@ -141,6 +152,7 @@ al_efficiency <- function(data,
         compliance_threshold = compliance_threshold,
         reference_al         = reference_al,
         n_bootstrap          = n_bootstrap,
+        seed                 = seed,
         omitted_scenarios    = setdiff(unname(al_scenarios), d$scenario)
       )
     ),

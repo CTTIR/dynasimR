@@ -1,12 +1,36 @@
 # Internal bootstrap helpers — not exported.
 
-.with_boot_seed <- function(seed, code) {
-  if (is.null(seed)) return(force(code))
+.validate_boot_seed <- function(seed) {
+  if (is.null(seed)) return(invisible(seed))
   if (!is.numeric(seed) || length(seed) != 1L || is.na(seed) ||
       !is.finite(seed) || seed < 0 || seed > .Machine$integer.max ||
       seed != floor(seed)) {
     cli::cli_abort("{.arg seed} must be NULL or one nonnegative integer.")
   }
+  invisible(seed)
+}
+
+# Seed the RNG for the rest of the calling function and restore the caller's
+# RNG state when that function exits. `NULL` leaves the RNG untouched.
+.local_boot_seed <- function(seed, frame = parent.frame()) {
+  .validate_boot_seed(seed)
+  if (is.null(seed)) return(invisible(NULL))
+  had_seed <- exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
+  old_seed <- if (had_seed) get(".Random.seed", envir = .GlobalEnv) else NULL
+  restore <- function() {
+    if (had_seed) assign(".Random.seed", old_seed, envir = .GlobalEnv)
+    else if (exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE))
+      rm(".Random.seed", envir = .GlobalEnv)
+  }
+  do.call(base::on.exit, list(as.call(list(restore)), add = TRUE),
+          envir = frame)
+  set.seed(seed)
+  invisible(NULL)
+}
+
+.with_boot_seed <- function(seed, code) {
+  if (is.null(seed)) return(force(code))
+  .validate_boot_seed(seed)
   had_seed <- exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
   if (had_seed) old_seed <- get(".Random.seed", envir = .GlobalEnv)
   on.exit({

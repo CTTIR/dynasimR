@@ -11,7 +11,8 @@ group_effect(
   outcome_col = "completion_rate",
   cost_col = "cost",
   alpha = 0.05,
-  n_bootstrap = 1000
+  n_bootstrap = 1000,
+  seed = NULL
 )
 }
 \arguments{
@@ -33,6 +34,10 @@ Default \code{"cost"}.}
 
 \item{n_bootstrap}{Integer. Bootstrap replicates. Default \code{1000}; \code{0}
 omits confidence intervals.}
+
+\item{seed}{Integer or \code{NULL}. RNG seed for the bootstrap. A supplied
+seed makes the intervals reproducible and leaves the caller's RNG
+state unchanged. Default \code{NULL} uses the current RNG state.}
 }
 \value{
 An S3 object of class \code{dynasimR_group_effect} with slots

@@ -27,6 +27,9 @@
 #' @param alpha Numeric. Significance level. Default `0.05`.
 #' @param n_bootstrap Integer. Bootstrap replicates for CIs.
 #'   Default `1000`; `0` omits intervals.
+#' @param seed Integer or `NULL`. RNG seed for the bootstrap. A supplied
+#'   seed makes the intervals reproducible and leaves the caller's RNG
+#'   state unchanged. Default `NULL` uses the current RNG state.
 #'
 #' @return An S3 object of class `dynasimR_policy` with slots
 #'   `delta_event`, `compliance_comparison`, `effect_sizes`,
@@ -42,7 +45,8 @@ policy_effect <- function(data,
                           policy_a_scenario,
                           policy_b_scenario,
                           alpha       = 0.05,
-                          n_bootstrap = 1000) {
+                          n_bootstrap = 1000,
+                          seed        = NULL) {
 
   if (missing(policy_a_scenario) || missing(policy_b_scenario))
     cli::cli_abort(
@@ -51,6 +55,7 @@ policy_effect <- function(data,
     )
 
   .validate_n_boot(n_bootstrap)
+  .validate_boot_seed(seed)
   if (!is.numeric(alpha) || length(alpha) != 1L || is.na(alpha) ||
       !is.finite(alpha) || alpha <= 0 || alpha >= 1)
     cli::cli_abort("{.arg alpha} must be between 0 and 1 (exclusive).")
@@ -73,6 +78,7 @@ policy_effect <- function(data,
   if (!any(is.finite(a$event_rate)) || !any(is.finite(b$event_rate)))
     cli::cli_abort("Each policy scenario needs at least one observed event rate.")
 
+  .local_boot_seed(seed)
   delta_event <- .compute_delta_event(data,
     policy_a_scenario, policy_b_scenario, alpha, n_bootstrap)
 
@@ -101,6 +107,7 @@ policy_effect <- function(data,
         policy_b_scenario = policy_b_scenario,
         alpha             = alpha,
         n_bootstrap       = n_bootstrap,
+        seed              = seed,
         n_reps            = sum(is.finite(a$event_rate)),
         n_reps_b          = sum(is.finite(b$event_rate))
       )

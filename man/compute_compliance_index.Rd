@@ -10,7 +10,8 @@ compute_compliance_index(
   window_unit = c("min", "hours", "days"),
   by_scenario = TRUE,
   by_group = TRUE,
-  n_bootstrap = 1000
+  n_bootstrap = 1000,
+  seed = NULL
 )
 }
 \arguments{
@@ -31,6 +32,10 @@ present. Default \code{TRUE}.}
 
 \item{n_bootstrap}{Integer. Bootstrap replicates for CIs.
 Default \code{1000}; \code{0} omits intervals.}
+
+\item{seed}{Integer or \code{NULL}. RNG seed for the bootstrap. A supplied
+seed makes the intervals reproducible and leaves the caller's RNG
+state unchanged. Default \code{NULL} uses the current RNG state.}
 }
 \value{
 A tibble with columns \code{scenario} (if stratified),

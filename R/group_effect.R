@@ -20,6 +20,9 @@
 #' @param alpha Numeric. Significance level. Default `0.05`.
 #' @param n_bootstrap Integer. Bootstrap replicates. Default `1000`; `0`
 #'   omits confidence intervals.
+#' @param seed Integer or `NULL`. RNG seed for the bootstrap. A supplied
+#'   seed makes the intervals reproducible and leaves the caller's RNG
+#'   state unchanged. Default `NULL` uses the current RNG state.
 #'
 #' @return An S3 object of class `dynasimR_group_effect` with slots
 #'   `completion`, `cost`, `delta_completion`, `delta_cost`,
@@ -45,7 +48,8 @@ group_effect <- function(data,
                          outcome_col = "completion_rate",
                          cost_col    = "cost",
                          alpha       = 0.05,
-                         n_bootstrap = 1000) {
+                         n_bootstrap = 1000,
+                         seed        = NULL) {
 
   if (missing(group_a_scenario) || missing(group_b_scenario))
     cli::cli_abort(
@@ -54,6 +58,7 @@ group_effect <- function(data,
     )
 
   .validate_n_boot(n_bootstrap)
+  .local_boot_seed(seed)
   if (!is.numeric(alpha) || length(alpha) != 1L || is.na(alpha) ||
       !is.finite(alpha) || alpha <= 0 || alpha >= 1)
     cli::cli_abort("{.arg alpha} must be between 0 and 1 (exclusive).")
@@ -149,7 +154,8 @@ group_effect <- function(data,
         outcome_col      = outcome_col,
         cost_col         = cost_col,
         alpha            = alpha,
-        n_bootstrap      = n_bootstrap
+        n_bootstrap      = n_bootstrap,
+        seed             = seed
       )
     ),
     class = c("dynasimR_group_effect", "list")

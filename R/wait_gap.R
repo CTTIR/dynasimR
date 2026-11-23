@@ -19,6 +19,9 @@
 #' @param n_bootstrap Integer. Bootstrap replicates for CIs.
 #'   Default `1000`; `0` omits intervals. Bootstrap intervals treat
 #'   entities as independent observations, without replication clustering.
+#' @param seed Integer or `NULL`. RNG seed for the bootstrap. A supplied
+#'   seed makes the intervals reproducible and leaves the caller's RNG
+#'   state unchanged. Default `NULL` uses the current RNG state.
 #'
 #' @return A tibble with columns `scenario` (if stratified),
 #'   `cohort` (if stratified), `wgi`, `wgi_ci_lo`, `wgi_ci_hi`,
@@ -41,10 +44,12 @@ compute_wait_gap_index <- function(data,
                                    window_days  = 14,
                                    by_scenario  = TRUE,
                                    by_cohort    = TRUE,
-                                   n_bootstrap  = 1000) {
+                                   n_bootstrap  = 1000,
+                                   seed         = NULL) {
 
   .validate_window(window_days, "window_days")
   .validate_n_boot(n_bootstrap)
+  .local_boot_seed(seed)
   d <- if (inherits(data, "dynasimR_data")) data$entities else data
   if (nrow(d) == 0) return(tibble::tibble())
 

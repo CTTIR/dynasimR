@@ -23,6 +23,9 @@
 #'   present. Default `TRUE`.
 #' @param n_bootstrap Integer. Bootstrap replicates for CIs.
 #'   Default `1000`; `0` omits intervals.
+#' @param seed Integer or `NULL`. RNG seed for the bootstrap. A supplied
+#'   seed makes the intervals reproducible and leaves the caller's RNG
+#'   state unchanged. Default `NULL` uses the current RNG state.
 #'
 #' @return A tibble with columns `scenario` (if stratified),
 #'   `group` (if stratified), `ci`, `ci_ci_lo`, `ci_ci_hi`,
@@ -37,10 +40,12 @@ compute_compliance_index <- function(entities,
                                                      "days"),
                                      by_scenario = TRUE,
                                      by_group    = TRUE,
-                                     n_bootstrap = 1000) {
+                                     n_bootstrap = 1000,
+                                     seed        = NULL) {
 
   .validate_window(window_min, "window_min")
   .validate_n_boot(n_bootstrap)
+  .local_boot_seed(seed)
   window_unit <- match.arg(window_unit)
   window_min_norm <- switch(window_unit,
     "min"   = window_min,

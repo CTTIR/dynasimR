@@ -9,7 +9,8 @@ compute_wait_gap_index(
   window_days = 14,
   by_scenario = TRUE,
   by_cohort = TRUE,
-  n_bootstrap = 1000
+  n_bootstrap = 1000,
+  seed = NULL
 )
 }
 \arguments{
@@ -27,6 +28,10 @@ Default \code{TRUE}.}
 \item{n_bootstrap}{Integer. Bootstrap replicates for CIs.
 Default \code{1000}; \code{0} omits intervals. Bootstrap intervals treat
 entities as independent observations, without replication clustering.}
+
+\item{seed}{Integer or \code{NULL}. RNG seed for the bootstrap. A supplied
+seed makes the intervals reproducible and leaves the caller's RNG
+state unchanged. Default \code{NULL} uses the current RNG state.}
 }
 \value{
 A tibble with columns \code{scenario} (if stratified),
