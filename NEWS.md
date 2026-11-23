@@ -69,6 +69,7 @@
 * Expand the `Description` field, declare the maintainer ORCID and rewrite
   `cran-comments.md`.
 * The documentation uses British English spelling throughout.
+* `CITATION.cff` and `.zenodo.json` name the author as R. Heller.
 
 ## Changes since 0.1.0 (prepared as 0.1.1, never released)
 
