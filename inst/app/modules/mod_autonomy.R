@@ -44,7 +44,8 @@ mod_autonomy_server <- function(id, sim_data) {
     output$availability <- renderText({
       al <- al_res()
       if (is.null(al))
-        return("Autonomy analysis is unavailable for this dataset. It requires autonomy levels and compliance/event outcomes.")
+        return(paste("Autonomy analysis is unavailable for this dataset.",
+                     "It requires autonomy levels and compliance/event outcomes."))
       omitted <- al$params$omitted_scenarios
       if (length(omitted))
         paste0("Scenarios of the default autonomy sweep that are not in this dataset: ",

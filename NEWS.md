@@ -35,7 +35,9 @@
   matches the size of the surrounding interface; effect-size, test and
   trade-off tables show four significant digits (sorting and export keep full
   precision); the autonomy tab names the scenarios of the default sweep that a
-  dataset lacks, and its legend no longer overlaps the axis title.
+  dataset lacks, and its legend no longer overlaps the axis title. Its
+  trade-off plot keeps the shaded compliant band and the threshold label,
+  which the conversion to an interactive plot used to drop.
 * The examples of `al_efficiency()` and `plot_al_tradeoff()` map the two
   autonomy levels of the bundled data instead of the full default sweep, which
   produced a single-point plot.
