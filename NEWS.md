@@ -28,6 +28,13 @@
   (default `NULL`, the previous behaviour). A supplied seed makes the
   bootstrap intervals reproducible and leaves the caller's random-number
   state unchanged. The vignettes and examples now set it.
+* `print()` for `policy_effect()` results wraps the narrative to the console
+  width instead of printing one long line.
+* Dashboard: static plots are rendered at 96 ppi, so their text matches the
+  size of the surrounding interface; effect-size, test and trade-off tables
+  show four significant digits (sorting and export keep full precision); the
+  autonomy tab names the scenarios of the default sweep that a dataset lacks,
+  and its legend no longer overlaps the axis title.
 * The examples of `al_efficiency()` and `plot_al_tradeoff()` map the two
   autonomy levels of the bundled data instead of the full default sweep, which
   produced a single-point plot.
