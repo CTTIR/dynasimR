@@ -132,7 +132,7 @@ remain in the denominator and are not counted as timely activation.
 Supply-demand ratios use `supply / demand`; zero-demand cells are undefined
 (`NA`) and counted separately. The deprecated `eps` argument no longer changes
 that ratio. The legacy `morris_screening()` function is a descriptive univariate
-standardized-slope screen, not a replacement for a designed Morris trajectory experiment.
+standardised-slope screen, not a replacement for a designed Morris trajectory experiment.
 
 `plot_cost_effectiveness(..., show_ceac = TRUE)` retains its legacy argument
 name but reports observed run fractions relative to fixed reference medians.
@@ -164,7 +164,7 @@ a source archive, and fails on errors, warnings or notes. See
 [MAINTENANCE.md](MAINTENANCE.md) for the audit, validation evidence and remaining
 release gates.
 
-## License
+## Licence
 
 MIT (c) R. Heller
 

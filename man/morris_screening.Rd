@@ -2,7 +2,7 @@
 % Please edit documentation in R/sensitivity.R
 \name{morris_screening}
 \alias{morris_screening}
-\title{Standardized univariate sensitivity screening}
+\title{Standardised univariate sensitivity screening}
 \usage{
 morris_screening(data, outcome = "event_rate", inputs)
 }
@@ -18,14 +18,14 @@ variation in both the input and outcome; otherwise its statistics
 and rank are \code{NA}, with a reason in \code{status} and a warning.}
 }
 \value{
-A tibble with \code{input}, legacy \code{mu_star} (absolute standardized
+A tibble with \code{input}, legacy \code{mu_star} (absolute standardised
 slope, equal to absolute Pearson correlation), legacy \code{sigma}
-(standardized regression residual SD), \code{r2}, \code{n_observed}, \code{status}
+(standardised regression residual SD), \code{r2}, \code{n_observed}, \code{status}
 and \code{rank}. Missing pairs are omitted independently for each input.
 }
 \description{
 Fits a separate linear association between each input and the outcome,
-after standardizing paired complete observations. Despite its legacy
+after standardising paired complete observations. Despite its legacy
 name, this function does not implement Morris elementary effects or
 a variance decomposition. It can miss nonlinear effects and cannot
 separate correlated inputs or establish causality. For a Morris design

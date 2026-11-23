@@ -46,7 +46,7 @@ trade-off table, the optimal AL level (highest event reduction
 still above the compliance threshold) and observed compliance violations.
 Missing compliance is unknown, cannot qualify an optimum, and is not
 labelled an observed violation. \code{al_ratio} is a descriptive ratio
-\code{event_reduction_pct / (1 - compliance + 0.001)} with a fixed stabilizer;
+\code{event_reduction_pct / (1 - compliance + 0.001)} with a fixed stabiliser;
 it is not a validated utility or a criterion used to choose the optimum.
 \code{event_ci_lo} and \code{event_ci_hi} describe absolute event rates.
 \code{event_reduction_ci_lo} and \code{event_reduction_ci_hi} are percentile

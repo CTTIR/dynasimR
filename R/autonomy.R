@@ -6,7 +6,7 @@
 #' still above the compliance threshold) and observed compliance violations.
 #' Missing compliance is unknown, cannot qualify an optimum, and is not
 #' labelled an observed violation. `al_ratio` is a descriptive ratio
-#' `event_reduction_pct / (1 - compliance + 0.001)` with a fixed stabilizer;
+#' `event_reduction_pct / (1 - compliance + 0.001)` with a fixed stabiliser;
 #' it is not a validated utility or a criterion used to choose the optimum.
 #' `event_ci_lo` and `event_ci_hi` describe absolute event rates.
 #' `event_reduction_ci_lo` and `event_reduction_ci_hi` are percentile

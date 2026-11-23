@@ -68,12 +68,13 @@
   sessions.
 * Expand the `Description` field, declare the maintainer ORCID and rewrite
   `cran-comments.md`.
+* The documentation uses British English spelling throughout.
 
 ## Changes since 0.1.0 (prepared as 0.1.1, never released)
 
 * Verify staged figure output before reporting success or replacing an existing
   file. Preserve prior exports on device failure, and enable the shared macOS
-  XQuartz setup for SVG checks. Refuse failed SVG initialization before drawing
+  XQuartz setup for SVG checks. Refuse failed SVG initialisation before drawing
   on the caller's device or opening a default output file.
 * Validate each input file and preserve caller-supplied scenario metadata.
   Report zero-demand ratios as undefined, correct stage completion counts,
