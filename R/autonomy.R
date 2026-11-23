@@ -168,6 +168,11 @@ print.dynasimR_al_analysis <- function(x, ...) {
     "*" = "Optimal AL: {.val {x$optimal_al}}",
     "*" = "Compliance violations: {.val {nrow(x$compliance_violations)}}"
   ))
+  omitted <- x$params$omitted_scenarios
+  if (length(omitted))
+    cli::cli_bullets(c(
+      "!" = "Mapped scenarios not in the data: {.val {omitted}}."
+    ))
   print(x$tradeoff_table)
   invisible(x)
 }

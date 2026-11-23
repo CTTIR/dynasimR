@@ -33,3 +33,15 @@ test_that("print.dynasimR_al_analysis is invisible", {
     n_bootstrap = 20)
   expect_invisible(print(al))
 })
+
+test_that("print.dynasimR_al_analysis names mapped scenarios absent from the data", {
+  sim <- load_example_data()
+  al <- al_efficiency(sim, n_bootstrap = 0)
+  msgs <- utils::capture.output(print(al), type = "message")
+  expect_true(any(grepl("not in the data", msgs, fixed = TRUE)))
+  expect_true(any(grepl("A-S05", msgs, fixed = TRUE)))
+  full <- al_efficiency(sim, al_scenarios = c("0" = "A-S00", "1" = "A-S01"),
+                        n_bootstrap = 0)
+  msgs_full <- utils::capture.output(print(full), type = "message")
+  expect_false(any(grepl("not in the data", msgs_full, fixed = TRUE)))
+})
