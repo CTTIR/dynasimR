@@ -73,13 +73,20 @@ plot_al_tradeoff <- function(al_result,
 
   # Labels are drawn last, in a dark neutral colour and offset in text
   # heights, so they clear the optimum ring and stay legible on the band.
-  if (label_points)
+  # Points below the threshold are labelled underneath, so their label
+  # never sits on the dashed threshold line.
+  if (label_points) {
+    d$label_vjust <- ifelse(!is.na(d$compliance) & d$compliance < thr,
+                            2.9, -1.9)
     p <- p +
       ggplot2::geom_text(
-        ggplot2::aes(label = paste0("AL", .data$al)),
-        vjust = -1.9, size = 3.5, fontface = "bold",
+        data = d,
+        ggplot2::aes(label = paste0("AL", .data$al),
+                     vjust = .data$label_vjust),
+        size = 3.5, fontface = "bold",
         color = "#333333", show.legend = FALSE
       )
+  }
 
   optimum <- if (is.na(opt)) "No autonomy level meets the threshold."
              else glue::glue("Optimum (circle): AL{opt}.")
@@ -91,7 +98,7 @@ plot_al_tradeoff <- function(al_result,
       begin  = 0.1, end = 0.9
     ) +
     ggplot2::scale_y_continuous(
-      expand = ggplot2::expansion(mult = c(0.05, 0.12))
+      expand = ggplot2::expansion(mult = 0.12)
     ) +
     ggplot2::labs(
       x = glue::glue("Event reduction vs. AL{al_result$params$reference_al} [percentage points]"),

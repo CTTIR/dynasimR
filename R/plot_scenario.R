@@ -62,7 +62,9 @@ plot_scenario_heatmap <- function(data,
     ) +
     ggplot2::scale_fill_viridis_c(option = "B", direction = -1) +
     ggplot2::labs(x = NULL, y = NULL, fill = "Median value") +
-    theme_dynasimR()
+    theme_dynasimR() +
+    # A wider colour bar keeps three-digit break labels apart.
+    ggplot2::theme(legend.key.width = ggplot2::unit(2.5, "lines"))
 }
 
 # Position of each value within the observed range (0 = minimum,

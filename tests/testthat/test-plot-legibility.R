@@ -230,3 +230,23 @@ test_that("plot_radar leaves the innermost ring unlabelled", {
   expect_false(any(as.numeric(scaled$data[[1]]$label) <= 0))
   expect_true(any(as.numeric(scaled$data[[1]]$label) == 1))
 })
+
+test_that("AL labels below the threshold sit underneath their points", {
+  sim <- load_example_data()
+  al <- al_efficiency(sim, al_scenarios = c("0" = "A-S00", "1" = "A-S01"),
+                      n_bootstrap = 0)
+  p <- plot_al_tradeoff(al)
+  labels <- ggplot2::ggplot_build(p)$data[[length(p$layers)]]
+  below <- al$tradeoff_table$compliance < al$compliance_threshold
+  expect_true(any(below) && any(!below))
+  expect_true(all(labels$vjust[below] > 1))
+  expect_true(all(labels$vjust[!below] < 0))
+})
+
+test_that("colour-bar legends are wide enough for their break labels", {
+  sim <- load_example_data()
+  heat <- plot_scenario_heatmap(sim)
+  expect_equal(as.numeric(heat$theme$legend.key.width), 2.5)
+  sdi <- tibble::tibble(region = c("Low", "High"), sdi_median = c(0.5, 1.5))
+  expect_equal(as.numeric(plot_sdi_map(sdi)$theme$legend.key.width), 2.5)
+})

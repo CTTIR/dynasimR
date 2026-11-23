@@ -61,7 +61,8 @@ plot_sdi_map <- function(sdi) {
       fill_scale +
       ggplot2::coord_fixed() +
       ggplot2::labs(x = "X", y = "Y", fill = "SDI (median)") +
-      theme_dynasimR()
+      theme_dynasimR() +
+      ggplot2::theme(legend.key.width = ggplot2::unit(2.5, "lines"))
   } else {
     ggplot2::ggplot(sdi,
       ggplot2::aes(x = stats::reorder(.data$region,
@@ -77,6 +78,7 @@ plot_sdi_map <- function(sdi) {
       ggplot2::labs(x = NULL, y = "Supply-Demand Index (median)",
                     fill = "SDI (median)",
                     caption = "Dashed line: supply equals demand (SDI = 1).") +
-      theme_dynasimR()
+      theme_dynasimR() +
+      ggplot2::theme(legend.key.width = ggplot2::unit(2.5, "lines"))
   }
 }
